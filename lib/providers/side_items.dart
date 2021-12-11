@@ -1,3 +1,4 @@
+import 'package:mini_project/screens/product_details_sc.dart';
 import 'package:mini_project/screens/profile_sc.dart';
 
 import '../components/sidesc_item.dart';
@@ -9,7 +10,7 @@ List<SideScItem> items = [
         Icons.account_box,
         color: Colors.white,
       ),
-      route: ProfileSc.route,
+      route: ProductDetails.route,
       text: 'Profile',
       subtext: 'Edit Your Info'),
   SideScItem(

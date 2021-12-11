@@ -45,8 +45,8 @@ class _NavState extends State<Nav> {
         items: [
           BottomNavyBarItem(
               activeColor: mainColor.withOpacity(0.8),
-              icon: const Icon(Icons.directions_walk, color: mainColor),
-              title: const Text('Login')),
+              icon: const Icon(Icons.local_mall, color: mainColor),
+              title: const Text('All Products')),
           BottomNavyBarItem(
               activeColor: mainColor.withOpacity(0.8),
               icon: const Icon(

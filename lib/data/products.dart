@@ -2,38 +2,51 @@ import 'package:mini_project/models/product.dart';
 //temporary data for testing
 List<Product> products = [
   Product(
+    description : 'this is product 1',
+      quantity : 1,
       price: 100,
-      name: 'pr 1',
-      image:
-          'https://cdn.pixabay.com/photo/2016/10/02/22/17/red-t-shirt-1710578_1280.jpg'),
+      name: 'product 1',
+      image: 'assets/test.jpeg'),
   Product(
-      price: 100,
-      name: 'pr 2',
+      description : 'this is product 2',
+      quantity : 2,
+      price: 200,
+      name: 'product 2',
       image:
-          'https://cdn.pixabay.com/photo/2016/10/02/22/17/red-t-shirt-1710578_1280.jpg'),
+      'assets/test.jpeg'),
   Product(
-      price: 100,
-      name: 'pr 3',
+      description : 'this is product 3',
+      quantity : 3,
+      price: 300,
+      name: 'product 3',
       image:
-          'https://cdn.pixabay.com/photo/2016/10/02/22/17/red-t-shirt-1710578_1280.jpg'),
+      'assets/test.jpeg'),
   Product(
-      price: 100,
-      name: 'pr 4',
+      description : 'this is product 4',
+      quantity : 4,
+      price: 400,
+      name: 'product 4',
       image:
-          'https://cdn.pixabay.com/photo/2016/10/02/22/17/red-t-shirt-1710578_1280.jpg'),
+      'assets/test.jpeg'),
   Product(
-      price: 100,
-      name: 'pr 5',
+      description : 'this is product 5',
+      quantity : 5,
+      price: 500,
+      name: 'product 5',
       image:
-          'https://cdn.pixabay.com/photo/2016/10/02/22/17/red-t-shirt-1710578_1280.jpg'),
+      'assets/test.jpeg'),
   Product(
-      price: 100,
-      name: 'pr 6',
+      description : 'this is product 6',
+      quantity : 6,
+      price: 600,
+      name: 'product 6',
       image:
-          'https://cdn.pixabay.com/photo/2016/10/02/22/17/red-t-shirt-1710578_1280.jpg'),
+      'assets/test.jpeg'),
   Product(
-      price: 100,
-      name: 'pr 7',
+      description : 'this is product 7',
+      quantity : 7,
+      price: 700,
+      name: 'product 7',
       image:
-          'https://cdn.pixabay.com/photo/2016/10/02/22/17/red-t-shirt-1710578_1280.jpg'),
+      'assets/test.jpeg'),
 ];
