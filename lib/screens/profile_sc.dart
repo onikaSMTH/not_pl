@@ -3,6 +3,7 @@ import 'dart:ui';
 import 'package:flutter/material.dart';
 import 'package:mini_project/colors.dart';
 import 'package:mini_project/components/rounded_button.dart';
+import 'package:mini_project/data/products.dart';
 
 class ProfileSc extends StatelessWidget {
   const ProfileSc({Key? key}) : super(key: key);
@@ -12,8 +13,8 @@ class ProfileSc extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        iconTheme: IconThemeData(color: mainColor),
-        title: Align(
+        iconTheme: const IconThemeData(color: mainColor),
+        title: const Align(
           alignment: Alignment.topLeft,
           child: Text(
             'Profile',
@@ -51,25 +52,29 @@ class ProfileSc extends StatelessWidget {
                     )),
               ],
             )),
+            //clickable my products button with number of products
             ListTile(
-              leading: Container(
+              leading: SizedBox(
                 width: 200,
                 child: Row(
                   children: [
-                    Text('My Products'),
-                    SizedBox(
+                    const Text('My Products'),
+                    const SizedBox(
                       width: 10,
                     ),
-                    Text('15'),
-                    SizedBox(
+                    Text(products.length.toString()),
+                    const SizedBox(
                       width: 10,
                     ),
-                    Icon(Icons.chevron_right),
+                    const Icon(Icons.chevron_right),
                   ],
                 ),
               ),
             ),
-          Container(margin:EdgeInsets.only(left: 10),alignment:Alignment.bottomLeft,child: RoundedButton('change Password'))
+            Container(
+                margin: const EdgeInsets.only(left: 10),
+                alignment: Alignment.bottomLeft,
+                child: RoundedButton('change Password'))
           ],
         ),
       ),

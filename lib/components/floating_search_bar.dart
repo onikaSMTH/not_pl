@@ -13,29 +13,24 @@ class _HomeFloatingSearchState extends State<HomeFloatingSearch> {
   @override
   Widget build(BuildContext context) {
     return Container(
-       height: MediaQuery.of(context).size.height*0.1,
+        height: MediaQuery.of(context).size.height * 0.1,
         alignment: Alignment.center,
-
         child: FloatingSearchBar(
-
-width: MediaQuery.of(context).size.width*0.8,
-            margins: EdgeInsets.only(top: 10),
+            width: MediaQuery.of(context).size.width * 0.8,
+            margins: const EdgeInsets.only(top: 10),
             hint: 'Search For Products',
-
             backdropColor: Colors.redAccent,
             backgroundColor: Colors.white,
             actions: [
-FloatingSearchBarAction.searchToClear(
-  showIfClosed: true,
-)
+              FloatingSearchBarAction.searchToClear(
+                showIfClosed: true,
+              )
             ],
             builder: (BuildContext context, Animation<double> transition) {
+              //To BE FIXED
+              // show search preferences tabs
               return Row(
-                children: [
-
-                  Text('Category'),
-                  Text('Date')
-                ],
+                children: const [Text('Category'), Text('Date')],
               );
             }));
   }

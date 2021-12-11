@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
-import 'package:mini_project/screens/nav.dart';
-import 'package:mini_project/screens/login_sc.dart';
+import 'package:mini_project/screens/navigation_main_sc.dart';
+import 'package:mini_project/screens/login_signup_sc.dart';
 import 'package:mini_project/screens/profile_sc.dart';
-import 'package:mini_project/screens/sidesc.dart';
+import 'package:mini_project/screens/side_sc.dart';
 
 void main() {
-  runApp(HomePage());
+  runApp(const HomePage());
 }
 
 class HomePage extends StatelessWidget {
@@ -17,8 +17,8 @@ class HomePage extends StatelessWidget {
       home: Nav(),
       routes:{
         ProfileSc.route:(_){return ProfileSc();},
-LoginSignupSc.SigninRoute:(_){return LoginSignupSc(signup: false,);},
-LoginSignupSc.SignupRoute:(_){return LoginSignupSc(signup: true,);},
+LoginSignupSc.signInRoute:(_){return LoginSignupSc(signup: false,);},
+LoginSignupSc.signUpRoute:(_){return LoginSignupSc(signup: true,);},
         SideSc.route:(_)=> SideSc(),
       },
     );
