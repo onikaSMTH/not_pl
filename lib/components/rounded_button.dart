@@ -3,25 +3,31 @@ import 'package:mini_project/colors.dart';
 
 class RoundedButton extends StatelessWidget {
   String input;
-
-  RoundedButton(this.input);
+  Function onTap;
+  double width;
+  double height;
+  Color textColor;
+  Color backColor;
+  RoundedButton(this.input,this.onTap,this.width,this.height,this.textColor,this.backColor);
 
   @override
   Widget build(BuildContext context) {
     return InkWell(
       // TBD function received by constructor
-      onTap: () {},
+      onTap: () {
+        onTap(context);
+      },
       child: Container(
         alignment: Alignment.center,
-        width: MediaQuery.of(context).size.width * 0.5,
-        height: MediaQuery.of(context).size.height * 0.07,
+        width: MediaQuery.of(context).size.width * width,
+        height: MediaQuery.of(context).size.height * height,
         decoration: BoxDecoration(
-            color: mainColor, borderRadius: BorderRadius.circular(20)),
+            color: backColor, borderRadius: BorderRadius.circular(20)),
         child: Text(
           input,
           textAlign: TextAlign.center,
-          style: const TextStyle(
-            color: Colors.white,
+          style:  TextStyle(
+            color: textColor,
             fontSize: 15,
           ),
         ),

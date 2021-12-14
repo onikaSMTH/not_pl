@@ -26,9 +26,9 @@ class ProductDetails extends StatelessWidget {
       child: Container(
         height: MediaQuery.of(context).size.height * 0.47,
         width: double.infinity,
-        decoration: const BoxDecoration(
-          color: Colors.white,
-          borderRadius: BorderRadius.only(
+        decoration:  BoxDecoration(
+          color: Theme.of(context).backgroundColor,
+          borderRadius: const BorderRadius.only(
             topLeft: Radius.circular(50),
             topRight: Radius.circular(50),
             bottomRight: Radius.circular(0),
@@ -44,9 +44,9 @@ class ProductDetails extends StatelessWidget {
       alignment: Alignment.topCenter,
       child: Container(
         height: MediaQuery.of(context).size.height * 0.6,
-        decoration: const BoxDecoration(
-          color: mainColor,
-          borderRadius: BorderRadius.only(
+        decoration:  BoxDecoration(
+          color: Theme.of(context).primaryColor,
+          borderRadius: const BorderRadius.only(
             topLeft: Radius.circular(0),
             topRight: Radius.circular(0),
             bottomRight: Radius.circular(0),
@@ -64,10 +64,10 @@ class ProductDetails extends StatelessWidget {
         actions: [Icon(Icons.more_vert)],
         centerTitle: true,
         backgroundColor: backColor,
-        iconTheme: IconThemeData(color: mainColor),
+        iconTheme: IconThemeData(color: Theme.of(context).primaryColor),
         title: Text(
           'Product name',
-          style: TextStyle(color: mainColor),
+          style: TextStyle(color: Theme.of(context).primaryColor),
         ),
       ),
       body: Stack(
@@ -91,37 +91,37 @@ class ProductDetails extends StatelessWidget {
                 ),
                 Container(
                   margin: EdgeInsets.only(left: 15, top: 50),
-                  child: const Text('Description',
+                  child: Text('Description',
                       style: TextStyle(
                           fontWeight: FontWeight.bold,
                           fontSize: 20,
-                          color: mainColor)),
-                ),
-                Container(
-                  margin: EdgeInsets.only(left: 15, top: 5),
-                  child: Text(description,
-                      style: const TextStyle(
-                          fontWeight: FontWeight.bold, color: mainColor)),
+                          color: Theme.of(context).primaryColor)),
                 ),
                 Container(
                   margin: const EdgeInsets.only(left: 15, top: 5),
-                  child: const Text('Available Quantinty',
+                  child: Text(description,
+                      style:  TextStyle(
+                          fontWeight: FontWeight.bold, color: Theme.of(context).primaryColor)),
+                ),
+                Container(
+                  margin: const EdgeInsets.only(left: 15, top: 5),
+                  child: Text('Available Quantinty',
                       style: TextStyle(
                           fontWeight: FontWeight.bold,
                           fontSize: 20,
-                          color: mainColor)),
+                          color: Theme.of(context).primaryColor)),
                 ),
                 Container(
                   margin: const EdgeInsets.only(left: 15, top: 5),
                   child: Text(quantity.toString(),
-                      style: const TextStyle(
-                          fontWeight: FontWeight.bold, color: mainColor)),
+                      style:  TextStyle(
+                          fontWeight: FontWeight.bold, color: Theme.of(context).primaryColor)),
                 ),
                 Container(
                   margin: const EdgeInsets.only(top: 15, left: 15),
-                  child: const Icon(
+                  child:  Icon(
                     Icons.favorite_border,
-                    color: mainColor,
+                    color: Theme.of(context).primaryColor,
                     size: 50,
                   ),
                   padding: const EdgeInsets.all(0),
@@ -147,7 +147,7 @@ class ProductDetails extends StatelessWidget {
                 style: TextStyle(fontSize: 20),
               ),
             ]),
-            RoundedButton('Contact The Seller')
+            RoundedButton('Contact The Seller',(){},0.5,0.07,Theme.of(context).backgroundColor,Theme.of(context).primaryColor)
           ],
         ),
       ),

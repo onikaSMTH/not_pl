@@ -1,9 +1,10 @@
 import 'package:flutter/material.dart';
 import '../colors.dart';
 import '../screens/login_signup_sc.dart';
+
 //component used in the signup screen (clickable text)
 class PopupDown extends StatelessWidget {
-  String input;
+  final String input;
   PopupDown(this.input);
 
   @override
@@ -14,11 +15,11 @@ class PopupDown extends StatelessWidget {
         width: double.infinity,
         height: MediaQuery.of(context).size.height * 0.1,
         alignment: Alignment.center,
-        child: GestureDetector(
+        child: InkWell(
             onTap: () {
               Navigator.of(context).pushNamed(LoginSignupSc.signUpRoute);
             },
-            child: const Text(
+            child:  const Text(
               'don\'t have an account ? Signup',
               style: TextStyle(
                   color: mainColor, fontSize: 18, fontWeight: FontWeight.bold),

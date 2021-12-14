@@ -4,7 +4,8 @@ import 'package:mini_project/colors.dart';
 import '../components/rounded_button.dart';
 import '../components/rounded_input.dart';
 import '../components/popup_down.dart';
-
+//TODO remove relation to theme (dark mode response)
+//TODO waiting rounded button
 class LoginSignupSc extends StatelessWidget {
   //this bool is used to determine wither or not the screen need to be rendered as
   //signup screen , if so new items will be added to the signing screen
@@ -18,9 +19,9 @@ class LoginSignupSc extends StatelessWidget {
     return Container(
       height: MediaQuery.of(context).size.height * 0.7,
       width: double.infinity,
-      decoration: const BoxDecoration(
-        color: mainColor,
-        borderRadius: BorderRadius.only(
+      decoration:  BoxDecoration(
+        color: Theme.of(context).primaryColor,
+        borderRadius: const BorderRadius.only(
           bottomLeft: Radius.circular(300),
         ),
       ),
@@ -32,10 +33,10 @@ class LoginSignupSc extends StatelessWidget {
     var boxWidth = MediaQuery.of(context).size.width;
     return Container(
       margin: EdgeInsets.only(
-          left: boxWidth * 0.1, right: boxWidth * 0.1, top: boxHeight * 0.05),
-      decoration: const BoxDecoration(
-        color: backColor,
-        borderRadius: BorderRadius.all(
+          left: boxWidth * 0.1, right: boxWidth * 0.05, top: boxHeight * 0.09),
+      decoration:  BoxDecoration(
+        color: Theme.of(context).backgroundColor,
+        borderRadius: const BorderRadius.all(
           Radius.circular(42),
         ),
       ),
@@ -48,35 +49,35 @@ class LoginSignupSc extends StatelessWidget {
           ),
           if (signup)
             RoundedInput(
-                icon: const Icon(
+                icon:  Icon(
                   Icons.person,
-                  color: mainColor,
+                  color: Theme.of(context).primaryColor,
                 ),
                 hint: 'Full name'),
           RoundedInput(
-              icon: const Icon(
+              icon:  Icon(
                 Icons.email,
-                color: mainColor,
+                color: Theme.of(context).primaryColor,
               ),
               hint: 'Email'),
           RoundedInput(
-              icon: const Icon(
+              icon:  Icon(
                 Icons.lock,
-                color: mainColor,
+                color: Theme.of(context).primaryColor,
               ),
               hint: 'Password'),
           if (signup)
             RoundedInput(
-              icon: const Icon(
+              icon:  Icon(
                 Icons.lock,
-                color: mainColor,
+                color: Theme.of(context).primaryColor,
               ),
               hint: 'Confirm Password',
             ),
           SizedBox(
             height: boxHeight * 0.04,
           ),
-          RoundedButton(signup ? 'Signup' : 'Login')
+          RoundedButton(signup ? 'Signup' : 'Login',(){},0.5,0.07,Theme.of(context).backgroundColor,Theme.of(context).primaryColor)
         ],
       ),
     );
@@ -84,15 +85,18 @@ class LoginSignupSc extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return SafeArea(
-      child: Stack(
-        children: [
-          _buildBackground(context),
-          _buildBox(context),
-          //only show in sign in page
-          if (!signup) PopupDown('Don\'t Have An Account ? Signup')
-        ],
-      ),
+    return MaterialApp(
+        home: Scaffold(
+          body: Stack(
+            children: [
+              _buildBackground(context),
+              _buildBox(context),
+              //only show in sign in page
+              if (!signup) PopupDown('Don\'t Have An Account ? Signup')
+            ],
+          ),
+        ),
     );
+
   }
 }

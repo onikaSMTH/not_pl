@@ -13,15 +13,15 @@ class ProfileSc extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        iconTheme: const IconThemeData(color: mainColor),
-        title: const Align(
+        iconTheme:  IconThemeData(color: Theme.of(context).iconTheme.color),
+        title:  Align(
           alignment: Alignment.topLeft,
           child: Text(
             'Profile',
-            style: TextStyle(color: mainColor),
+            style: TextStyle(color: Theme.of(context).primaryColor),
           ),
         ),
-        backgroundColor: backColor,
+        backgroundColor: Theme.of(context).backgroundColor,
       ),
       body: SafeArea(
         child: Column(
@@ -29,24 +29,24 @@ class ProfileSc extends StatelessWidget {
             Icon(
               Icons.person,
               size: MediaQuery.of(context).size.height * 0.2,
-              color: mainColor,
+              color: Theme.of(context).primaryColor,
             ),
             Form(
                 child: Column(
               crossAxisAlignment: CrossAxisAlignment.center,
               children: [
                 Container(
-                    margin: EdgeInsets.symmetric(horizontal: 15, vertical: 10),
+                    margin: const EdgeInsets.symmetric(horizontal: 15, vertical: 10),
                     child: TextFormField(
                       initialValue: 'Full Name',
                     )),
                 Container(
-                    margin: EdgeInsets.symmetric(horizontal: 15, vertical: 10),
+                    margin: const EdgeInsets.symmetric(horizontal: 15, vertical: 10),
                     child: TextFormField(
                       initialValue: 'Phone Number',
                     )),
                 Container(
-                    margin: EdgeInsets.symmetric(horizontal: 15, vertical: 10),
+                    margin: const EdgeInsets.symmetric(horizontal: 15, vertical: 10),
                     child: TextFormField(
                       initialValue: 'Password',
                     )),
@@ -74,7 +74,7 @@ class ProfileSc extends StatelessWidget {
             Container(
                 margin: const EdgeInsets.only(left: 10),
                 alignment: Alignment.bottomLeft,
-                child: RoundedButton('change Password'))
+                child: RoundedButton('change Password',(){},0.5,0.07,Theme.of(context).backgroundColor,Theme.of(context).primaryColor))
           ],
         ),
       ),

@@ -16,22 +16,18 @@ class SideScItem extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return GestureDetector(
-      onTap: () {
-        Navigator.of(context).pushNamed(route);
-      },
-      child: Container(
-        alignment: Alignment.center,
-        child: ListTile(
-          leading: icon,
-          title: Text(
-            text,
-            style: const TextStyle(color: Colors.white),
-          ),
-          subtitle: Text(
-            subtext,
-            style: const TextStyle(color: Colors.white),
-          ),
+    return Container(
+      alignment: Alignment.center,
+      child: ListTile(
+        onTap: (){Navigator.of(context).pushNamed(route);},
+        leading: icon,
+        title: Text(
+          text,
+          style:  TextStyle(color: Theme.of(context).primaryColor),
+        ),
+        subtitle: Text(
+          subtext,
+          style: TextStyle(color: Theme.of(context).primaryColor),
         ),
       ),
     );

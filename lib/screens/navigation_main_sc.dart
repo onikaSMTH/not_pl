@@ -1,12 +1,12 @@
 import 'package:bottom_navy_bar/bottom_navy_bar.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'package:mini_project/colors.dart';
-import 'package:mini_project/screens/side_sc.dart';
-import 'login_signup_sc.dart';
+import 'package:mini_project/components/clickable_search_icon.dart';
+import 'package:mini_project/components/floating_search_bar.dart';
+import 'package:mini_project/components/switch_theme_button.dart';
 import '../data/nav-pages.dart';
-
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 class Nav extends StatefulWidget {
   @override
   State<Nav> createState() => _NavState();
@@ -25,12 +25,13 @@ class _NavState extends State<Nav> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        backgroundColor: backColor,
-        title: const Center(
+        actions: [ChangeThemeButtonWidget(),SearchIcon()],
+        backgroundColor: Theme.of(context).backgroundColor,
+        title:  Center(
             child: Text(
           'Shop',
           style: TextStyle(
-              fontSize: 20, fontWeight: FontWeight.bold, color: mainColor),
+              fontSize: 20, fontWeight: FontWeight.bold, color: Theme.of(context).primaryColor),
         )),
       ),
       body: pages[_currentIndex],
@@ -41,24 +42,24 @@ class _NavState extends State<Nav> {
           selectPage(index);
         },
         mainAxisAlignment: MainAxisAlignment.spaceAround,
-        backgroundColor: backColor,
+        backgroundColor: Theme.of(context).backgroundColor,
         items: [
           BottomNavyBarItem(
-              activeColor: mainColor.withOpacity(0.8),
-              icon: const Icon(Icons.local_mall, color: mainColor),
-              title: const Text('All Products')),
+              activeColor: Theme.of(context).primaryColor.withOpacity(0.8),
+              icon:  Icon(Icons.local_mall, color: Theme.of(context).primaryColor),
+              title: const Text('My Products')),
           BottomNavyBarItem(
-              activeColor: mainColor.withOpacity(0.8),
-              icon: const Icon(
+              activeColor: Theme.of(context).primaryColor.withOpacity(0.8),
+              icon:  Icon(
                 Icons.home,
-                color: mainColor,
+                color: Theme.of(context).primaryColor,
               ),
-              title: const Text('Home')),
+              title:  Text(AppLocalizations.of(context)!.home)),
           BottomNavyBarItem(
-              activeColor: mainColor.withOpacity(0.8),
-              icon: const Icon(
+              activeColor: Theme.of(context).primaryColor.withOpacity(0.8),
+              icon: Icon(
                 Icons.view_agenda,
-                color: mainColor,
+                color: Theme.of(context).primaryColor,
               ),
               title: const Text('Menu')),
         ],

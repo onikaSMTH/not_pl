@@ -1,0 +1,23 @@
+{
+"language": "English",
+"@language":{
+   "description": "The current language"
+   },
+"home": "Home",
+ "@home":{
+    "description": "The current language"
+    }
+  ,
+  "signup": "Signup",
+  "@signup":{
+     "description": "The current language"
+   },
+  "store": "Store",
+  "@Store":{
+    "description": "The current language"
+  },
+   "menu": "Menu",
+   "@menu":{
+      "description": "The current language"
+    }
+}

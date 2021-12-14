@@ -5,3 +5,4 @@ const backColor = Color.fromRGBO(219, 226, 239, 1);
 const cursorColor = Color.fromRGBO(17, 45, 78, 1);
 const niceColor = Color.fromRGBO(246, 242, 212, 1);
 const backColor2 = Color.fromRGBO(6, 70, 99,1);
+const darkback = Color.fromRGBO(36, 37, 39,1);
