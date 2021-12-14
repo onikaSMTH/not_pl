@@ -12,8 +12,8 @@ class SearchSc extends StatelessWidget {
       appBar: AppBar(
         backgroundColor: Theme.of(context).backgroundColor,
         title: TextField(decoration: InputDecoration(hintText: 'Search For Products'),),
-        actions: [Icon(Icons.cancel)],
-  iconTheme: IconThemeData(color: mainColor),
+        actions: [Icon(Icons.cancel,color: Theme.of(context).primaryColor,)],
+  iconTheme: IconThemeData(color: Theme.of(context).primaryColor),
       ),
       body: Padding(
         padding: const EdgeInsets.all(8.0),

@@ -1,4 +1,6 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:material_floating_search_bar/material_floating_search_bar.dart';
 import 'package:mini_project/components/floating_search_bar.dart';
@@ -16,6 +18,7 @@ import 'package:provider/provider.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 //TODO make font size responsive to screen size
 void main() {
+ // SystemChrome.setPreferredOrientations([DeviceOrientation.landscapeRight]);
   runApp(HomePage());
 }
 
@@ -45,7 +48,8 @@ class HomePage extends StatelessWidget {
             theme: Themes.lightTheme,
             home: Nav(),
             routes: {
-              ProfileSc.route: (_) {
+              ProductDetails.route : (_)=> ProductDetails(quantity: 2, imageUrl: "", name: 'wtf', price: 99.9, description: 'stfu')
+              ,ProfileSc.route: (_) {
                 return ProfileSc();
               },
               LoginSignupSc.signInRoute: (_) {
@@ -60,7 +64,8 @@ class HomePage extends StatelessWidget {
               },
               SideSc.route: (_) => SideSc(),
               // ProductDetails.route : (_)=>ProductDetails(),
-              AllProductsSc.route: (_) => AllProductsSc(),
+              AllProductsSc.route_from_fav: (_) => AllProductsSc('Your Favorites'),
+              AllProductsSc.route_from_all: (_) => AllProductsSc('All Products'),
               SearchSc.route:(_)=> SearchSc(),
             },
 

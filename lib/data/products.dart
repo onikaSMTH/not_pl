@@ -48,5 +48,6 @@ List<Product> products = [
       price: 700,
       name: 'product 7',
       image:
-      'assets/test.jpeg'),
+      'assets/test.jpeg',
+  ),
 ];

@@ -24,8 +24,8 @@ class _NavState extends State<Nav> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        actions: [ChangeThemeButtonWidget(),SearchIcon()],
+      appBar: _currentIndex==0  ? null :AppBar(
+        actions: _currentIndex ==2 ? null :const [SearchIcon()],
         backgroundColor: Theme.of(context).backgroundColor,
         title:  Center(
             child: Text(

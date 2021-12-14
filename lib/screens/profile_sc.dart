@@ -24,7 +24,7 @@ class ProfileSc extends StatelessWidget {
         backgroundColor: Theme.of(context).backgroundColor,
       ),
       body: SafeArea(
-        child: Column(
+        child: ListView(
           children: [
             Icon(
               Icons.person,

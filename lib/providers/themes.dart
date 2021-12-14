@@ -16,7 +16,7 @@ class ThemeProvider extends ChangeNotifier{
 class Themes {
   static final darkTheme = ThemeData(
    backgroundColor: mainColor,
-      scaffoldBackgroundColor: mainColor.withOpacity(0.8),
+      scaffoldBackgroundColor: mainColor,
       primaryColor: backColor,
       colorScheme: const ColorScheme.dark(),
       iconTheme: const IconThemeData(
@@ -30,7 +30,6 @@ class Themes {
   backgroundColor: backColor,
   colorScheme: const ColorScheme.light(),
   iconTheme: const IconThemeData(
-  color: mainColor,
-  )
+  color: mainColor,)
   );
 }

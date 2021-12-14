@@ -10,7 +10,8 @@ class SearchIcon extends StatelessWidget {
       onTap: (){
         Navigator.of(context).pushNamed(SearchSc.route);
       },
-      child: Icon(Icons.search,color: mainColor,),
+      child:  Container(margin: EdgeInsets.all(5),
+          child: Icon(Icons.search,color: Theme.of(context).primaryColor,size: 30,)),
     );
   }
 }

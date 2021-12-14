@@ -17,24 +17,33 @@ class ProductsScreenItem extends StatelessWidget {
   Widget build(BuildContext context) {
     return Column(
       children: [
+        //TODO HARD list tile back color is fucked up
         ListTile(
-          onTap: () {
-            Navigator.of(context)
-                .push(MaterialPageRoute(builder: (BuildContext context) {
-              return ProductDetails(quantity: product.quantity, imageUrl: product.image, name: product.name, price: product.price, description: product.description);
-            }));
-          },
+          enabled: false,
+          tileColor: Theme.of(context).backgroundColor,
           leading: ClipRRect(
-              borderRadius: BorderRadius.all(Radius.circular(50)),
+              borderRadius: const BorderRadius.all(Radius.circular(50)),
               child: Image.asset(imageUrl)),
           title: Text(
             name,
             textAlign: TextAlign.left,
+            style:
+                TextStyle(backgroundColor: Theme.of(context).backgroundColor),
           ),
         ),
-        Divider()
+        Divider(
+          color: Theme.of(context).primaryColor,
+        )
       ],
     );
     ;
   }
 }
+
+/*
+onTap: () {
+Navigator.of(context)
+    .push(MaterialPageRoute(builder: (BuildContext context) {
+return ProductDetails(quantity: product.quantity, imageUrl: product.image, name: product.name, price: product.price, description: product.description);
+}));
+},*/

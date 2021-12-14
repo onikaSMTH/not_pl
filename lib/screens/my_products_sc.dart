@@ -21,16 +21,10 @@ class MyProductsSc extends StatelessWidget {
 //TODO only if not signed in show this column
       child: Column(
 
-          mainAxisAlignment: MainAxisAlignment.start,
+          mainAxisAlignment: MainAxisAlignment.center,
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-       Padding(
-      padding: EdgeInsets.only(top: 30, bottom: 80, left: 10),
-      child: Text('Login/Signup Now To Publish Your Own Products!',
-        style: TextStyle(
 
-            fontWeight: FontWeight.bold, fontSize: 30, color: Theme.of(context).primaryColor),),
-    ),
     Padding(
     padding: const EdgeInsets.all(8.0),
     child: Center(child: RoundedButton('Login',onLogInTap,0.7,0.1,Theme.of(context).backgroundColor,Theme.of(context).primaryColor),)),
