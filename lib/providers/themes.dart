@@ -1,21 +1,20 @@
 import 'package:flutter/material.dart';
 import 'package:mini_project/colors.dart';
 
-class ThemeProvider extends ChangeNotifier{
-
+class ThemeProvider extends ChangeNotifier {
   ThemeMode currentThemeMode = ThemeMode.system;
 
-  bool isDarkMode()=> currentThemeMode==ThemeMode.dark;
+  bool isDarkMode() => currentThemeMode == ThemeMode.dark;
 
-  void toggleThemeMode(bool switchIsOn){
-    currentThemeMode = switchIsOn? ThemeMode.dark : ThemeMode.light;
+  void toggleThemeMode(bool switchIsOn) {
+    currentThemeMode = switchIsOn ? ThemeMode.dark : ThemeMode.light;
     notifyListeners();
   }
 }
 
 class Themes {
   static final darkTheme = ThemeData(
-   backgroundColor: mainColor,
+      backgroundColor: mainColor,
       scaffoldBackgroundColor: mainColor,
       primaryColor: backColor,
       colorScheme: const ColorScheme.dark(),
@@ -25,11 +24,11 @@ class Themes {
       ));
 
   static final lightTheme = ThemeData(
-  scaffoldBackgroundColor: backColor,
-  primaryColor: mainColor,
-  backgroundColor: backColor,
-  colorScheme: const ColorScheme.light(),
-  iconTheme: const IconThemeData(
-  color: mainColor,)
-  );
+      scaffoldBackgroundColor: backColor,
+      primaryColor: mainColor,
+      backgroundColor: backColor,
+      colorScheme: const ColorScheme.light(),
+      iconTheme: const IconThemeData(
+        color: mainColor,
+      ));
 }

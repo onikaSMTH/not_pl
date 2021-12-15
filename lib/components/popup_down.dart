@@ -5,6 +5,7 @@ import '../screens/login_signup_sc.dart';
 //component used in the signup screen (clickable text)
 class PopupDown extends StatelessWidget {
   final String input;
+
   PopupDown(this.input);
 
   @override
@@ -19,7 +20,7 @@ class PopupDown extends StatelessWidget {
             onTap: () {
               Navigator.of(context).pushNamed(LoginSignupSc.signUpRoute);
             },
-            child:  const Text(
+            child: const Text(
               'don\'t have an account ? Signup',
               style: TextStyle(
                   color: mainColor, fontSize: 18, fontWeight: FontWeight.bold),

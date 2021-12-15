@@ -1,7 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
-
 class SideScItem extends StatelessWidget {
   Icon icon;
   String text;
@@ -19,11 +18,13 @@ class SideScItem extends StatelessWidget {
     return Container(
       alignment: Alignment.center,
       child: ListTile(
-        onTap: (){Navigator.of(context).pushNamed(route);},
+        onTap: () {
+          Navigator.of(context).pushNamed(route);
+        },
         leading: icon,
         title: Text(
           text,
-          style:  TextStyle(color: Theme.of(context).primaryColor),
+          style: TextStyle(color: Theme.of(context).primaryColor),
         ),
         subtitle: Text(
           subtext,

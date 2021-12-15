@@ -14,9 +14,9 @@ class RoundedInput extends StatelessWidget {
       margin: const EdgeInsets.symmetric(vertical: 5, horizontal: 15),
       padding: const EdgeInsets.symmetric(horizontal: 20),
       decoration: BoxDecoration(
-          color: niceColor,
-          borderRadius: BorderRadius.circular(20),
-          ),
+        color: niceColor,
+        borderRadius: BorderRadius.circular(20),
+      ),
       child: TextField(
         keyboardType: TextInputType.emailAddress,
         cursorColor: cursorColor,

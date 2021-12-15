@@ -10,51 +10,66 @@ import 'package:mini_project/screens/product_details_sc.dart';
 import 'package:mini_project/screens/profile_sc.dart';
 import 'package:mini_project/screens/search_sc.dart';
 import '../data/side_items.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class SideSc extends StatelessWidget {
   static const route = 'Side-screen';
 
-
   @override
   Widget build(BuildContext context) {
     List<Widget> items = [
+      //profile
       SideScItem(
           icon: Icon(
             Icons.account_box,
             color: Theme.of(context).primaryColor,
           ),
-          route: ProductDetails.route,
-          text: 'Profile',
-          subtext: 'Edit Your Info'),
+          route: ProfileSc.route,
+          text: AppLocalizations.of(context)!.profile,
+          subtext: AppLocalizations.of(context)!.editYourInfo),
+      //favorites
       SideScItem(
           icon: Icon(Icons.favorite, color: Colors.redAccent),
-          route: ProfileSc.route,
-          text: 'Favourites',
-          subtext: 'View your Favourite Items'),
-     SideScLanguagesItem(),
-      SideScreenMode(),
-      SideScItem(icon: Icon(Icons.search,color: Theme.of(context).primaryColor,), route: SearchSc.route, text: 'Search', subtext: 'Search For Products'),
+          route: AllProductsSc.route_from_fav,
+          text: AppLocalizations.of(context)!.favorite,
+          subtext: AppLocalizations.of(context)!.viewYourFavItems),
+      const SideScLanguagesItem(),
+      const SideScreenMode(),
       SideScItem(
-          icon: Icon(Icons.ballot,color: Theme.of(context).primaryColor,),
+          icon: Icon(
+            Icons.search,
+            color: Theme.of(context).primaryColor,
+          ),
+          route: SearchSc.route,
+          text: AppLocalizations.of(context)!.search,
+          subtext: AppLocalizations.of(context)!.searchForProducts),
+      SideScItem(
+          icon: Icon(
+            Icons.ballot,
+            color: Theme.of(context).primaryColor,
+          ),
           route: AllProductsSc.route_from_all,
-          text: 'All Products',
-          subtext: 'View All Products'),
+          text: AppLocalizations.of(context)!.allProducts,
+          subtext: AppLocalizations.of(context)!.allProducts),
       //TODO only show if user have loged in
       SideScItem(
-          icon: Icon(Icons.logout,color: Theme.of(context).primaryColor,),
+          icon: Icon(
+            Icons.logout,
+            color: Theme.of(context).primaryColor,
+          ),
           route: '',
-          text: 'Logout',
+          text: AppLocalizations.of(context)!.logout,
           subtext: ''),
     ];
     return Container(
       alignment: Alignment.center,
       decoration: BoxDecoration(color: Theme.of(context).backgroundColor),
       child: ListView.builder(
-      padding: EdgeInsets.only(left: 5),
-      itemCount: items.length,
-      itemBuilder: (context, index) {
-        return items[index];
-      }),
+          padding: EdgeInsets.only(left: 5),
+          itemCount: items.length,
+          itemBuilder: (context, index) {
+            return items[index];
+          }),
     );
   }
 }

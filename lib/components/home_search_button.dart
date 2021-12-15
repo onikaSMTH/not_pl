@@ -6,12 +6,12 @@ class HomeSearchButton extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      height: 100,width: 100,
+      height: 100,
+      width: 100,
       child: InkWell(
         child: ListTile(
           leading: Icon(Icons.search),
           title: Text('Search For Products'),
-
         ),
       ),
     );

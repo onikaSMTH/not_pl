@@ -1,23 +1,159 @@
 {
-"language": "English",
+"language": "Language",
 "@language":{
    "description": "The current language"
    },
+  "shop": "Shop",
+  "@shop": {
+    "description": "wtevah"
+  },
+  "english": "English",
+  "@english":{
+    "description": "The current language"
+  },
 "home": "Home",
  "@home":{
     "description": "The current language"
     }
   ,
-  "signup": "Signup",
-  "@signup":{
-     "description": "The current language"
-   },
   "store": "Store",
   "@Store":{
     "description": "The current language"
   },
    "menu": "Menu",
    "@menu":{
-      "description": "The current language"
-    }
+     "description": "The current language"
+    },
+  "myProducts": "My Products",
+  "@myProducts":{
+    "description": "The current language"
+  },
+
+
+  "expiresAt": "Expires at",
+  "@expiresAt":{
+    "description": "The current language"
+  },
+  "quantity": "Quantity",
+  "@quantity":{
+    "description": "The current language"
+  },
+  "price": "Price",
+  "@price":{
+    "description": "The current language"
+  },
+  "login": "Login",
+  "@login":{
+    "description": "The current language"
+  },
+  "signup": "Signup",
+  "@signup":{
+    "description": "The current language"
+  },
+  "contact": "Contact",
+  "@contact":{
+    "description": "The current language"
+  },
+  "info": "Info",
+  "@info":{
+    "description": "The current language"
+  },
+
+  "edit": "Edit",
+  "@edit":{
+    "description": "The current language"
+  },
+  "contactTheSeller": "Contact The Seller",
+  "@contactTheSeller":{
+    "description": "The current language"
+  },
+
+  "profile": "Profile",
+  "@profile":{
+    "description": "The current language"
+  },
+  "editYourInfo": "Edit Your Info",
+  "@editYourInfo":{
+    "description": "The current language"
+  },
+  "viewYourProfile": "View Your Profile",
+  "@viewYourProfile":{
+    "description": "The current language"
+  },
+  "favorite": "Favorite",
+  "@favorite":{
+    "description": "The current language"
+  },
+
+  "viewYourFavItems": "View Your Favourite Items",
+  "@viewYourFavItem":{
+    "description": "The current language"
+  },
+  "allProducts": "All Products",
+  "@allProducts":{
+    "description": "The current language"
+  },
+  "viewAllProducts": "View All Products",
+  "@ViewAllProducts":{
+    "description": "The current language"
+  },
+  "darkMode": "DarkMode",
+  "@darkMode":{
+    "description": "The current language"
+  },
+  "search": "search",
+  "@Search":{
+    "description": "The current language"
+  },
+  "searchForProducts": "Search For Products",
+  "@searchForProducts":{
+    "description": "The current language"
+  },
+  "logout": "Logout",
+  "@logout":{
+    "description": "The current language"
+  }
+
+
+
+
+,
+  "popular": "Popular",
+  "@popular":{
+    "description": "The current language"
+  },
+  "categories": "Categories",
+  "@categories":{
+    "description": "The current language"
+  },
+  "fullName": "Full Name",
+  "@fullName":{
+    "description": "The current language"
+  },
+  "showAll": "Show All",
+  "@showAll":{
+    "description": "The current language"
+  },
+  "email": "Email",
+  "@email":{
+    "description": "The current language"
+  },
+  "password": "Password",
+  "@password":{
+    "description": "The current language"
+  },
+  "confirmPassword": "Confirm Password",
+  "@confirmPassword":{
+    "description": "The current language"
+  },
+  "changePassword": "Change Password",
+  "@changePassword":{
+    "description": "The current language"
+  },
+  "dontHaveAnAccountSignUp": "Don't Have An Account ? Signup!",
+  "@dontHaveAnAccountSignUp":{
+    "description": "The current language"
+  }
+
+
 }

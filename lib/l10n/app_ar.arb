@@ -1,7 +1,40 @@
 {
-"language": "العربية",
-"home": "الرئيسية",
-"signup": "التسجيل",
+  "language": "اللغة",
+  "shop": "المتجر",
+  "home": "الرئيسية",
+  "signup": "التسجيل",
+  "login": "تسجيل الدخول",
 "menu": "متعدد",
-  "store": "متجر"
+  "store": "متجر",
+  "myProducts": "منتجاتي",
+
+
+  "profile": "الملف الشخصي",
+  "editYourInfo": "تعديل الملف الشخصي",
+  "viewYourProfile": "عرض الملف الشخصي",
+  "favorite": "المفضلة",
+  "viewYourFavItems": "عرض منتجاتك المفضلة",
+  "allProducts": "جميع المنتجات",
+  "viewALlProducts":"عرض جميع المنتجات" ,
+  "search":"البحث",
+  "searchForProducts": "البحث عن المنتجات",
+  "logout": "تسجيل الخروج",
+  "darkMode": "الوضع المظلم",
+
+  "popular":"الرائج" ,
+  "categories":"التصنيفات" ,
+  "showAll": "عرض الكل",
+
+
+  "email":"البريد الالكتروني",
+  "password": "كلمة المرور",
+  "confirmPassword": "تأكيد كلمة المرور",
+  "changePassword": "تغيير كلمة المرور",
+  "fullName": "الاسم الكامل",
+
+
+  "expiresAt":"تنتهي الصلاحية بعد",
+  "quantity": "الكمية",
+  "price": "السعر"
+
 }

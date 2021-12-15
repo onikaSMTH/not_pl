@@ -11,12 +11,12 @@ class VerticalGrid extends StatelessWidget {
       height: MediaQuery.of(context).size.height * 0.67,
       width: double.infinity,
       child: GridView.builder(
-        gridDelegate:
-            const SliverGridDelegateWithMaxCrossAxisExtent(maxCrossAxisExtent: 300),
+        gridDelegate: const SliverGridDelegateWithMaxCrossAxisExtent(
+            maxCrossAxisExtent: 300),
         itemCount: products.length,
         itemBuilder: (BuildContext context, int index) {
           return Container(
-            margin: EdgeInsets.only(left: 5,right: 5,bottom: 10),
+            margin: EdgeInsets.only(left: 5, right: 5, bottom: 10),
             child: GridItem(
                 image: products[index].image,
                 price: products[index].price,

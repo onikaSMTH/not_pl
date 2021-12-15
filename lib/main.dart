@@ -16,23 +16,32 @@ import 'package:mini_project/screens/search_sc.dart';
 import 'package:mini_project/screens/side_sc.dart';
 import 'package:provider/provider.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+
 //TODO make font size responsive to screen size
 void main() {
- // SystemChrome.setPreferredOrientations([DeviceOrientation.landscapeRight]);
+  SystemChrome.setPreferredOrientations(
+      [DeviceOrientation.landscapeRight, DeviceOrientation.landscapeLeft]);
   runApp(HomePage());
 }
 
 class HomePage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-
-    return MultiProvider(providers: [
-    ChangeNotifierProvider( create: (BuildContext context) { return  ThemeProvider(); },),
-    ChangeNotifierProvider(  create: (BuildContext context) { return LocalLanguageProvider();  },),
-    ],
-        builder :(context,_){ return
-           MaterialApp(
-
+    return MultiProvider(
+        providers: [
+          ChangeNotifierProvider(
+            create: (BuildContext context) {
+              return ThemeProvider();
+            },
+          ),
+          ChangeNotifierProvider(
+            create: (BuildContext context) {
+              return LocalLanguageProvider();
+            },
+          ),
+        ],
+        builder: (context, _) {
+          return MaterialApp(
             supportedLocales: L10n.all,
             localizationsDelegates: const [
               AppLocalizations.delegate,
@@ -48,8 +57,13 @@ class HomePage extends StatelessWidget {
             theme: Themes.lightTheme,
             home: Nav(),
             routes: {
-              ProductDetails.route : (_)=> ProductDetails(quantity: 2, imageUrl: "", name: 'wtf', price: 99.9, description: 'stfu')
-              ,ProfileSc.route: (_) {
+              ProductDetails.route: (_) => ProductDetails(
+                  quantity: 2,
+                  imageUrl: "",
+                  name: 'wtf',
+                  price: 99.9,
+                  description: 'stfu'),
+              ProfileSc.route: (_) {
                 return ProfileSc();
               },
               LoginSignupSc.signInRoute: (_) {
@@ -64,12 +78,13 @@ class HomePage extends StatelessWidget {
               },
               SideSc.route: (_) => SideSc(),
               // ProductDetails.route : (_)=>ProductDetails(),
-              AllProductsSc.route_from_fav: (_) => AllProductsSc('Your Favorites'),
-              AllProductsSc.route_from_all: (_) => AllProductsSc('All Products'),
-              SearchSc.route:(_)=> SearchSc(),
+              AllProductsSc.route_from_fav: (_) =>
+                  AllProductsSc('Your Favorites'),
+              AllProductsSc.route_from_all: (_) =>
+                  AllProductsSc('All Products'),
+              SearchSc.route: (_) => SearchSc(),
             },
-
-          );}
-        );
+          );
+        });
   }
 }

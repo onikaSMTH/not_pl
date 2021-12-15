@@ -3,11 +3,9 @@ import 'package:mini_project/components/grid_item.dart';
 import '../data/products.dart';
 
 class HorizontalGrid extends StatelessWidget {
-
   @override
   Widget build(BuildContext context) {
     return Container(
-
       height: MediaQuery.of(context).size.height * 0.1,
       padding: const EdgeInsets.only(left: 10),
       child: GridView.builder(
@@ -24,8 +22,8 @@ class HorizontalGrid extends StatelessWidget {
             ),
           );
         },
-        gridDelegate:
-            const SliverGridDelegateWithMaxCrossAxisExtent(maxCrossAxisExtent: 100),
+        gridDelegate: const SliverGridDelegateWithMaxCrossAxisExtent(
+            maxCrossAxisExtent: 100),
       ),
     );
   }

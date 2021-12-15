@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:mini_project/colors.dart';
 import 'package:mini_project/components/rounded_button.dart';
 import 'package:mini_project/data/products.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class ProfileSc extends StatelessWidget {
   const ProfileSc({Key? key}) : super(key: key);
@@ -13,11 +14,11 @@ class ProfileSc extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        iconTheme:  IconThemeData(color: Theme.of(context).iconTheme.color),
-        title:  Align(
-          alignment: Alignment.topLeft,
+        iconTheme: IconThemeData(color: Theme.of(context).iconTheme.color),
+        title: Align(
+          alignment: Alignment.topCenter,
           child: Text(
-            'Profile',
+            AppLocalizations.of(context)!.profile,
             style: TextStyle(color: Theme.of(context).primaryColor),
           ),
         ),
@@ -36,19 +37,22 @@ class ProfileSc extends StatelessWidget {
               crossAxisAlignment: CrossAxisAlignment.center,
               children: [
                 Container(
-                    margin: const EdgeInsets.symmetric(horizontal: 15, vertical: 10),
+                    margin: const EdgeInsets.symmetric(
+                        horizontal: 15, vertical: 10),
                     child: TextFormField(
-                      initialValue: 'Full Name',
+                      initialValue: AppLocalizations.of(context)!.fullName,
                     )),
                 Container(
-                    margin: const EdgeInsets.symmetric(horizontal: 15, vertical: 10),
+                    margin: const EdgeInsets.symmetric(
+                        horizontal: 15, vertical: 10),
                     child: TextFormField(
                       initialValue: 'Phone Number',
                     )),
                 Container(
-                    margin: const EdgeInsets.symmetric(horizontal: 15, vertical: 10),
+                    margin: const EdgeInsets.symmetric(
+                        horizontal: 15, vertical: 10),
                     child: TextFormField(
-                      initialValue: 'Password',
+                      initialValue: AppLocalizations.of(context)!.password,
                     )),
               ],
             )),
@@ -58,7 +62,7 @@ class ProfileSc extends StatelessWidget {
                 width: 200,
                 child: Row(
                   children: [
-                    const Text('My Products'),
+                    Text(AppLocalizations.of(context)!.myProducts),
                     const SizedBox(
                       width: 10,
                     ),
@@ -74,7 +78,13 @@ class ProfileSc extends StatelessWidget {
             Container(
                 margin: const EdgeInsets.only(left: 10),
                 alignment: Alignment.bottomLeft,
-                child: RoundedButton('change Password',(){},0.5,0.07,Theme.of(context).backgroundColor,Theme.of(context).primaryColor))
+                child: RoundedButton(
+                    AppLocalizations.of(context)!.changePassword,
+                    () {},
+                    0.5,
+                    0.07,
+                    Theme.of(context).backgroundColor,
+                    Theme.of(context).primaryColor))
           ],
         ),
       ),

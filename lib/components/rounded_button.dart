@@ -8,7 +8,9 @@ class RoundedButton extends StatelessWidget {
   double height;
   Color textColor;
   Color backColor;
-  RoundedButton(this.input,this.onTap,this.width,this.height,this.textColor,this.backColor);
+
+  RoundedButton(this.input, this.onTap, this.width, this.height, this.textColor,
+      this.backColor);
 
   @override
   Widget build(BuildContext context) {
@@ -26,7 +28,7 @@ class RoundedButton extends StatelessWidget {
         child: Text(
           input,
           textAlign: TextAlign.center,
-          style:  TextStyle(
+          style: TextStyle(
             color: textColor,
             fontSize: 15,
           ),

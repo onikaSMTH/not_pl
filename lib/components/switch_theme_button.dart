@@ -11,10 +11,8 @@ class ChangeThemeButtonWidget extends StatelessWidget {
     return Switch.adaptive(
       activeColor: Theme.of(context).primaryColor,
       activeTrackColor: Theme.of(context).primaryColor,
-      inactiveThumbColor:Theme.of(context).primaryColor ,
-      inactiveTrackColor:Colors.redAccent,
-
-
+      inactiveThumbColor: Theme.of(context).primaryColor,
+      inactiveTrackColor: Colors.redAccent,
       value: themeProvider.isDarkMode(),
       onChanged: (value) {
         final provider = Provider.of<ThemeProvider>(context, listen: false);
