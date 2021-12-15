@@ -3,7 +3,7 @@ import 'dart:ui';
 import 'package:flutter/material.dart';
 import 'package:mini_project/colors.dart';
 import 'package:mini_project/components/rounded_button.dart';
-import 'package:mini_project/data/products.dart';
+import 'package:mini_project/providers/products.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class ProfileSc extends StatelessWidget {
@@ -66,7 +66,7 @@ class ProfileSc extends StatelessWidget {
                     const SizedBox(
                       width: 10,
                     ),
-                    Text(products.length.toString()),
+                    Text(Products().getProducts().length.toString()),
                     const SizedBox(
                       width: 10,
                     ),

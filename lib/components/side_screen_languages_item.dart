@@ -34,7 +34,7 @@ class _SideScLanguagesItemState extends State<SideScLanguagesItem> {
         onChanged: (newValue) {
           setState(() {
             languageProvider
-                .setLocale(newValue == 'العربية' ? Locale('ar') : Locale('en'));
+                .setLocale(newValue == 'العربية' ? const Locale('ar') : const Locale('en'));
             currentValue = newValue.toString();
           });
         },

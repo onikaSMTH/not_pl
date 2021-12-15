@@ -33,8 +33,7 @@ class SideSc extends StatelessWidget {
           route: AllProductsSc.route_from_fav,
           text: AppLocalizations.of(context)!.favorite,
           subtext: AppLocalizations.of(context)!.viewYourFavItems),
-      const SideScLanguagesItem(),
-      const SideScreenMode(),
+      //search
       SideScItem(
           icon: Icon(
             Icons.search,
@@ -43,6 +42,7 @@ class SideSc extends StatelessWidget {
           route: SearchSc.route,
           text: AppLocalizations.of(context)!.search,
           subtext: AppLocalizations.of(context)!.searchForProducts),
+      //all products
       SideScItem(
           icon: Icon(
             Icons.ballot,
@@ -51,7 +51,13 @@ class SideSc extends StatelessWidget {
           route: AllProductsSc.route_from_all,
           text: AppLocalizations.of(context)!.allProducts,
           subtext: AppLocalizations.of(context)!.allProducts),
+      // language dropdown list
+      const SideScLanguagesItem(),
+      //change theme
+      const SideScreenMode(),
+
       //TODO only show if user have loged in
+      //logout
       SideScItem(
           icon: Icon(
             Icons.logout,

@@ -104,7 +104,7 @@ class LoginSignupSc extends StatelessWidget {
             _buildBackground(context),
             _buildBox(context),
             //only show in sign in page
-            if (!signup) PopupDown('Don\'t Have An Account ? Signup')
+            if (!signup) PopupDown(AppLocalizations.of(context)!.dontHaveAnAccountSignUp)
           ],
         ),
       ),

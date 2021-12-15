@@ -1,12 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:mini_project/components/grid_item.dart';
-import '../data/products.dart';
+import 'package:mini_project/models/product.dart';
+import '../providers/products.dart';
+import 'package:provider/provider.dart';
 
 class VerticalGrid extends StatelessWidget {
-  const VerticalGrid({Key? key}) : super(key: key);
-
   @override
   Widget build(BuildContext context) {
+    List<Product> products = Provider.of<Products>(context).getProducts();
     return SizedBox(
       height: MediaQuery.of(context).size.height * 0.67,
       width: double.infinity,
@@ -18,6 +19,7 @@ class VerticalGrid extends StatelessWidget {
           return Container(
             margin: EdgeInsets.only(left: 5, right: 5, bottom: 10),
             child: GridItem(
+                id: products[index].id,
                 image: products[index].image,
                 price: products[index].price,
                 title: products[index].name),

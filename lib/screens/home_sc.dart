@@ -50,7 +50,7 @@ class HomeSc extends StatelessWidget {
               AppLocalizations.of(context)!.allProducts,
               style: TextStyle(fontWeight: FontWeight.bold, fontSize: 20),
             )),
-            const VerticalGrid(),
+            VerticalGrid(),
           ],
         ),
       ),

@@ -4,70 +4,28 @@ import 'package:mini_project/colors.dart';
 import 'package:mini_project/components/product_details_headline_item.dart';
 import 'package:mini_project/components/rounded_button.dart';
 import 'package:mini_project/main.dart';
+import 'package:mini_project/models/product.dart';
+import 'package:mini_project/providers/products.dart';
+import 'package:provider/provider.dart';
 import '../screens/login_signup_sc.dart';
 
 class ProductDetails extends StatelessWidget {
   static const route = 'product-details';
-  String imageUrl;
-  double price;
-  String description;
-  String name;
-  int quantity;
-
-  ProductDetails(
-      {required this.quantity,
-      required this.imageUrl,
-      required this.name,
-      required this.price,
-      required this.description});
-
-  Widget buildBackground1(context) {
-    return Align(
-      alignment: Alignment.bottomCenter,
-      child: Container(
-        height: MediaQuery.of(context).size.height * 0.47,
-        width: double.infinity,
-        decoration: const BoxDecoration(
-          color: backColor,
-          borderRadius: BorderRadius.only(
-            topLeft: Radius.circular(50),
-            topRight: Radius.circular(50),
-            bottomRight: Radius.circular(0),
-            bottomLeft: Radius.circular(0),
-          ),
-        ),
-      ),
-    );
-  }
-
-  Widget buildBackground(context) {
-    return Align(
-      alignment: Alignment.topCenter,
-      child: Container(
-        height: MediaQuery.of(context).size.height * 0.6,
-        decoration: const BoxDecoration(
-          color: mainColor,
-          borderRadius: BorderRadius.only(
-            topLeft: Radius.circular(0),
-            topRight: Radius.circular(0),
-            bottomRight: Radius.circular(0),
-            bottomLeft: Radius.circular(0),
-          ),
-        ),
-      ),
-    );
-  }
 
   @override
   Widget build(BuildContext context) {
+    String id = ModalRoute.of(context)!.settings.arguments.toString();
+    Product product = Provider.of<Products>(context)
+        .getProducts()
+        .firstWhere((element) => element.id == id);
     return Scaffold(
       appBar: AppBar(
         actions: [Icon(Icons.more_vert)],
         centerTitle: true,
         backgroundColor: backColor,
         iconTheme: const IconThemeData(color: mainColor),
-        title: const Text(
-          'Product name',
+        title: Text(
+          product.name,
           style: TextStyle(color: mainColor),
         ),
       ),
@@ -82,7 +40,7 @@ class ProductDetails extends StatelessWidget {
                 alignment: Alignment.center,
                 margin: const EdgeInsets.all(20),
                 child: SizedBox(
-                  child: Image.asset(imageUrl),
+                  child: Image.asset(product.image),
                   height: 170,
                   width: 300,
                 ),
@@ -90,24 +48,27 @@ class ProductDetails extends StatelessWidget {
               //first row
               Container(
                 margin: EdgeInsets.only(
-                    top: MediaQuery.of(context).size.height * 0.08),
-                child: Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                    children: [
-                      Container(
-                          child:
-                              DetailesScHeadline('Expires After', 'Equation')),
-                      DetailesScHeadline('Description', description)
-                    ]),
+                    top: MediaQuery.of(context).size.height * 0.25),
+                child: Container(
+                  margin: const EdgeInsets.symmetric(horizontal: 8.0),
+                  child: Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceAround,
+                      children: [
+                        Container(
+                            child: DetailesScHeadline(
+                                'Expires After', 'Equation')),
+                        DetailesScHeadline('Description', product.description)
+                      ]),
+                ),
               ),
               //second row
               Container(
                   margin: EdgeInsets.only(top: 15),
                   child: Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                      mainAxisAlignment: MainAxisAlignment.spaceAround,
                       children: [
                         DetailesScHeadline(
-                            'Available Quantity', quantity.toString()),
+                            'Available Quantity', product.quantity.toString()),
                         DetailesScHeadline('Categories', "categories")
                       ]))
             ],
@@ -115,7 +76,7 @@ class ProductDetails extends StatelessWidget {
         ],
       ),
       bottomSheet: Container(
-        height: MediaQuery.of(context).size.height * 0.12,
+        height: MediaQuery.of(context).size.height * 0.08,
         color: backColor,
         child: Row(
           mainAxisAlignment: MainAxisAlignment.spaceAround,
@@ -126,10 +87,11 @@ class ProductDetails extends StatelessWidget {
                 size: 15,
               ),
               Text(
-                price.toString(),
+                product.price.toString(),
                 style: TextStyle(fontSize: 20),
               ),
             ]),
+            //TODO on press pop up alert dialog with info
             RoundedButton(
                 'Contact The Seller', () {}, 0.5, 0.07, backColor, mainColor)
           ],
@@ -137,4 +99,41 @@ class ProductDetails extends StatelessWidget {
       ),
     );
   }
+}
+
+Widget buildBackground1(context) {
+  return Align(
+    alignment: Alignment.bottomCenter,
+    child: Container(
+      height: MediaQuery.of(context).size.height * 0.47,
+      width: double.infinity,
+      decoration: const BoxDecoration(
+        color: backColor,
+        borderRadius: BorderRadius.only(
+          topLeft: Radius.circular(50),
+          topRight: Radius.circular(50),
+          bottomRight: Radius.circular(0),
+          bottomLeft: Radius.circular(0),
+        ),
+      ),
+    ),
+  );
+}
+
+Widget buildBackground(context) {
+  return Align(
+    alignment: Alignment.topCenter,
+    child: Container(
+      height: MediaQuery.of(context).size.height * 0.6,
+      decoration: const BoxDecoration(
+        color: mainColor,
+        borderRadius: BorderRadius.only(
+          topLeft: Radius.circular(0),
+          topRight: Radius.circular(0),
+          bottomRight: Radius.circular(0),
+          bottomLeft: Radius.circular(0),
+        ),
+      ),
+    ),
+  );
 }

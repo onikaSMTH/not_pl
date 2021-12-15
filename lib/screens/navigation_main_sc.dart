@@ -41,7 +41,8 @@ class _NavState extends State<Nav> {
             ),
       body: pages[_currentIndex],
       bottomNavigationBar: BottomNavyBar(
-        containerHeight: MediaQuery.of(context).size.height * 0.085,
+
+        containerHeight: MediaQuery.of(context).size.height * 0.075,
         selectedIndex: _currentIndex,
         onItemSelected: (index) {
           selectPage(index);

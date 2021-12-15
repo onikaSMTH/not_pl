@@ -6,6 +6,7 @@ import 'package:material_floating_search_bar/material_floating_search_bar.dart';
 import 'package:mini_project/components/floating_search_bar.dart';
 import 'package:mini_project/l10n/l10n.dart';
 import 'package:mini_project/providers/local_language_provider.dart';
+import 'package:mini_project/providers/products.dart';
 import 'package:mini_project/providers/themes.dart';
 import 'package:mini_project/screens/all_products_sc.dart';
 import 'package:mini_project/screens/navigation_main_sc.dart';
@@ -29,6 +30,9 @@ class HomePage extends StatelessWidget {
   Widget build(BuildContext context) {
     return MultiProvider(
         providers: [
+          ChangeNotifierProvider(create: (BuildContext context){
+            return Products();
+          }),
           ChangeNotifierProvider(
             create: (BuildContext context) {
               return ThemeProvider();
@@ -57,12 +61,7 @@ class HomePage extends StatelessWidget {
             theme: Themes.lightTheme,
             home: Nav(),
             routes: {
-              ProductDetails.route: (_) => ProductDetails(
-                  quantity: 2,
-                  imageUrl: "",
-                  name: 'wtf',
-                  price: 99.9,
-                  description: 'stfu'),
+              ProductDetails.route: (_) => ProductDetails(),
               ProfileSc.route: (_) {
                 return ProfileSc();
               },

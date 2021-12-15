@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:mini_project/components/all_products_screen_item.dart';
-import 'package:mini_project/data/products.dart';
-
+import 'package:mini_project/models/product.dart';
+import 'package:mini_project/providers/products.dart';
+import 'package:provider/provider.dart';
+import '../providers/products.dart';
 //TODO style
 class AllProductsSc extends StatelessWidget {
   //used when all products is accessed from fav tab on side screen
@@ -15,6 +17,7 @@ class AllProductsSc extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    List<Product> products = Provider.of<Products>(context).getProducts();
     return MaterialApp(
         home: Scaffold(
       backgroundColor: Theme.of(context).backgroundColor,
@@ -36,7 +39,7 @@ class AllProductsSc extends StatelessWidget {
         ),
       ),
       body: ListView.builder(
-        itemCount: products.length,
+        itemCount: products.length ,
         itemBuilder: (BuildContext context, int index) {
           return ProductsScreenItem(
             imageUrl: 'assets/test.jpeg',
