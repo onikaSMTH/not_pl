@@ -56,27 +56,30 @@ class LoginSignupSc extends StatelessWidget {
                   Icons.person,
                   color: mainColor,
                 ),
-                hint: AppLocalizations.of(context)!.fullName),
+                hint: AppLocalizations.of(context)!.fullName, isPassword: false,),
           RoundedInput(
               icon: Icon(
                 Icons.email,
                 color: mainColor,
               ),
-              hint: AppLocalizations.of(context)!.email),
-          //TODO hide password + show eye
+              hint: AppLocalizations.of(context)!.email, isPassword: false,),
+
           RoundedInput(
+            
               icon: Icon(
                 Icons.lock,
                 color: mainColor,
               ),
-              hint: AppLocalizations.of(context)!.password),
+              hint: AppLocalizations.of(context)!.password
+          , isPassword: true,),
+          //confirm password field
           if (signup)
             RoundedInput(
               icon: Icon(
                 Icons.lock,
                 color: mainColor,
               ),
-              hint: AppLocalizations.of(context)!.confirmPassword,
+              hint: AppLocalizations.of(context)!.confirmPassword, isPassword: true,
             ),
           SizedBox(
             height: boxHeight * 0.04,
@@ -99,6 +102,8 @@ class LoginSignupSc extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       home: Scaffold(
+        // preventing keyboard from pushing widgets app when it opens
+        resizeToAvoidBottomInset: false,
         body: Stack(
           children: [
             _buildBackground(context),

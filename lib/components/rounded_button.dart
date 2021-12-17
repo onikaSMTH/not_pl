@@ -17,7 +17,7 @@ class RoundedButton extends StatelessWidget {
     return InkWell(
       // TBD function received by constructor
       onTap: () {
-        onTap(context);
+        onTap();
       },
       child: Container(
         alignment: Alignment.center,

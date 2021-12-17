@@ -1,12 +1,23 @@
 import 'package:flutter/material.dart';
 import 'package:mini_project/colors.dart';
 
-class RoundedInput extends StatelessWidget {
+class RoundedInput extends StatefulWidget {
   Icon icon;
   String hint;
+bool isPassword;
+bool hidePassword=true;
+  RoundedInput({required this.icon, required this.hint,required this.isPassword});
 
-  RoundedInput({required this.icon, required this.hint});
+  @override
+  State<RoundedInput> createState() => _RoundedInputState();
+}
 
+class _RoundedInputState extends State<RoundedInput> {
+  onEyeIconClicked(){
+    setState(() {
+      widget.hidePassword=!widget.hidePassword;
+    });
+  }
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -19,12 +30,15 @@ class RoundedInput extends StatelessWidget {
       ),
       child: TextField(
         keyboardType: TextInputType.emailAddress,
+        obscureText: widget.hidePassword,
         cursorColor: cursorColor,
         decoration: InputDecoration(
+          suffixIcon: widget.isPassword?GestureDetector(
+            onTap: onEyeIconClicked,
+              child: Icon(Icons.visibility)):null,
           border: InputBorder.none,
-          icon: icon,
-          hintText: hint,
-          labelText: hint.toUpperCase(),
+          icon: widget.icon,
+          labelText: widget.hint.toUpperCase(),
         ),
       ),
     );

@@ -17,6 +17,7 @@ import 'package:mini_project/screens/search_sc.dart';
 import 'package:mini_project/screens/side_sc.dart';
 import 'package:provider/provider.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'package:http/http.dart'as http;
 
 //TODO make font size responsive to screen size
 void main() {

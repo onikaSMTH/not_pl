@@ -1,3 +1,4 @@
+import 'package:community_material_icon/community_material_icon.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:mini_project/colors.dart';
@@ -29,52 +30,58 @@ class ProductDetails extends StatelessWidget {
           style: TextStyle(color: mainColor),
         ),
       ),
-      body: Stack(
-        children: [
-          buildBackground(context),
-          buildBackground1(context),
-          ListView(
-            children: [
-              //image
-              Container(
-                alignment: Alignment.center,
-                margin: const EdgeInsets.all(20),
-                child: SizedBox(
-                  child: Image.asset(product.image),
-                  height: 170,
-                  width: 300,
-                ),
+      body:  Stack(
+          children: [
+            buildBackground(context),
+            buildBackground1(context),
+            //image
+            Container(
+              alignment: Alignment.topCenter,
+              margin: const EdgeInsets.all(20),
+              child: SizedBox(
+                child: Image.asset(product.image),
+                height: 170,
+                width: 300,
               ),
-              //first row
-              Container(
-                margin: EdgeInsets.only(
-                    top: MediaQuery.of(context).size.height * 0.25),
-                child: Container(
-                  margin: const EdgeInsets.symmetric(horizontal: 8.0),
-                  child: Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceAround,
-                      children: [
-                        Container(
-                            child: DetailesScHeadline(
-                                'Expires After', 'Equation')),
-                        DetailesScHeadline('Description', product.description)
-                      ]),
+            ),
+            ListView(
+              children: [
+                //first row
+                Container(
+                  margin: EdgeInsets.only(
+                      top: MediaQuery.of(context).size.height * 0.50),
+                  child: Container(
+                    margin: const EdgeInsets.symmetric(horizontal: 8.0),
+                    child: Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceAround,
+                        children: [
+                          Container(
+                              child: DetailesScHeadline(
+                                  'Expires After', 'Equation')),
+                          DetailesScHeadline('Description', product.description)
+                        ]),
+                  ),
                 ),
-              ),
-              //second row
-              Container(
-                  margin: EdgeInsets.only(top: 15),
-                  child: Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceAround,
-                      children: [
-                        DetailesScHeadline(
-                            'Available Quantity', product.quantity.toString()),
-                        DetailesScHeadline('Categories', "categories")
-                      ]))
-            ],
-          )
-        ],
-      ),
+                //second row
+                Container(
+                    margin: EdgeInsets.only(top: 15),
+                    child: Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceAround,
+                        children: [
+                          DetailesScHeadline(
+                              'Available Quantity', product.quantity.toString()),
+                          DetailesScHeadline('Categories', "categories")
+                        ])),
+                Divider(),
+                Center(child: Text('Comments',style:TextStyle(color: mainColor)),),
+                Divider(height: 150,),
+                //TODO list view for comments section
+              ],
+            )
+          ],
+        ),
+
+      //bottom
       bottomSheet: Container(
         height: MediaQuery.of(context).size.height * 0.08,
         color: backColor,
@@ -91,15 +98,39 @@ class ProductDetails extends StatelessWidget {
                 style: TextStyle(fontSize: 20),
               ),
             ]),
-            //TODO on press pop up alert dialog with info
             RoundedButton(
-                'Contact The Seller', () {}, 0.5, 0.07, backColor, mainColor)
+                'Contact The Seller', () {
+              showDialog<String>(
+                context: context,
+                builder: (BuildContext context) => AlertDialog(
+                  backgroundColor: backColor,
+                  title: const Text('Contact Info',style: TextStyle(color: mainColor),),
+                  content:  Text('Number : ${product.id} '),
+                  actions: <Widget>[
+                    TextButton(
+                      onPressed: () {},
+                      //TODO open in whatsapp
+                      child: const Icon(CommunityMaterialIcons.whatsapp,color: Colors.green,),
+                    ),
+                    TextButton(
+                      onPressed: () {},
+                      child: const Icon(CommunityMaterialIcons.facebook_messenger,color: Colors.blue,) ,
+                    ),
+                    TextButton(
+                      onPressed: () {},
+                      child: const Icon(CommunityMaterialIcons.phone,color: mainColor,) ,
+                    ),
+                  ],
+                ),
+              );
+            }, 0.5, 0.07, backColor, mainColor)
           ],
         ),
-      ),
-    );
+
+    ));
   }
 }
+
 
 Widget buildBackground1(context) {
   return Align(

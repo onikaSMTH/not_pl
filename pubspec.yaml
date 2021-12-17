@@ -40,6 +40,8 @@ dependencies:
   provider: ^6.0.1
   intl: ^0.17.0
   auto_size_text: ^3.0.0
+  http: ^0.13.4
+  community_material_icon: ^5.9.55
 
 dev_dependencies:
   flutter_test:

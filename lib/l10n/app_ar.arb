@@ -35,6 +35,8 @@
 
   "expiresAt":"تنتهي الصلاحية بعد",
   "quantity": "الكمية",
-  "price": "السعر"
+  "price": "السعر",
+
+  "dontHaveAnAccountSignUp": "لا تملك حساب ؟ تسحيل الدخول"
 
 }

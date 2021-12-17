@@ -18,10 +18,10 @@ class PopupDown extends StatelessWidget {
         alignment: Alignment.center,
         child: InkWell(
             onTap: () {
-              Navigator.of(context).pushNamed(LoginSignupSc.signUpRoute);
+               Navigator.of(context).pushNamed(LoginSignupSc.signUpRoute);
             },
-            child: const Text(
-              'don\'t have an account ? Signup',
+            child:  Text(
+              input,
               style: TextStyle(
                   color: mainColor, fontSize: 18, fontWeight: FontWeight.bold),
             )),

@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:mini_project/colors.dart';
 
 class ThemeProvider extends ChangeNotifier {
-  ThemeMode currentThemeMode = ThemeMode.system;
+  ThemeMode currentThemeMode = ThemeMode.light;
 
   bool isDarkMode() => currentThemeMode == ThemeMode.dark;
 
@@ -17,7 +17,6 @@ class Themes {
       backgroundColor: mainColor,
       scaffoldBackgroundColor: mainColor,
       primaryColor: backColor,
-      colorScheme: const ColorScheme.dark(),
       iconTheme: const IconThemeData(
         color: backColor,
         opacity: 0.7,
@@ -27,7 +26,6 @@ class Themes {
       scaffoldBackgroundColor: backColor,
       primaryColor: mainColor,
       backgroundColor: backColor,
-      colorScheme: const ColorScheme.light(),
       iconTheme: const IconThemeData(
         color: mainColor,
       ));

@@ -25,6 +25,8 @@ class _NavState extends State<Nav> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      // preventing keyboard from pushing widgets app when it opens
+      resizeToAvoidBottomInset: false,
       appBar: _currentIndex == 0
           ? null
           : AppBar(

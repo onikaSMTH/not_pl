@@ -4,6 +4,7 @@ import 'package:mini_project/models/product.dart';
 import 'package:mini_project/providers/products.dart';
 import 'package:provider/provider.dart';
 import '../providers/products.dart';
+
 //TODO style
 class AllProductsSc extends StatelessWidget {
   //used when all products is accessed from fav tab on side screen
@@ -19,6 +20,7 @@ class AllProductsSc extends StatelessWidget {
   Widget build(BuildContext context) {
     List<Product> products = Provider.of<Products>(context).getProducts();
     return MaterialApp(
+
         home: Scaffold(
       backgroundColor: Theme.of(context).backgroundColor,
       appBar: AppBar(
@@ -38,15 +40,22 @@ class AllProductsSc extends StatelessWidget {
           ),
         ),
       ),
-      body: ListView.builder(
-        itemCount: products.length ,
+
+      body: GridView.builder(
+        itemCount: products.length,
         itemBuilder: (BuildContext context, int index) {
           return ProductsScreenItem(
             imageUrl: 'assets/test.jpeg',
             name: products[index].name,
-            product: products[index],
+            productID: products[index].id,
           );
         },
+
+        gridDelegate: SliverGridDelegateWithMaxCrossAxisExtent(
+          childAspectRatio: 3/2.0,
+          mainAxisExtent: MediaQuery.of(context).size.height*0.3,
+            crossAxisSpacing: 5,
+            maxCrossAxisExtent: MediaQuery.of(context).size.width * 0.5),
       ),
     ));
   }

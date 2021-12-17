@@ -1,5 +1,8 @@
+
+
 import 'package:flutter/cupertino.dart';
 import 'package:mini_project/models/product.dart';
+import 'package:http/http.dart' as http;
 
 class Products extends ChangeNotifier {
 
@@ -11,6 +14,14 @@ class Products extends ChangeNotifier {
     notifyListeners();
   }
 
+  void database(){
+
+     var url = Uri.parse("http://192.168.7.130:8000/products");
+
+
+      listProducts = http.get(url) as List<Product>;
+      notifyListeners();
+  }
   void updateProduct(Product product) {
     int index = listProducts.indexWhere((element) => element.id == product.id);
     listProducts[index] = product;
@@ -72,6 +83,6 @@ class Products extends ChangeNotifier {
       price: 700,
       name: 'product 7',
       image: 'assets/test.jpeg',
-    ),
-  ];
+    ),];
+
 }
