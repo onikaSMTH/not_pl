@@ -27,6 +27,8 @@ class SideSc extends StatelessWidget {
           route: ProfileSc.route,
           text: AppLocalizations.of(context)!.profile,
           subtext: AppLocalizations.of(context)!.editYourInfo),
+      //manage products
+      SideScItem(icon: Icon(Icons.settings,color: Theme.of(context).primaryColor,), route: AllProductsSc.route_from_my, text: 'Manage Products' , subtext: 'add,delete and view your products'),
       //favorites
       SideScItem(
           icon: Icon(Icons.favorite, color: Colors.redAccent),
@@ -52,7 +54,7 @@ class SideSc extends StatelessWidget {
           text: AppLocalizations.of(context)!.allProducts,
           subtext: AppLocalizations.of(context)!.allProducts),
       // language dropdown list
-      const SideScLanguagesItem(),
+       SideScLanguagesItem(),
       //change theme
       const SideScreenMode(),
 

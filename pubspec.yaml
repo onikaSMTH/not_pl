@@ -42,6 +42,7 @@ dependencies:
   auto_size_text: ^3.0.0
   http: ^0.13.4
   community_material_icon: ^5.9.55
+  image_picker: ^0.8.4+4
 
 dev_dependencies:
   flutter_test:

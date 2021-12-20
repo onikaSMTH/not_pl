@@ -5,6 +5,7 @@ import 'package:mini_project/components/floating_search_bar.dart';
 import 'package:mini_project/components/home_search_button.dart';
 import 'package:mini_project/components/vertical_grid.dart';
 import 'package:mini_project/providers/products.dart';
+import 'package:mini_project/screens/all_products_sc.dart';
 import 'package:provider/provider.dart';
 import '../components/horizontal_grid.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
@@ -25,7 +26,7 @@ class HomeSc extends StatelessWidget {
             ListTile(
               leading: Text(
                 AppLocalizations.of(context)!.popular,
-                style: TextStyle(fontWeight: FontWeight.bold, fontSize: 20),
+                style: TextStyle(color:Theme.of(context).primaryColor,fontWeight: FontWeight.bold, fontSize: 20),
               ),
               trailing: TextButton(
                 onPressed: () {},
@@ -39,7 +40,7 @@ class HomeSc extends StatelessWidget {
             ListTile(
                 leading: Text(
                   AppLocalizations.of(context)!.categories,
-                  style: TextStyle(fontWeight: FontWeight.bold, fontSize: 20),
+                  style: TextStyle(color:Theme.of(context).primaryColor,fontWeight: FontWeight.bold, fontSize: 20),
                 ),
                 trailing: TextButton(
                   onPressed: () {},
@@ -50,9 +51,12 @@ class HomeSc extends StatelessWidget {
                 )),
             HorizontalGrid(),
             ListTile(
+              onTap: (){
+                Navigator.of(context).pushNamed(AllProductsSc.route_from_all);
+              },
                 leading: Text(
               AppLocalizations.of(context)!.allProducts,
-              style: TextStyle(fontWeight: FontWeight.bold, fontSize: 20),
+              style: TextStyle(color:Theme.of(context).primaryColor,fontWeight: FontWeight.bold, fontSize: 20),
             )),
             VerticalGrid(),
           ],

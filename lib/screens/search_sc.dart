@@ -1,4 +1,6 @@
+import 'package:community_material_icon/community_material_icon.dart';
 import 'package:flutter/material.dart';
+import 'package:mini_project/components/call_snack_bar.dart';
 import 'package:mini_project/components/rounded_button.dart';
 
 import '../colors.dart';
@@ -14,16 +16,22 @@ class SearchSc extends StatelessWidget {
         backgroundColor: Theme.of(context).backgroundColor,
         title: TextField(
           decoration: InputDecoration(
+            suffixIcon: GestureDetector(
+              child: Icon(Icons.insert_invitation,color: Theme.of(context).primaryColor,),
+              onTap: () {
+                showDatePicker(
+                    initialDate: DateTime.now(),
+                    firstDate: DateTime(2001),
+                    lastDate: DateTime(2022),
+                    context: context).then((value) => null);
+              },
+            ),
             border: InputBorder.none,
             hintText: 'Search For Products',
+            hintStyle: TextStyle(color : Theme.of(context).primaryColor.withAlpha(90)),
           ),
         ),
-        actions: [
-          Icon(
-            Icons.cancel,
-            color: Theme.of(context).primaryColor,
-          )
-        ],
+
         iconTheme: IconThemeData(color: Theme.of(context).primaryColor),
       ),
       body: Padding(

@@ -35,7 +35,7 @@ class _RoundedInputState extends State<RoundedInput> {
         decoration: InputDecoration(
           suffixIcon: widget.isPassword?GestureDetector(
             onTap: onEyeIconClicked,
-              child: Icon(Icons.visibility)):null,
+              child: Icon(Icons.visibility,color: widget.hidePassword? Colors.redAccent:Colors.blue,)):null,
           border: InputBorder.none,
           icon: widget.icon,
           labelText: widget.hint.toUpperCase(),

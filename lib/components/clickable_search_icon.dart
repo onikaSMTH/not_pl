@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:mini_project/colors.dart';
+import 'package:mini_project/screens/add_product_sc.dart';
 import 'package:mini_project/screens/search_sc.dart';
 
 class SearchIcon extends StatelessWidget {

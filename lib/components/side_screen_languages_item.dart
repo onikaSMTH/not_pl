@@ -4,15 +4,15 @@ import '../providers/local_language_provider.dart';
 import 'package:provider/provider.dart';
 
 class SideScLanguagesItem extends StatefulWidget {
-  const SideScLanguagesItem({Key? key}) : super(key: key);
+  String currentValue = 'English';
+  List items = ['English', 'العربية'];
 
   @override
   State<SideScLanguagesItem> createState() => _SideScLanguagesItemState();
 }
 
 class _SideScLanguagesItemState extends State<SideScLanguagesItem> {
-  String currentValue = 'English';
-  List items = ['English', 'العربية'];
+
 
   @override
   Widget build(BuildContext context) {
@@ -24,21 +24,22 @@ class _SideScLanguagesItemState extends State<SideScLanguagesItem> {
         color: Theme.of(context).primaryColor,
       ),
       title: DropdownButton<String>(
+        dropdownColor: Theme.of(context).backgroundColor,
         //hiding underline
         underline: const SizedBox(),
         icon: Icon(
           Icons.arrow_drop_down,
           color: Theme.of(context).primaryColor,
         ),
-        value: currentValue,
+        value: widget.currentValue,
         onChanged: (newValue) {
           setState(() {
             languageProvider
                 .setLocale(newValue == 'العربية' ? const Locale('ar') : const Locale('en'));
-            currentValue = newValue.toString();
+            widget.currentValue = newValue.toString();
           });
         },
-        items: items.map((item) {
+        items: widget.items.map((item) {
           return DropdownMenuItem<String>(
             value: item,
             child: Text(

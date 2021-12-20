@@ -34,66 +34,68 @@ class LoginSignupSc extends StatelessWidget {
   Widget _buildBox(BuildContext context) {
     var boxHeight = MediaQuery.of(context).size.height;
     var boxWidth = MediaQuery.of(context).size.width;
-    return Container(
-      margin: EdgeInsets.only(
-          left: boxWidth * 0.1, right: boxWidth * 0.05, top: boxHeight * 0.09),
-      decoration: BoxDecoration(
-        color: Theme.of(context).backgroundColor,
-        borderRadius: const BorderRadius.all(
-          Radius.circular(42),
-        ),
-      ),
-      height: MediaQuery.of(context).size.height * 0.75,
-      width: MediaQuery.of(context).size.width * 0.8,
-      child: Column(
-        children: [
-          SizedBox(
-            height: boxHeight * 0.1,
+    return SingleChildScrollView(
+      child: Container(
+        margin: EdgeInsets.only(
+            left: boxWidth * 0.1, right: boxWidth * 0.05, top: boxHeight * 0.09),
+        decoration: BoxDecoration(
+          color: Theme.of(context).backgroundColor,
+          borderRadius: const BorderRadius.all(
+            Radius.circular(42),
           ),
-          if (signup)
+        ),
+        height: MediaQuery.of(context).orientation==Orientation.landscape?MediaQuery.of(context).size.height * 1:MediaQuery.of(context).size.height * 0.75,
+        width: MediaQuery.of(context).size.width * 0.8,
+        child: Column(
+          children: [
+            SizedBox(
+              height: boxHeight * 0.1,
+            ),
+            if (signup)
+              RoundedInput(
+                  icon: Icon(
+                    Icons.person,
+                    color: mainColor,
+                  ),
+                  hint: AppLocalizations.of(context)!.fullName, isPassword: false,),
             RoundedInput(
                 icon: Icon(
-                  Icons.person,
+                  Icons.email,
                   color: mainColor,
                 ),
-                hint: AppLocalizations.of(context)!.fullName, isPassword: false,),
-          RoundedInput(
-              icon: Icon(
-                Icons.email,
-                color: mainColor,
-              ),
-              hint: AppLocalizations.of(context)!.email, isPassword: false,),
+                hint: AppLocalizations.of(context)!.email, isPassword: false,),
 
-          RoundedInput(
-            
-              icon: Icon(
-                Icons.lock,
-                color: mainColor,
-              ),
-              hint: AppLocalizations.of(context)!.password
-          , isPassword: true,),
-          //confirm password field
-          if (signup)
             RoundedInput(
-              icon: Icon(
-                Icons.lock,
-                color: mainColor,
+
+                icon: Icon(
+                  Icons.lock,
+                  color: mainColor,
+                ),
+                hint: AppLocalizations.of(context)!.password
+            , isPassword: true,),
+            //confirm password field
+            if (signup)
+              RoundedInput(
+                icon: Icon(
+                  Icons.lock,
+                  color: mainColor,
+                ),
+                hint: AppLocalizations.of(context)!.confirmPassword, isPassword: true,
               ),
-              hint: AppLocalizations.of(context)!.confirmPassword, isPassword: true,
+            SizedBox(
+              height: boxHeight * 0.04,
             ),
-          SizedBox(
-            height: boxHeight * 0.04,
-          ),
-          RoundedButton(
-              signup
-                  ? AppLocalizations.of(context)!.signup
-                  : AppLocalizations.of(context)!.login,
-              () {},
-              0.5,
-              0.07,
-              Theme.of(context).backgroundColor,
-              Theme.of(context).primaryColor)
-        ],
+            RoundedButton(
+                signup
+                    ? AppLocalizations.of(context)!.signup
+                    : AppLocalizations.of(context)!.login,
+                () {},
+                0.5,
+                0.07,
+                Theme.of(context).backgroundColor,
+                Theme.of(context).primaryColor)
+          ],
+        ),
       ),
     );
   }

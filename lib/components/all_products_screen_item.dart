@@ -17,7 +17,8 @@ class ProductsScreenItem extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Card(
+    return Container(
+      margin: EdgeInsets.all(5),
       color: backColor2,
       child: InkWell(
         onTap: (){},
