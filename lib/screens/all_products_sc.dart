@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:mini_project/colors.dart';
 import 'package:mini_project/components/all_products_screen_item.dart';
+import 'package:mini_project/components/my_products_sc_item.dart';
 import 'package:mini_project/models/product.dart';
 import 'package:mini_project/providers/products.dart';
 import 'package:provider/provider.dart';
@@ -12,9 +14,13 @@ class AllProductsSc extends StatelessWidget {
 
   //used when all products is accessed from all products tab on side screen
   static const route_from_all = 'all-products-screen-aa';
+  static const route_from_my = 'my-products-screen-aa';
   String appBarTitle;
+  bool isFav=false;
+  bool isAll=false;
+  bool isMy=false;
 
-  AllProductsSc(this.appBarTitle);
+  AllProductsSc({this.appBarTitle="",this.isAll=false,this.isFav=false,this.isMy=false});
 
   @override
   Widget build(BuildContext context) {
@@ -44,18 +50,18 @@ class AllProductsSc extends StatelessWidget {
       body: GridView.builder(
         itemCount: products.length,
         itemBuilder: (BuildContext context, int index) {
-          return ProductsScreenItem(
+          return isMy? MyPrpductsScItem(products[index].id):ProductsScreenItem(
             imageUrl: 'assets/test.jpeg',
             name: products[index].name,
             productID: products[index].id,
           );
         },
 
-        gridDelegate: SliverGridDelegateWithMaxCrossAxisExtent(
-          childAspectRatio: 3/2.0,
-          mainAxisExtent: MediaQuery.of(context).size.height*0.3,
-            crossAxisSpacing: 5,
-            maxCrossAxisExtent: MediaQuery.of(context).size.width * 0.5),
+        gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+          childAspectRatio: 1,
+          mainAxisExtent: isMy?MediaQuery.of(context).size.height*0.15:MediaQuery.of(context).size.height*0.3,
+
+            crossAxisSpacing: 5, crossAxisCount: isMy? 1:2),
       ),
     ));
   }

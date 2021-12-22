@@ -8,6 +8,7 @@ import 'package:mini_project/l10n/l10n.dart';
 import 'package:mini_project/providers/local_language_provider.dart';
 import 'package:mini_project/providers/products.dart';
 import 'package:mini_project/providers/themes.dart';
+import 'package:mini_project/screens/add_product_sc.dart';
 import 'package:mini_project/screens/all_products_sc.dart';
 import 'package:mini_project/screens/navigation_main_sc.dart';
 import 'package:mini_project/screens/login_signup_sc.dart';
@@ -79,10 +80,12 @@ class HomePage extends StatelessWidget {
               SideSc.route: (_) => SideSc(),
               // ProductDetails.route : (_)=>ProductDetails(),
               AllProductsSc.route_from_fav: (_) =>
-                  AllProductsSc('Your Favorites'),
+                  AllProductsSc(appBarTitle: 'Your Favorites',isFav: true,),
               AllProductsSc.route_from_all: (_) =>
-                  AllProductsSc('All Products'),
+                  AllProductsSc(appBarTitle: 'All Products',isAll: true,),
               SearchSc.route: (_) => SearchSc(),
+              AddProductSc.route:(_)=>AddProductSc(),
+              AllProductsSc.route_from_my:(_)=>AllProductsSc(appBarTitle: 'My Products',isMy: true,)
             },
           );
         });

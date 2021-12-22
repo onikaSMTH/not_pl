@@ -5,6 +5,7 @@ import 'package:mini_project/colors.dart';
 import 'package:mini_project/components/rounded_button.dart';
 import 'package:mini_project/providers/products.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'package:mini_project/screens/all_products_sc.dart';
 
 class ProfileSc extends StatelessWidget {
   const ProfileSc({Key? key}) : super(key: key);
@@ -16,7 +17,7 @@ class ProfileSc extends StatelessWidget {
       appBar: AppBar(
         iconTheme: IconThemeData(color: Theme.of(context).iconTheme.color),
         title: Align(
-          alignment: Alignment.topCenter,
+          alignment: AlignmentDirectional.topStart,
           child: Text(
             AppLocalizations.of(context)!.profile,
             style: TextStyle(color: Theme.of(context).primaryColor),
@@ -58,20 +59,23 @@ class ProfileSc extends StatelessWidget {
             )),
             //clickable my products button with number of products
             ListTile(
-              leading: SizedBox(
-                width: 200,
-                child: Row(
-                  children: [
-                    Text(AppLocalizations.of(context)!.myProducts),
-                    const SizedBox(
-                      width: 10,
-                    ),
-                    Text(Products().getProducts().length.toString()),
-                    const SizedBox(
-                      width: 10,
-                    ),
-                    const Icon(Icons.chevron_right),
-                  ],
+              leading: TextButton(style: ButtonStyle(foregroundColor: MaterialStateProperty.all<Color>(Theme.of(context).primaryColor)),
+                onPressed: (){Navigator.of(context).pushNamed(AllProductsSc.route_from_my);},
+                child: SizedBox(
+                  width: 200,
+                  child: Row(
+                    children: [
+                      Text(AppLocalizations.of(context)!.myProducts),
+                      const SizedBox(
+                        width: 10,
+                      ),
+                      Text(Products().getProducts().length.toString()),
+                      const SizedBox(
+                        width: 10,
+                      ),
+                      const Icon(Icons.chevron_right),
+                    ],
+                  ),
                 ),
               ),
             ),
