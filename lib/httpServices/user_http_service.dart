@@ -2,14 +2,12 @@ import 'dart:convert';
 import 'package:http/http.dart' as http;
 import 'package:mini_project/hadi_models/product_model.dart';
 import 'package:mini_project/hadi_models/user_model.dart';
+import 'package:mini_project/httpServices/url.dart';
 
 class UserHttpService {
-  Future<dynamic> registerUser(
-      String name,
-      String email,
-      String password,
+  Future<dynamic> registerUser(String name, String email, String password,
       String passwordConfirmation) async {
-    final url = Uri.parse('http://192.168.1.103:8000/auth/register');
+    final url = Uri.parse('${URL.ipAddress}/auth/register');
 
     try {
       final response = await http.post(
@@ -37,7 +35,7 @@ class UserHttpService {
   }
 
   Future<dynamic> loginUser(String email, String password) async {
-    final url = Uri.parse('http://192.168.1.103:8000/auth/login');
+    final url = Uri.parse('${URL.ipAddress}/auth/login');
 
     try {
       final response = await http.post(
@@ -63,7 +61,7 @@ class UserHttpService {
   }
 
   Future<dynamic> logoutUser(String token) async {
-    final url = Uri.parse('http://192.168.1.103:8000/auth/logout');
+    final url = Uri.parse('${URL.ipAddress}/auth/logout');
 
     try {
       final response = await http.post(
@@ -82,14 +80,9 @@ class UserHttpService {
     }
   }
 
-  Future<dynamic> updateUser(
-      String token,
-      String name,
-      String email,
-      String password,
-      String password_confirmation
-      ) async{
-    final url = Uri.parse('http://192.168.1.103:8000/users/update');
+  Future<dynamic> updateUser(String token, String name, String email,
+      String password, String password_confirmation) async {
+    final url = Uri.parse('${URL.ipAddress}/users/update');
 
     try {
       final response = await http.put(
@@ -110,14 +103,13 @@ class UserHttpService {
       var user = User.fromMap(jsonData['data']);
 
       return user;
-
     } catch (error) {
-      throw(error);
+      throw (error);
     }
   }
 
   Future<dynamic> userFavoritesProducts(String token) async {
-    final url = Uri.parse('http://192.168.1.103:8000/user/likes');
+    final url = Uri.parse('${URL.ipAddress}/user/likes');
 
     try {
       final response = await http.get(
@@ -130,10 +122,10 @@ class UserHttpService {
       );
       var jsonData = jsonDecode(response.body);
       var content = jsonData['data'];
-      var products = content.map((dynamic item) => Product.fromMap(item)).toList();
+      var products =
+          content.map((dynamic item) => Product.fromMap(item)).toList();
 
       return products;
-
     } catch (error) {
       throw (error);
     }

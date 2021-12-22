@@ -2,17 +2,18 @@ import 'dart:convert';
 import 'package:http/http.dart' as http;
 import 'package:mini_project/hadi_models/category_model.dart';
 import 'package:mini_project/hadi_models/product_model.dart';
+import 'package:mini_project/httpServices/url.dart';
 
 class HttpService {
   Future<dynamic> getProducts() async {
-    final url = Uri.parse('http://192.168.1.103:8000/products');
+    final url = Uri.parse('${URL.ipAddress}/products');
 
     try {
       final response = await http.get(url);
       var jsonData = jsonDecode(response.body);
       var content = jsonData['data'];
       var products =
-      content.map((dynamic item) => Product.fromMap(item)).toList();
+          content.map((dynamic item) => Product.fromMap(item)).toList();
 
       return products;
     } catch (error) {
@@ -21,7 +22,7 @@ class HttpService {
   }
 
   Future<dynamic> showProduct(int id) async {
-    final url = Uri.parse('http://192.168.1.103:8000/products/$id');
+    final url = Uri.parse('${URL.ipAddress}/products/$id');
 
     try {
       final response = await http.get(url);
@@ -36,38 +37,39 @@ class HttpService {
     }
   }
 
-  Future<dynamic> getProductCategories(int id) async {
-    final url = Uri.parse('http://192.168.1.103:8000/products/$id/categories');
-
-    try {
-      final response = await http.get(url);
-
-      var jsonData = jsonDecode(response.body);
-      var content = jsonData['data'];
-      var categories = content.map((dynamic item) => Category.fromMap(item)).toList();
-
-      // print(categories);
-      return categories;
-    } catch (error) {
-      throw (error);
-    }
-  }
+  // Future<dynamic> getProductCategories(int id) async {
+  //   final url = Uri.parse('${URL.ipAddress}/products/$id/categories');
+  //
+  //   try {
+  //     final response = await http.get(url);
+  //
+  //     var jsonData = jsonDecode(response.body);
+  //     var content = jsonData['data'];
+  //     var categories =
+  //         content.map((dynamic item) => Category.fromMap(item)).toList();
+  //
+  //     // print(categories);
+  //     return categories;
+  //   } catch (error) {
+  //     throw (error);
+  //   }
+  // }
 
   Future<dynamic> createProduct(
-      Product product,
-      String token,
-      dynamic categories,
-      double discount1,
-      String date1start,
-      String date1end,
-      String discount2,
-      String date2start,
-      String date2end,
-      String discount3,
-      String date3start,
-      String date3end,
-      ) async {
-    final url = Uri.parse('http://192.168.1.103:8000/user/create/product');
+    Product product,
+    String token,
+    dynamic categories,
+    double discount1,
+    String date1start,
+    String date1end,
+    String discount2,
+    String date2start,
+    String date2end,
+    String discount3,
+    String date3start,
+    String date3end,
+  ) async {
+    final url = Uri.parse('${URL.ipAddress}/user/create/product');
 
     try {
       final response = await http.post(
@@ -107,7 +109,7 @@ class HttpService {
   }
 
   Future<dynamic> getUserProducts(String token) async {
-    final url = Uri.parse('http://192.168.1.103:8000/user/products');
+    final url = Uri.parse('${URL.ipAddress}/user/products');
 
     try {
       final response = await http.get(
@@ -116,11 +118,12 @@ class HttpService {
           'Content-Type': 'application/json',
           'Accept': 'application/json',
           'Authorization': 'Bearer $token',
-        },);
+        },
+      );
       var jsonData = jsonDecode(response.body);
       var content = jsonData['data'];
       var products =
-      content.map((dynamic item) => Product.fromMap(item)).toList();
+          content.map((dynamic item) => Product.fromMap(item)).toList();
 
       return products;
     } catch (error) {
@@ -129,22 +132,21 @@ class HttpService {
   }
 
   Future<dynamic> updateProduct(
-      String token,
-      Product updatedProduct,
-      dynamic categories,
-      int id,
-      double discount1,
-      String date1start,
-      String date1end,
-      double discount2,
-      String date2start,
-      String date2end,
-      double discount3,
-      String date3start,
-      String date3end,
-      ) async {
-    final url = Uri.parse(
-        'http://192.168.1.103:8000/user/update/product/${id}');
+    String token,
+    Product updatedProduct,
+    dynamic categories,
+    int id,
+    double discount1,
+    String date1start,
+    String date1end,
+    double discount2,
+    String date2start,
+    String date2end,
+    double discount3,
+    String date3start,
+    String date3end,
+  ) async {
+    final url = Uri.parse('${URL.ipAddress}/user/update/product/${id}');
 
     try {
       final response = await http.put(
@@ -183,7 +185,7 @@ class HttpService {
   }
 
   Future<dynamic> deleteProduct(String token, int id) async {
-    final url = Uri.parse('http://192.168.1.103:8000/user/delete/product/$id');
+    final url = Uri.parse('${URL.ipAddress}/user/delete/product/$id');
 
     try {
       final response = await http.delete(url, headers: {
@@ -203,14 +205,15 @@ class HttpService {
   }
 
   Future<dynamic> getCategories() async {
-    final url = Uri.parse('http://192.168.1.103:8000/categories');
+    final url = Uri.parse('${URL.ipAddress}/categories');
 
     try {
       final response = await http.get(url);
 
       var jsonData = jsonDecode(response.body);
       var content = jsonData['data'];
-      var categories = content.map((dynamic item) => Category.fromMap(item)).toList();
+      var categories =
+          content.map((dynamic item) => Category.fromMap(item)).toList();
 
       return categories;
     } catch (error) {
@@ -218,4 +221,3 @@ class HttpService {
     }
   }
 }
-
