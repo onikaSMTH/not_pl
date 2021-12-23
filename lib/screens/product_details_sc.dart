@@ -138,7 +138,7 @@ class ProductDetails extends StatelessWidget {
     ));
   }
 }
-_launchCaller(int number,BuildContext context) async {
+_launchCaller(int ? number,BuildContext context) async {
   String url = "tel:${number}";
   if (await canLaunch(url)) {
     await launch(url);
@@ -147,7 +147,7 @@ _launchCaller(int number,BuildContext context) async {
   }
 }
 
-launchWhatsApp(int number) async {
+launchWhatsApp(int ? number) async {
   final link = WhatsAppUnilink(
     phoneNumber: number.toString(),
   );

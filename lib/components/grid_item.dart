@@ -8,7 +8,7 @@ class GridItem extends StatelessWidget {
   String title;
   double price;
   String image;
-  int id;
+  int ? id;
   GridItem({required this.price, required this.title, required this.image,required this.id});
 
   @override
