@@ -1,7 +1,7 @@
 import 'dart:convert';
 import 'package:flutter/cupertino.dart';
 import 'package:http/http.dart' as http;
-import 'package:mini_project/hadi_models/category_model.dart';
+import 'package:mini_project/models/category_model.dart';
 import 'package:mini_project/models/product_model.dart';
 import 'package:mini_project/providers/products.dart';
 import 'package:provider/provider.dart';

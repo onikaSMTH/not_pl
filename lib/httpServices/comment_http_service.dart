@@ -1,17 +1,19 @@
 import 'dart:convert';
 import 'package:http/http.dart' as http;
-import 'package:mini_project/hadi_models/comment_model.dart';
+import 'package:mini_project/models/comment_model.dart';
+import 'package:mini_project/httpServices/url.dart';
 
 class CommentHttpService {
   Future<dynamic> getProductComments(int id) async {
-    final url = Uri.parse('http://192.168.1.103:8000/products/$id/comments');
+    final url = Uri.parse('${URL.ipAddress}/products/$id/comments');
 
     try {
       final response = await http.get(url);
 
       var jsonData = jsonDecode(response.body);
       var content = jsonData['data'];
-      var comments = content.map((dynamic item) => Comment.fromMap(item)).toList();
+      var comments =
+          content.map((dynamic item) => Comment.fromMap(item)).toList();
 
       return comments;
     } catch (error) {
@@ -20,7 +22,7 @@ class CommentHttpService {
   }
 
   Future<dynamic> createComment(String token, int id, String content) async {
-    final url = Uri.parse('http://192.168.1.103:8000/products/$id/create/comment');
+    final url = Uri.parse('${URL.ipAddress}/products/$id/create/comment');
 
     try {
       final response = await http.post(
@@ -30,9 +32,7 @@ class CommentHttpService {
           'Accept': 'application/json',
           'Authorization': 'Bearer $token',
         },
-        body: json.encode({
-          "content": content
-        }),
+        body: json.encode({"content": content}),
       );
 
       var jsonData = jsonDecode(response.body);
@@ -41,14 +41,13 @@ class CommentHttpService {
 
       // print(comment);
       return comment;
-
     } catch (error) {
       throw (error);
     }
   }
 
-  Future<dynamic> deleteComment (String token, int id) async {
-    final url = Uri.parse('http://192.168.1.103:8000/products/delete/comments/$id');
+  Future<dynamic> deleteComment(String token, int id) async {
+    final url = Uri.parse('${URL.ipAddress}/products/delete/comments/$id');
 
     try {
       final response = await http.delete(

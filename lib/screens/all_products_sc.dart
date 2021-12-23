@@ -78,7 +78,7 @@ class _AllProductsScState extends State<AllProductsSc> {
 
           body: FutureBuilder(
             future:  HttpService().getProducts(),
-              builder: (BuildContext context, AsyncSnapshot  snapshot) {
+              builder: (BuildContext context, AsyncSnapshot snapshot) {
              if(snapshot.connectionState == ConnectionState.done) {
                print(snapshot.error);
                if(snapshot.hasData){
