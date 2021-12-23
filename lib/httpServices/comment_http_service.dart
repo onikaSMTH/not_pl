@@ -4,7 +4,7 @@ import 'package:mini_project/models/comment_model.dart';
 import 'package:mini_project/httpServices/url.dart';
 
 class CommentHttpService {
-  Future<dynamic> getProductComments(int id) async {
+  Future<dynamic> getProductComments(int ? id) async {
     final url = Uri.parse('${URL.ipAddress}/products/$id/comments');
 
     try {
@@ -21,7 +21,7 @@ class CommentHttpService {
     }
   }
 
-  Future<dynamic> createComment(String token, int id, String content) async {
+  Future<dynamic> createComment(String token, int ? id, String content) async {
     final url = Uri.parse('${URL.ipAddress}/products/$id/create/comment');
 
     try {
@@ -46,7 +46,7 @@ class CommentHttpService {
     }
   }
 
-  Future<dynamic> deleteComment(String token, int id) async {
+  Future<dynamic> deleteComment(String token, int ? id) async {
     final url = Uri.parse('${URL.ipAddress}/products/delete/comments/$id');
 
     try {
