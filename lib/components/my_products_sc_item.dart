@@ -1,19 +1,25 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:mini_project/colors.dart';
-import 'package:mini_project/models/product.dart';
+import 'package:mini_project/models/product_model.dart';
 import 'package:mini_project/providers/products.dart';
+import 'package:mini_project/screens/product_details_sc.dart';
 import 'package:provider/provider.dart';
 class MyPrpductsScItem extends StatelessWidget {
-String productID;
+int productID;
 MyPrpductsScItem(this.productID);
   @override
   Widget build(BuildContext context) {
-    Product product = Provider.of<Products>(context).getProducts().where((element) => element.id==productID).toList()[0];
+    Product product = Provider.of<Products>(context).getProducts().firstWhere((element) => element.id==productID);
     return Container(color: mainColor,
       margin: EdgeInsets.symmetric(vertical: 5,horizontal: 5),
       child: Center(
         child: InkWell(
+          // go to product details page
+          onTap: (){
+            print(1);
+            Navigator.pushNamed(context, ProductDetails.route,arguments: productID);
+          },
 
           child: ListTile(
             leading: Image.asset(product.image),

@@ -20,6 +20,9 @@
   "searchForProducts": "البحث عن المنتجات",
   "logout": "تسجيل الخروج",
   "darkMode": "الوضع المظلم",
+  "manageProducts": "إدارة المنتجات",
+  "addDeleteAndViewProducts": "إضافة ، حذف ، وعرض منتجاتك",
+
 
   "popular":"الرائج" ,
   "categories":"التصنيفات" ,

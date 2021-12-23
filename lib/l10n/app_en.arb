@@ -113,11 +113,20 @@
   "@logout":{
     "description": "The current language"
   }
-
-
-
-
 ,
+
+  "manageProducts": "Manage Products",
+  "@manageProducts":{
+    "description": "The current language"
+  }
+,
+
+  "addDeleteAndViewProducts": "Add , Delete ,And Manage Your Products",
+  "@addDeleteAndViewProducts":{
+    "description": "The current language"
+  }
+,
+
   "popular": "Popular",
   "@popular":{
     "description": "The current language"

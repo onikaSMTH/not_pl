@@ -1,5 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/rendering.dart';
 import 'package:mini_project/colors.dart';
 import '../components/rounded_button.dart';
 import '../components/rounded_input.dart';
@@ -21,9 +22,9 @@ class LoginSignupSc extends StatelessWidget {
     return Container(
       height: MediaQuery.of(context).size.height * 0.7,
       width: double.infinity,
-      decoration: BoxDecoration(
-        color: Theme.of(context).primaryColor,
-        borderRadius: const BorderRadius.only(
+      decoration: const BoxDecoration(
+        color: mainColor,
+        borderRadius: BorderRadius.only(
           bottomLeft: Radius.circular(300),
         ),
       ),
@@ -38,9 +39,9 @@ class LoginSignupSc extends StatelessWidget {
       child: Container(
         margin: EdgeInsets.only(
             left: boxWidth * 0.1, right: boxWidth * 0.05, top: boxHeight * 0.09),
-        decoration: BoxDecoration(
-          color: Theme.of(context).backgroundColor,
-          borderRadius: const BorderRadius.all(
+        decoration: const BoxDecoration(
+          color: backColor,
+          borderRadius: BorderRadius.all(
             Radius.circular(42),
           ),
         ),
@@ -53,13 +54,13 @@ class LoginSignupSc extends StatelessWidget {
             ),
             if (signup)
               RoundedInput(
-                  icon: Icon(
+                  icon: const Icon(
                     Icons.person,
                     color: mainColor,
                   ),
                   hint: AppLocalizations.of(context)!.fullName, isPassword: false,),
             RoundedInput(
-                icon: Icon(
+                icon: const Icon(
                   Icons.email,
                   color: mainColor,
                 ),
@@ -67,7 +68,7 @@ class LoginSignupSc extends StatelessWidget {
 
             RoundedInput(
 
-                icon: Icon(
+                icon: const Icon(
                   Icons.lock,
                   color: mainColor,
                 ),
@@ -76,7 +77,7 @@ class LoginSignupSc extends StatelessWidget {
             //confirm password field
             if (signup)
               RoundedInput(
-                icon: Icon(
+                icon: const Icon(
                   Icons.lock,
                   color: mainColor,
                 ),
@@ -92,8 +93,8 @@ class LoginSignupSc extends StatelessWidget {
                 () {},
                 0.5,
                 0.07,
-                Theme.of(context).backgroundColor,
-                Theme.of(context).primaryColor)
+                backColor,
+                mainColor)
           ],
         ),
       ),
@@ -102,8 +103,9 @@ class LoginSignupSc extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      home: Scaffold(
+    return SafeArea(
+      child: Scaffold(
+        backgroundColor: Colors.white,
         // preventing keyboard from pushing widgets app when it opens
         resizeToAvoidBottomInset: false,
         body: Stack(
@@ -114,7 +116,11 @@ class LoginSignupSc extends StatelessWidget {
             if (!signup) PopupDown(AppLocalizations.of(context)!.dontHaveAnAccountSignUp)
           ],
         ),
-      ),
+      )
     );
+    // routes: {
+    //     LoginSignupSc.signUpRoute:(_)=>LoginSignupSc(signup: true),
+    //     LoginSignupSc.signInRoute:(_)=>LoginSignupSc(signup: false),
+    // },);
   }
 }

@@ -28,7 +28,7 @@ class SideSc extends StatelessWidget {
           text: AppLocalizations.of(context)!.profile,
           subtext: AppLocalizations.of(context)!.editYourInfo),
       //manage products
-      SideScItem(icon: Icon(Icons.settings,color: Theme.of(context).primaryColor,), route: AllProductsSc.route_from_my, text: 'Manage Products' , subtext: 'add,delete and view your products'),
+      SideScItem(icon: Icon(Icons.settings,color: Theme.of(context).primaryColor,), route: AllProductsSc.route_from_my, text: AppLocalizations.of(context)!.manageProducts , subtext: AppLocalizations.of(context)!.addDeleteAndViewProducts),
       //favorites
       SideScItem(
           icon: Icon(Icons.favorite, color: Colors.redAccent),

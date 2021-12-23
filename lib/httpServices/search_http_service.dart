@@ -1,6 +1,6 @@
 import 'dart:convert';
 import 'package:http/http.dart' as http;
-import 'package:mini_project/hadi_models/product_model.dart';
+import 'package:mini_project/models/product_model.dart';
 
 class SearchHttpService {
   Future<dynamic> searchByName (String name) async {

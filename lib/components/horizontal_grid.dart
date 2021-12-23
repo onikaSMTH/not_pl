@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:mini_project/components/grid_item.dart';
-import 'package:mini_project/models/product.dart';
+import 'package:mini_project/models/product_model.dart';
 import 'package:mini_project/screens/profile_sc.dart';
 import '../providers/products.dart';
 import 'package:provider/provider.dart';

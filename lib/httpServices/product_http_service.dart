@@ -1,19 +1,24 @@
 import 'dart:convert';
+import 'package:flutter/cupertino.dart';
 import 'package:http/http.dart' as http;
 import 'package:mini_project/hadi_models/category_model.dart';
-import 'package:mini_project/hadi_models/product_model.dart';
+import 'package:mini_project/models/product_model.dart';
+import 'package:mini_project/providers/products.dart';
+import 'package:provider/provider.dart';
 
 class HttpService {
   Future<dynamic> getProducts() async {
-    final url = Uri.parse('http://192.168.1.103:8000/products');
+    final url = Uri.parse('http://192.168.1.106:8000/products');
 
     try {
       final response = await http.get(url);
+
       var jsonData = jsonDecode(response.body);
       var content = jsonData['data'];
       var products =
       content.map((dynamic item) => Product.fromMap(item)).toList();
-
+      print('hiiiiiiiiiiiiiiiiiiiiiiiiii');
+      print(products);
       return products;
     } catch (error) {
       throw (error);

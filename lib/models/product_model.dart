@@ -3,7 +3,7 @@ import 'dart:convert';
 
 class Product {
 
-  final int ? id;
+  final int id;
   final String name;
   final dynamic image;
   final String expirationDate;
@@ -14,7 +14,7 @@ class Product {
   final int ? views;
 
   Product({
-    this.id,
+    required this.id,
     required this.name,
     required this.image,
     required this.expirationDate,

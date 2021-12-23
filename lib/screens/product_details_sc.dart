@@ -2,12 +2,15 @@ import 'package:community_material_icon/community_material_icon.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:mini_project/colors.dart';
+import 'package:mini_project/components/call_snack_bar.dart';
 import 'package:mini_project/components/product_details_headline_item.dart';
 import 'package:mini_project/components/rounded_button.dart';
 import 'package:mini_project/main.dart';
-import 'package:mini_project/models/product.dart';
+import 'package:mini_project/models/product_model.dart';
 import 'package:mini_project/providers/products.dart';
 import 'package:provider/provider.dart';
+import 'package:url_launcher/url_launcher.dart';
+import 'package:whatsapp_unilink/whatsapp_unilink.dart';
 import '../screens/login_signup_sc.dart';
 
 class ProductDetails extends StatelessWidget {
@@ -15,7 +18,7 @@ class ProductDetails extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    String id = ModalRoute.of(context)!.settings.arguments.toString();
+    int id = ModalRoute.of(context)!.settings.arguments as int;
     Product product = Provider.of<Products>(context)
         .getProducts()
         .firstWhere((element) => element.id == id);
@@ -58,7 +61,7 @@ class ProductDetails extends StatelessWidget {
                           Container(
                               child: DetailesScHeadline(
                                   'Expires After', 'Equation')),
-                          DetailesScHeadline('Description', product.description)
+                          DetailesScHeadline('Description', product.name)
                         ]),
                   ),
                 ),
@@ -105,19 +108,24 @@ class ProductDetails extends StatelessWidget {
                 builder: (BuildContext context) => AlertDialog(
                   backgroundColor: backColor,
                   title: const Text('Contact Info',style: TextStyle(color: mainColor),),
-                  content:  Text('Number : ${product.id} '),
+                  content:  Text('Number : ${product.contactInfo} '),
                   actions: <Widget>[
                     TextButton(
-                      onPressed: () {},
-                      //TODO open in whatsapp
+                      onPressed: () {
+                        launchWhatsApp(product.id);
+                      },
+
                       child: const Icon(CommunityMaterialIcons.whatsapp,color: Colors.green,),
                     ),
                     TextButton(
+                      //TODO open in messenger
                       onPressed: () {},
                       child: const Icon(CommunityMaterialIcons.facebook_messenger,color: Colors.blue,) ,
                     ),
                     TextButton(
-                      onPressed: () {},
+                      onPressed: () {
+                        _launchCaller(product.id, context);
+                      },
                       child: const Icon(CommunityMaterialIcons.phone,color: mainColor,) ,
                     ),
                   ],
@@ -130,7 +138,24 @@ class ProductDetails extends StatelessWidget {
     ));
   }
 }
+_launchCaller(int number,BuildContext context) async {
+  String url = "tel:${number}";
+  if (await canLaunch(url)) {
+    await launch(url);
+  } else {
+    CallSnackBar(context, ' couldn\'t launch number !');
+  }
+}
 
+launchWhatsApp(int number) async {
+  final link = WhatsAppUnilink(
+    phoneNumber: number.toString(),
+  );
+  // Convert the WhatsAppUnilink instance to a string.
+  // Use either Dart's string interpolation or the toString() method.
+  // The "launch" method is part of "url_launcher".
+  await launch(link.toString());
+}
 
 Widget buildBackground1(context) {
   return Align(
