@@ -27,7 +27,6 @@ class UserHttpService {
       var jsonData = jsonDecode(response.body);
       var token = jsonData['data']['token'];
       var user = User.fromMap(jsonData['data']['user']);
-
       return [user, token];
     } catch (error) {
       throw (error);
@@ -53,13 +52,12 @@ class UserHttpService {
       var token = jsonData['data']['token'];
       var user = User.fromMap(jsonData['data']['user']);
 
-      print(token);
       return [user, token];
     } catch (error) {
       throw (error);
     }
   }
-
+//TODO apply it once we dealt with the remeber login package
   Future<dynamic> logoutUser(String token) async {
     final url = Uri.parse('${URL.ipAddress}/auth/logout');
 

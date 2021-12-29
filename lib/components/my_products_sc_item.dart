@@ -22,7 +22,8 @@ MyPrpductsScItem(this.productID);
           },
 
           child: ListTile(
-            leading: Image.asset(product.image),
+            //TODO Implement network image
+            //leading: Image.asset(product.image),
             title: Text(product.name,style: TextStyle(color: backColor),),
             trailing: TextButton(
                 child: Icon(Icons.delete,color: Colors.redAccent,),

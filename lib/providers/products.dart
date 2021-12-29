@@ -92,6 +92,7 @@ class Products extends ChangeNotifier {
 
   void setProducts(List<dynamic> a) {
     listProducts = a;
+    notifyListeners();
   }
 
 

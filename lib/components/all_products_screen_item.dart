@@ -34,7 +34,7 @@ class ProductsScreenItem extends StatelessWidget {
                 Text(product.name,style: TextStyle(color: backColor),),
               ],
             )),
-            Image.asset('assets/test.jpeg',fit: BoxFit.fill,width: MediaQuery.of(context).size.width*0.5,height: MediaQuery.of(context).size.height*0.20,),
+          //  Image.asset('assets/test.jpeg',fit: BoxFit.fill,width: MediaQuery.of(context).size.width*0.5,height: MediaQuery.of(context).size.height*0.20,),
             Container(color:mainColor,
               child: Row(mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                 children: [

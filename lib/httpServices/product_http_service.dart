@@ -1,6 +1,7 @@
 import 'dart:convert';
 import 'package:flutter/cupertino.dart';
 import 'package:http/http.dart' as http;
+import 'package:mini_project/httpServices/url.dart';
 import 'package:mini_project/models/category_model.dart';
 import 'package:mini_project/models/product_model.dart';
 import 'package:mini_project/providers/products.dart';
@@ -8,17 +9,16 @@ import 'package:provider/provider.dart';
 
 class HttpService {
   Future<dynamic> getProducts() async {
-    final url = Uri.parse('http://192.168.1.106:8000/products');
+    final url = Uri.parse('${URL.ipAddress}/products');
 
     try {
-      final response = await http.get(url);
 
+      final response = await http.get(url);
       var jsonData = jsonDecode(response.body);
       var content = jsonData['data'];
       var products =
       content.map((dynamic item) => Product.fromMap(item)).toList();
-      print('hiiiiiiiiiiiiiiiiiiiiiiiiii');
-      print(products);
+ 
       return products;
     } catch (error) {
       throw (error);
@@ -26,7 +26,7 @@ class HttpService {
   }
 
   Future<dynamic> showProduct(int id) async {
-    final url = Uri.parse('http://192.168.1.103:8000/products/$id');
+    final url = Uri.parse('${URL.ipAddress}/products/$id');
 
     try {
       final response = await http.get(url);
@@ -42,7 +42,7 @@ class HttpService {
   }
 
   Future<dynamic> getProductCategories(int id) async {
-    final url = Uri.parse('http://192.168.1.103:8000/products/$id/categories');
+    final url = Uri.parse('${URL.ipAddress}/products/$id/categories');
 
     try {
       final response = await http.get(url);
@@ -72,7 +72,7 @@ class HttpService {
       String date3start,
       String date3end,
       ) async {
-    final url = Uri.parse('http://192.168.1.103:8000/user/create/product');
+    final url = Uri.parse('${URL.ipAddress}/user/create/product');
 
     try {
       final response = await http.post(
@@ -112,7 +112,7 @@ class HttpService {
   }
 
   Future<dynamic> getUserProducts(String token) async {
-    final url = Uri.parse('http://192.168.1.103:8000/user/products');
+    final url = Uri.parse('${URL.ipAddress}/user/products');
 
     try {
       final response = await http.get(
@@ -149,7 +149,7 @@ class HttpService {
       String date3end,
       ) async {
     final url = Uri.parse(
-        'http://192.168.1.103:8000/user/update/product/${id}');
+        '${URL.ipAddress}/user/update/product/${id}');
 
     try {
       final response = await http.put(
@@ -188,7 +188,7 @@ class HttpService {
   }
 
   Future<dynamic> deleteProduct(String token, int id) async {
-    final url = Uri.parse('http://192.168.1.103:8000/user/delete/product/$id');
+    final url = Uri.parse('${URL.ipAddress}/user/delete/product/$id');
 
     try {
       final response = await http.delete(url, headers: {
@@ -208,7 +208,7 @@ class HttpService {
   }
 
   Future<dynamic> getCategories() async {
-    final url = Uri.parse('http://192.168.1.103:8000/categories');
+    final url = Uri.parse('${URL.ipAddress}/categories');
 
     try {
       final response = await http.get(url);

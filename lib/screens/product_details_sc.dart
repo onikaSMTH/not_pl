@@ -42,7 +42,8 @@ class ProductDetails extends StatelessWidget {
               alignment: Alignment.topCenter,
               margin: const EdgeInsets.all(20),
               child: SizedBox(
-                child: Image.asset(product.image),
+
+                child: Image.asset('assets/test.jpeg'),
                 height: 170,
                 width: 300,
               ),
@@ -77,7 +78,7 @@ class ProductDetails extends StatelessWidget {
                         ])),
                 Divider(),
                 Center(child: Text('Comments',style:TextStyle(color: mainColor)),),
-                Divider(height: 150,),
+                Divider(height: 350,),
                 //TODO list view for comments section
               ],
             )
@@ -138,7 +139,7 @@ class ProductDetails extends StatelessWidget {
     ));
   }
 }
-_launchCaller(int number,BuildContext context) async {
+_launchCaller(int ? number,BuildContext context) async {
   String url = "tel:${number}";
   if (await canLaunch(url)) {
     await launch(url);
@@ -147,7 +148,7 @@ _launchCaller(int number,BuildContext context) async {
   }
 }
 
-launchWhatsApp(int number) async {
+launchWhatsApp(int ? number) async {
   final link = WhatsAppUnilink(
     phoneNumber: number.toString(),
   );

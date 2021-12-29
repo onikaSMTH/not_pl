@@ -6,12 +6,14 @@ class SideScItem extends StatelessWidget {
   String text;
   String subtext;
   String route;
-
+  Function function;
   SideScItem(
       {required this.icon,
       required this.route,
       required this.text,
-      required this.subtext});
+      required this.subtext,
+        required this.function
+      } );
 
   @override
   Widget build(BuildContext context) {
@@ -19,6 +21,8 @@ class SideScItem extends StatelessWidget {
       alignment: Alignment.center,
       child: ListTile(
         onTap: () {
+          function();
+          if(!route.isEmpty)
           Navigator.of(context).pushNamed(route);
         },
         leading: icon,

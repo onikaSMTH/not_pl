@@ -5,8 +5,9 @@ class RoundedInput extends StatefulWidget {
   Icon icon;
   String hint;
 bool isPassword;
-bool hidePassword=true;
-  RoundedInput({required this.icon, required this.hint,required this.isPassword});
+bool hidePassword=false;
+TextEditingController controller ;
+  RoundedInput({required this.icon, required this.hint,required this.isPassword,required this.controller});
 
   @override
   State<RoundedInput> createState() => _RoundedInputState();
@@ -20,6 +21,7 @@ class _RoundedInputState extends State<RoundedInput> {
   }
   @override
   Widget build(BuildContext context) {
+
     return Container(
       alignment: Alignment.center,
       margin: const EdgeInsets.symmetric(vertical: 5, horizontal: 15),
@@ -29,6 +31,7 @@ class _RoundedInputState extends State<RoundedInput> {
         borderRadius: BorderRadius.circular(20),
       ),
       child: TextField(
+controller: widget.controller,
         keyboardType: TextInputType.emailAddress,
         obscureText: widget.hidePassword,
         cursorColor: cursorColor,

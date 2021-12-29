@@ -5,7 +5,7 @@ import 'package:mini_project/models/category_model.dart';
 
 class Product {
 
-  final int id;
+  final int ?  id;
   final String name;
   final dynamic image;
   final String expirationDate;
@@ -14,10 +14,10 @@ class Product {
   final double price;
   final int ? userId;
   final int ? views;
-  final List<Category> ? categories;
+  //final List<Category> ? categories;
 
   Product({
-    required this.id,
+    this.id,
     required this.name,
     required this.image,
     required this.expirationDate,
@@ -26,7 +26,7 @@ class Product {
     required this.price,
     this.userId,
     this.views,
-    this.categories,
+    //this.categories,
   });
 
   Product copyWith({
@@ -39,7 +39,7 @@ class Product {
     double? price,
     int? userId,
     int? views,
-    List<Category>? categories,
+    //List<Category>? categories,
   }) {
     return Product(
       id: id ?? this.id,
@@ -51,7 +51,7 @@ class Product {
       price: price ?? this.price,
       userId: userId ?? this.userId,
       views: views ?? this.views,
-      categories: categories ?? this.categories,
+      //categories: categories ?? this.categories,
     );
   }
 
@@ -80,7 +80,7 @@ class Product {
       price: map['price']?.toDouble() ?? 0.0,
       userId: map['user_id']?.toInt() ?? 0,
       views: map['views']?.toInt() ?? 0,
-      categories: List<Category>.from(map['categories']?.map((x) => Category.fromMap(x))),
+      //categories: List<Category>.from(map['categories']?.map((x) => Category.fromMap(x))),
     );
   }
 

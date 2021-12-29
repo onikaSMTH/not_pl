@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:material_floating_search_bar/material_floating_search_bar.dart';
-import 'package:mini_project/colors.dart';
-import 'package:mini_project/components/floating_search_bar.dart';
-import 'package:mini_project/components/home_search_button.dart';
 import 'package:mini_project/components/vertical_grid.dart';
+import 'package:mini_project/httpServices/product_http_service.dart';
+import 'package:mini_project/models/category_model.dart';
+import 'package:mini_project/models/product_model.dart';
+import 'package:mini_project/providers/categories_provider.dart';
 import 'package:mini_project/providers/products.dart';
 import 'package:mini_project/screens/all_products_sc.dart';
 import 'package:provider/provider.dart';
@@ -11,8 +11,28 @@ import '../components/horizontal_grid.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 //default page connected to the nav tab "home"
-class HomeSc extends StatelessWidget {
+class HomeSc extends StatefulWidget {
+  List<Product> products = [];
+  List<Category> categories=[];
 
+  @override
+  State<HomeSc> createState() => _HomeScState();
+}
+
+class _HomeScState extends State<HomeSc> {
+  @override
+  void initState() {
+    Future.delayed(Duration.zero).then((_) {
+      HttpService().getProducts().then((value) {
+        print(value);
+        Provider.of<Products>(context,listen: false).setProducts(value);
+      });
+      HttpService().getCategories().then((value) {
+        Provider.of<Categories>(context,listen: false).setCategories(value);
+      });
+    });
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -26,7 +46,10 @@ class HomeSc extends StatelessWidget {
             ListTile(
               leading: Text(
                 AppLocalizations.of(context)!.popular,
-                style: TextStyle(color:Theme.of(context).primaryColor,fontWeight: FontWeight.bold, fontSize: 20),
+                style: TextStyle(
+                    color: Theme.of(context).primaryColor,
+                    fontWeight: FontWeight.bold,
+                    fontSize: 20),
               ),
               trailing: TextButton(
                 onPressed: () {},
@@ -36,11 +59,14 @@ class HomeSc extends StatelessWidget {
                 ),
               ),
             ),
-            HorizontalGrid(),
+            HorizontalGrid(isPopular: true,),
             ListTile(
                 leading: Text(
                   AppLocalizations.of(context)!.categories,
-                  style: TextStyle(color:Theme.of(context).primaryColor,fontWeight: FontWeight.bold, fontSize: 20),
+                  style: TextStyle(
+                      color: Theme.of(context).primaryColor,
+                      fontWeight: FontWeight.bold,
+                      fontSize: 20),
                 ),
                 trailing: TextButton(
                   onPressed: () {},
@@ -49,15 +75,18 @@ class HomeSc extends StatelessWidget {
                     style: TextStyle(color: Theme.of(context).primaryColor),
                   ),
                 )),
-            HorizontalGrid(),
+            HorizontalGrid(isCategory: true,),
             ListTile(
-              onTap: (){
-                Navigator.of(context).pushNamed(AllProductsSc.route_from_all);
-              },
+                onTap: () {
+                  Navigator.of(context).pushNamed(AllProductsSc.route_from_all);
+                },
                 leading: Text(
-              AppLocalizations.of(context)!.allProducts,
-              style: TextStyle(color:Theme.of(context).primaryColor,fontWeight: FontWeight.bold, fontSize: 20),
-            )),
+                  AppLocalizations.of(context)!.allProducts,
+                  style: TextStyle(
+                      color: Theme.of(context).primaryColor,
+                      fontWeight: FontWeight.bold,
+                      fontSize: 20),
+                )),
             VerticalGrid(),
           ],
         ),
