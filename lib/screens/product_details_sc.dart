@@ -48,39 +48,41 @@ class ProductDetails extends StatelessWidget {
                 width: 300,
               ),
             ),
-            ListView(
-              children: [
-                //first row
-                Container(
-                  margin: EdgeInsets.only(
-                      top: MediaQuery.of(context).size.height * 0.50),
-                  child: Container(
-                    margin: const EdgeInsets.symmetric(horizontal: 8.0),
-                    child: Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceAround,
-                        children: [
-                          Container(
-                              child: DetailesScHeadline(
-                                  'Expires After', 'Equation')),
-                          DetailesScHeadline('Description', product.name)
-                        ]),
+            Container(
+              margin:  EdgeInsets.only(top: MediaQuery.of(context).size.height*0.35),
+              child: ListView(
+                children: [
+                  //first row
+                  Container(
+                    margin: EdgeInsets.only(
+                        top: MediaQuery.of(context).size.height * 0.1),
+                    child: Container(
+                      margin: const EdgeInsets.symmetric(horizontal: 8.0),
+                      child: Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceAround,
+                          children: [
+                            DetailesScHeadline(
+                                'Expires After', 'Equation'),
+                            DetailesScHeadline('Description', product.name)
+                          ]),
+                    ),
                   ),
-                ),
-                //second row
-                Container(
-                    margin: EdgeInsets.only(top: 15),
-                    child: Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceAround,
-                        children: [
-                          DetailesScHeadline(
-                              'Available Quantity', product.quantity.toString()),
-                          DetailesScHeadline('Categories', "categories")
-                        ])),
-                Divider(),
-                Center(child: Text('Comments',style:TextStyle(color: mainColor)),),
-                Divider(height: 350,),
-                //TODO list view for comments section
-              ],
+                  //second row
+                  Container(
+                      margin: EdgeInsets.only(top: 15),
+                      child: Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceAround,
+                          children: [
+                            DetailesScHeadline(
+                                'Available Quantity', product.quantity.toString()),
+                            DetailesScHeadline('Categories', "categories")
+                          ])),
+                  Divider(),
+                  Center(child: Text('Comments',style:TextStyle(color: mainColor)),),
+                  Divider(height: 350,),
+                  //TODO list view for comments section
+                ],
+              ),
             )
           ],
         ),

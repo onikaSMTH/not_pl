@@ -119,7 +119,9 @@ class LoginSignupSc extends StatelessWidget {
                     ? AppLocalizations.of(context)!.signup
                     : AppLocalizations.of(context)!.login,
                 signup
-                    ? _registerUser
+                    ? () {
+                        _registerUser(context);
+                      }
                     : () {
                         _loginUser(context);
                       },
@@ -156,12 +158,17 @@ class LoginSignupSc extends StatelessWidget {
     // },);
   }
 
-  _registerUser() {
+  _registerUser(BuildContext context) {
     UserHttpService()
         .registerUser(fullnameController.text, emailController.text,
             passwordController.text, confirmPasswordController.text)
         .then((value) {
       // print(value[1]);
+      // no need to sign in again
+
+      _loginUser(context);
+      Navigator.of(context).popUntil((route) => route == Nav.route);
+      Navigator.of(context).pushNamed(Nav.route);
     });
   }
 
@@ -172,7 +179,7 @@ class LoginSignupSc extends StatelessWidget {
       Provider.of<CurrentUserToken>(context, listen: false).setToken(value[1]);
       Provider.of<CurrentUserToken>(context, listen: false).setUser(value[0]);
       Provider.of<CurrentUserToken>(context, listen: false).userLogedIn();
-      Navigator.of(context).popUntil((route) => route ==Nav.route);
+      Navigator.of(context).popUntil((route) => route == Nav.route);
       Navigator.of(context).pushNamed(Nav.route);
     });
   }

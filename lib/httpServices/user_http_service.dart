@@ -54,7 +54,7 @@ class UserHttpService {
 
       return [user, token];
     } catch (error) {
-      throw (error);
+    throw (error);
     }
   }
 //TODO apply it once we dealt with the remeber login package
