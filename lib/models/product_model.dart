@@ -5,7 +5,11 @@ import 'package:mini_project/models/category_model.dart';
 
 class Product {
 
+<<<<<<< HEAD
   final int ?  id;
+=======
+  final int ? id;
+>>>>>>> 588e2e95b041cb4c82808fa042ef5b244f73d9fa
   final String name;
   final dynamic image;
   final String expirationDate;

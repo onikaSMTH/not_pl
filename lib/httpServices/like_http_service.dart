@@ -2,7 +2,7 @@ import 'package:http/http.dart' as http;
 import 'package:mini_project/httpServices/url.dart';
 
 class LikeHttpService {
-  Future<dynamic> addLike(String token, int id) async {
+  Future<dynamic> addLike(String token, int ? id) async {
     final url = Uri.parse('${URL.ipAddress}/products/$id/like');
 
     try {
@@ -22,7 +22,7 @@ class LikeHttpService {
     }
   }
 
-  Future<dynamic> removeLike(String token, int id) async {
+  Future<dynamic> removeLike(String token, int ? id) async {
     final url = Uri.parse('${URL.ipAddress}/products/$id/deleteLike');
 
     try {
