@@ -158,22 +158,22 @@ class LoginSignupSc extends StatelessWidget {
     // },);
   }
 
-  _registerUser(BuildContext context) {
-    UserHttpService()
+  _registerUser(BuildContext context) async {
+    await UserHttpService()
         .registerUser(fullnameController.text, emailController.text,
             passwordController.text, confirmPasswordController.text)
-        .then((value) {
+        .then((value) async {
       // print(value[1]);
       // no need to sign in again
 
-      _loginUser(context);
+     await  _loginUser(context);
       Navigator.of(context).popUntil((route) => route == Nav.route);
       Navigator.of(context).pushNamed(Nav.route);
     });
   }
 
-  _loginUser(BuildContext context) {
-    UserHttpService()
+  _loginUser(BuildContext context) async {
+   await UserHttpService()
         .loginUser(emailController.text, passwordController.text)
         .then((value) {
       Provider.of<CurrentUserToken>(context, listen: false).setToken(value[1]);

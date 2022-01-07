@@ -15,7 +15,7 @@ class LikeHttpService {
         },
       );
 
-      print(response.body);
+      
       return (response.body);
     } catch (error) {
       throw (error);

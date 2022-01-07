@@ -6,8 +6,11 @@ import 'package:material_floating_search_bar/material_floating_search_bar.dart';
 import 'package:mini_project/components/floating_search_bar.dart';
 import 'package:mini_project/l10n/l10n.dart';
 import 'package:mini_project/providers/categories_provider.dart';
+import 'package:mini_project/providers/favorited_products.dart';
 import 'package:mini_project/providers/local_language_provider.dart';
 import 'package:mini_project/providers/products.dart';
+import 'package:mini_project/providers/searched_products.dart';
+import 'package:mini_project/providers/single_product.dart';
 import 'package:mini_project/providers/themes.dart';
 import 'package:mini_project/providers/token_provider.dart';
 import 'package:mini_project/screens/add_product_sc.dart';
@@ -56,6 +59,15 @@ class HomePage extends StatelessWidget {
               return CurrentUserToken();
             },
           ),
+          ChangeNotifierProvider(create: (BuildContext context) {
+            return Searched();
+          }),
+           ChangeNotifierProvider(create: (BuildContext context) {
+            return SingleProduct();
+          }),
+           ChangeNotifierProvider(create: (BuildContext context) {
+            return FavoritedProducts();
+          }),
         ],
         builder: (context, _) {
           return MaterialApp(
@@ -98,6 +110,7 @@ class HomePage extends StatelessWidget {
                     appBarTitle: 'All Products',
                     isAll: true,
                   ),
+                  AllProductsSc.route_from_search:(_)=>AllProductsSc(appBarTitle: 'Search Result',isSearch: true,),
               SearchSc.route: (_) => SearchSc(),
               AddProductSc.route: (_) => AddProductSc(),
               Nav.route: (_) => Nav(),

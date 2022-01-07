@@ -5,9 +5,14 @@ import 'package:mini_project/colors.dart';
 import 'package:mini_project/components/call_snack_bar.dart';
 import 'package:mini_project/components/product_details_headline_item.dart';
 import 'package:mini_project/components/rounded_button.dart';
+import 'package:mini_project/httpServices/like_http_service.dart';
+import 'package:mini_project/httpServices/product_http_service.dart';
+import 'package:mini_project/httpServices/user_http_service.dart';
 import 'package:mini_project/main.dart';
 import 'package:mini_project/models/product_model.dart';
 import 'package:mini_project/providers/products.dart';
+import 'package:mini_project/providers/single_product.dart';
+import 'package:mini_project/providers/token_provider.dart';
 import 'package:provider/provider.dart';
 import 'package:url_launcher/url_launcher.dart';
 import 'package:whatsapp_unilink/whatsapp_unilink.dart';
@@ -15,25 +20,24 @@ import '../screens/login_signup_sc.dart';
 
 class ProductDetails extends StatelessWidget {
   static const route = 'product-details';
-
+  bool isFav = false;
   @override
   Widget build(BuildContext context) {
-    int id = ModalRoute.of(context)!.settings.arguments as int;
-    Product product = Provider.of<Products>(context)
-        .getProducts()
-        .firstWhere((element) => element.id == id);
+    // int id = ModalRoute.of(context)!.settings.arguments as int;
+    Product product = Provider.of<SingleProduct>(context).getProduct();
+    isFav = Provider.of<SingleProduct>(context).getIsFav();
     return Scaffold(
-      appBar: AppBar(
-        actions: [Icon(Icons.more_vert)],
-        centerTitle: true,
-        backgroundColor: backColor,
-        iconTheme: const IconThemeData(color: mainColor),
-        title: Text(
-          product.name,
-          style: TextStyle(color: mainColor),
+        appBar: AppBar(
+          actions: [Icon(Icons.more_vert)],
+          centerTitle: true,
+          backgroundColor: backColor,
+          iconTheme: const IconThemeData(color: mainColor),
+          title: Text(
+            product.name,
+            style: TextStyle(color: mainColor),
+          ),
         ),
-      ),
-      body:  Stack(
+        body: Stack(
           children: [
             buildBackground(context),
             buildBackground1(context),
@@ -42,14 +46,14 @@ class ProductDetails extends StatelessWidget {
               alignment: Alignment.topCenter,
               margin: const EdgeInsets.all(20),
               child: SizedBox(
-
                 child: Image.asset('assets/test.jpeg'),
                 height: 170,
                 width: 300,
               ),
             ),
             Container(
-              margin:  EdgeInsets.only(top: MediaQuery.of(context).size.height*0.35),
+              margin: EdgeInsets.only(
+                  top: MediaQuery.of(context).size.height * 0.35),
               child: ListView(
                 children: [
                   //first row
@@ -61,8 +65,7 @@ class ProductDetails extends StatelessWidget {
                       child: Row(
                           mainAxisAlignment: MainAxisAlignment.spaceAround,
                           children: [
-                            DetailesScHeadline(
-                                'Expires After', 'Equation'),
+                            DetailesScHeadline('Expires After', 'Equation'),
                             DetailesScHeadline('Description', product.name)
                           ]),
                     ),
@@ -73,13 +76,17 @@ class ProductDetails extends StatelessWidget {
                       child: Row(
                           mainAxisAlignment: MainAxisAlignment.spaceAround,
                           children: [
-                            DetailesScHeadline(
-                                'Available Quantity', product.quantity.toString()),
+                            DetailesScHeadline('Available Quantity',
+                                product.quantity.toString()),
                             DetailesScHeadline('Categories', "categories")
                           ])),
                   Divider(),
-                  Center(child: Text('Comments',style:TextStyle(color: mainColor)),),
-                  Divider(height: 350,),
+                  Center(
+                    child: Text('Comments', style: TextStyle(color: mainColor)),
+                  ),
+                  Divider(
+                    height: 350,
+                  ),
                   //TODO list view for comments section
                 ],
               ),
@@ -87,61 +94,81 @@ class ProductDetails extends StatelessWidget {
           ],
         ),
 
-      //bottom
-      bottomSheet: Container(
-        height: MediaQuery.of(context).size.height * 0.08,
-        color: backColor,
-        child: Row(
-          mainAxisAlignment: MainAxisAlignment.spaceAround,
-          children: [
-            Row(children: [
-              Icon(
-                Icons.attach_money,
-                size: 15,
-              ),
-              Text(
-                product.price.toString(),
-                style: TextStyle(fontSize: 20),
-              ),
-            ]),
-            RoundedButton(
-                'Contact The Seller', () {
-              showDialog<String>(
-                context: context,
-                builder: (BuildContext context) => AlertDialog(
-                  backgroundColor: backColor,
-                  title: const Text('Contact Info',style: TextStyle(color: mainColor),),
-                  content:  Text('Number : ${product.contactInfo} '),
-                  actions: <Widget>[
-                    TextButton(
-                      onPressed: () {
-                        launchWhatsApp(product.id);
-                      },
-
-                      child: const Icon(CommunityMaterialIcons.whatsapp,color: Colors.green,),
-                    ),
-                    TextButton(
-                      //TODO open in messenger
-                      onPressed: () {},
-                      child: const Icon(CommunityMaterialIcons.facebook_messenger,color: Colors.blue,) ,
-                    ),
-                    TextButton(
-                      onPressed: () {
-                        _launchCaller(product.id, context);
-                      },
-                      child: const Icon(CommunityMaterialIcons.phone,color: mainColor,) ,
-                    ),
-                  ],
+        //bottom
+        bottomSheet: Container(
+          height: MediaQuery.of(context).size.height * 0.08,
+          color: backColor,
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.spaceAround,
+            children: [
+              Row(children: [
+                Icon(
+                  Icons.attach_money,
+                  size: 15,
                 ),
-              );
-            }, 0.5, 0.07, backColor, mainColor)
-          ],
-        ),
-
-    ));
+                Text(
+                  product.price.toString(),
+                  style: TextStyle(fontSize: 20),
+                ),
+              ]),
+              RoundedButton('Contact The Seller', () {
+                showDialog<String>(
+                  context: context,
+                  builder: (BuildContext context) => AlertDialog(
+                    backgroundColor: backColor,
+                    title: const Text(
+                      'Contact Info',
+                      style: TextStyle(color: mainColor),
+                    ),
+                    content: Text('Number : ${product.contactInfo} '),
+                    actions: <Widget>[
+                      TextButton(
+                        onPressed: () {
+                          launchWhatsApp(product.id);
+                        },
+                        child: const Icon(
+                          CommunityMaterialIcons.whatsapp,
+                          color: Colors.green,
+                        ),
+                      ),
+                      TextButton(
+                        //TODO open in messenger
+                        onPressed: () {},
+                        child: const Icon(
+                          CommunityMaterialIcons.facebook_messenger,
+                          color: Colors.blue,
+                        ),
+                      ),
+                      TextButton(
+                        onPressed: () {
+                          _launchCaller(product.id, context);
+                        },
+                        child: const Icon(
+                          CommunityMaterialIcons.phone,
+                          color: mainColor,
+                        ),
+                      ),
+                    ],
+                  ),
+                );
+              }, 0.5, 0.07, backColor, mainColor),
+              Container(
+                  child: Provider.of<CurrentUserToken>(context).isUserLogedIn()
+                      ? GestureDetector(
+                          onTap: () {
+                            _likeTheProduct(context, product.id);
+                          },
+                          child: isFav
+                              ? Icon(Icons.favorite,color:Colors.redAccent)
+                              : Icon(Icons.favorite_border))
+                      : null)
+            ],
+          ),
+        ));
   }
 }
-_launchCaller(int ? number,BuildContext context) async {
+
+_launchCaller(int? number, BuildContext context) async {
   String url = "tel:${number}";
   if (await canLaunch(url)) {
     await launch(url);
@@ -150,7 +177,7 @@ _launchCaller(int ? number,BuildContext context) async {
   }
 }
 
-launchWhatsApp(int ? number) async {
+launchWhatsApp(int? number) async {
   final link = WhatsAppUnilink(
     phoneNumber: number.toString(),
   );
@@ -177,6 +204,15 @@ Widget buildBackground1(context) {
       ),
     ),
   );
+}
+
+_likeTheProduct(BuildContext context, int? prodcutID) async {
+  await LikeHttpService()
+      .addLike(Provider.of<CurrentUserToken>(context, listen: false).getToken(),
+          prodcutID)
+      .then((_) {
+    Provider.of<SingleProduct>(context,listen: false).setIsFav(true);
+  });
 }
 
 Widget buildBackground(context) {

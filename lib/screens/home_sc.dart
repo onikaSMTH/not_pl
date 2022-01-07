@@ -24,7 +24,7 @@ class _HomeScState extends State<HomeSc> {
   void initState() {
     Future.delayed(Duration.zero).then((_) {
       HttpService().getProducts().then((value) {
-        print(value);
+        
         Provider.of<Products>(context,listen: false).setProducts(value);
       });
       HttpService().getCategories().then((value) {

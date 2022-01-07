@@ -120,8 +120,8 @@ class UserHttpService {
       );
       var jsonData = jsonDecode(response.body);
       var content = jsonData['data'];
-      var products =
-          content.map((dynamic item) => Product.fromMap(item)).toList();
+      
+      var products =content.map((dynamic item) => Product.fromMap(item)).toList();
 
       return products;
     } catch (error) {

@@ -5,6 +5,7 @@ import 'package:mini_project/components/side_screen_languages_item.dart';
 import 'package:mini_project/components/side_screen_theme_mode_item.dart';
 import 'package:mini_project/components/sidesc_item.dart';
 import 'package:mini_project/httpServices/user_http_service.dart';
+import 'package:mini_project/providers/favorited_products.dart';
 import 'package:mini_project/providers/token_provider.dart';
 import 'package:mini_project/screens/all_products_sc.dart';
 import 'package:mini_project/screens/navigation_main_sc.dart';
@@ -43,7 +44,9 @@ class SideSc extends StatelessWidget {
           subtext: AppLocalizations.of(context)!.addDeleteAndViewProducts),
       //favorites
       SideScItem(
-          function: () {},
+          function: () {
+            _updateFavoritedProducts(context);
+          },
           icon: Icon(Icons.favorite, color: Colors.redAccent),
           route: AllProductsSc.route_from_fav,
           text: AppLocalizations.of(context)!.favorite,
@@ -76,15 +79,19 @@ class SideSc extends StatelessWidget {
       //TODO only show if user have loged in
       //logout
       Container(
-        child: Provider.of<CurrentUserToken>(context).isUserLogedIn()?SideScItem(
-            function: (){_logout(context);},
-            icon: Icon(
-              Icons.logout,
-              color: Theme.of(context).primaryColor,
-            ),
-            route: '',
-            text: AppLocalizations.of(context)!.logout,
-            subtext: ''):null,
+        child: Provider.of<CurrentUserToken>(context).isUserLogedIn()
+            ? SideScItem(
+                function: () {
+                  _logout(context);
+                },
+                icon: Icon(
+                  Icons.logout,
+                  color: Theme.of(context).primaryColor,
+                ),
+                route: '',
+                text: AppLocalizations.of(context)!.logout,
+                subtext: '')
+            : null,
       ),
     ];
     return Container(
@@ -99,9 +106,21 @@ class SideSc extends StatelessWidget {
     );
   }
 
-  _logout(BuildContext context){
-    UserHttpService().logoutUser(Provider.of<CurrentUserToken>(context,listen: false).getToken());
-    Provider.of<CurrentUserToken>(context,listen: false).userLogedOut();
-    print(Provider.of<CurrentUserToken>(context,listen: false).isUserLogedIn());
+  _logout(BuildContext context) {
+    UserHttpService().logoutUser(
+        Provider.of<CurrentUserToken>(context, listen: false).getToken());
+    Provider.of<CurrentUserToken>(context, listen: false).userLogedOut();
+    print(
+        Provider.of<CurrentUserToken>(context, listen: false).isUserLogedIn());
+  }
+
+  _updateFavoritedProducts(BuildContext context) async {
+     await UserHttpService()
+        .userFavoritesProducts(
+            Provider.of<CurrentUserToken>(context, listen: false).getToken())
+        .then((favoritedProductrs) {
+      Provider.of<FavoritedProducts>(context, listen: false)
+          .setProducts(favoritedProductrs);
+    });
   }
 }

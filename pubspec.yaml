@@ -46,6 +46,7 @@ dependencies:
   flutter_spinbox: ^0.8.0
   whatsapp_unilink: ^2.0.0
   url_launcher: ^6.0.17
+  multi_select_flutter: ^4.0.0
  # flutter_xlider: ^3.4.0
 
 dev_dependencies:

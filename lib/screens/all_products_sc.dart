@@ -1,8 +1,12 @@
 import 'package:flutter/material.dart';
+import 'package:mini_project/colors.dart';
 import 'package:mini_project/components/all_products_screen_item.dart';
 import 'package:mini_project/components/my_products_sc_item.dart';
 import 'package:mini_project/httpServices/product_http_service.dart';
+import 'package:mini_project/httpServices/sort_http_service.dart';
+import 'package:mini_project/providers/favorited_products.dart';
 import 'package:mini_project/providers/products.dart';
+import 'package:mini_project/providers/searched_products.dart';
 import 'package:mini_project/screens/add_product_sc.dart';
 import 'package:mini_project/screens/product_details_sc.dart';
 import 'package:provider/provider.dart';
@@ -17,16 +21,19 @@ class AllProductsSc extends StatefulWidget {
   //used when all products is accessed from all products tab on side screen
   static const route_from_all = 'all-products-screen-aa';
   static const route_from_my = 'my-products-screen-aa';
+  static const route_from_search = 'search-products';
   String appBarTitle;
   bool isFav = false;
   bool isAll = false;
   bool isMy = false;
+  bool isSearch = false;
 
   AllProductsSc(
       {this.appBarTitle = "",
       this.isAll = false,
       this.isFav = false,
-      this.isMy = false});
+      this.isMy = false,
+      this.isSearch = false});
 
   @override
   State<AllProductsSc> createState() => _AllProductsScState();
@@ -35,7 +42,11 @@ class AllProductsSc extends StatefulWidget {
 class _AllProductsScState extends State<AllProductsSc> {
   @override
   Widget build(BuildContext context) {
-    List<dynamic> products = Provider.of<Products>(context).getProducts();
+    List<dynamic> products = widget.isSearch
+        ? Provider.of<Searched>(context).getSearchedProducts()
+        : widget.isFav
+            ? Provider.of<FavoritedProducts>(context).getProducts()
+            : Provider.of<Products>(context).getProducts();
     return MaterialApp(
         home: Scaffold(
           backgroundColor: Theme.of(context).backgroundColor,
@@ -55,8 +66,8 @@ class _AllProductsScState extends State<AllProductsSc> {
                 color: Theme.of(context).primaryColor,
               ),
             ),
-            actions: widget.isMy
-                ? [
+            actions: widget.isMy?
+                 ([
                     InkWell(
                         child: const Padding(
                           padding: EdgeInsets.all(8.0),
@@ -65,8 +76,25 @@ class _AllProductsScState extends State<AllProductsSc> {
                         onTap: () {
                           Navigator.of(context).pushNamed(AddProductSc.route);
                         })
-                  ]
-                : null,
+                  ])
+                : [
+                    //list if widget in appbar actions
+                    PopupMenuButton(
+                      icon: Icon(Icons
+                          .sort), //don't specify icon if you want 3 dot menu
+                      color: mainColor,
+                      itemBuilder: (context) => [
+                        PopupMenuItem<int>(
+                          value: 0,
+                          child: Text(
+                            "views",
+                            style: TextStyle(color: Colors.white),
+                          ),
+                        ),
+                      ],
+                      onSelected: (itemNum){_sort();},
+                    ),
+                  ],
           ),
           body: GridView.builder(
             itemCount: products.length,
@@ -94,4 +122,11 @@ class _AllProductsScState extends State<AllProductsSc> {
           }
         });
   }
+
+  _sort() async {
+     await SortHttpService().sortAsc('views').then((value) {
+      Provider.of<Products>(context,listen: false).setProducts(value);
+    });
+  }
 }
+//Widget _showDropDownSortList() {}

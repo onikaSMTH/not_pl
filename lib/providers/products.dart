@@ -94,6 +94,4 @@ class Products extends ChangeNotifier {
     listProducts = a;
     notifyListeners();
   }
-
-
 }

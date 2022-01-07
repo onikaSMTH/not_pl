@@ -18,21 +18,13 @@ class HttpService {
       var content = jsonData['data'];
       var products =
       content.map((dynamic item) => Product.fromMap(item)).toList();
-<<<<<<< HEAD
- 
-=======
->>>>>>> 588e2e95b041cb4c82808fa042ef5b244f73d9fa
       return products;
     } catch (error) {
       throw (error);
     }
   }
 
-<<<<<<< HEAD
-  Future<dynamic> showProduct(int id) async {
-=======
   Future<dynamic> showProduct(int ? id) async {
->>>>>>> 588e2e95b041cb4c82808fa042ef5b244f73d9fa
     final url = Uri.parse('${URL.ipAddress}/products/$id');
 
     try {
@@ -48,11 +40,7 @@ class HttpService {
     }
   }
 
-<<<<<<< HEAD
-  Future<dynamic> getProductCategories(int id) async {
-=======
   Future<dynamic> getProductCategories(int ? id) async {
->>>>>>> 588e2e95b041cb4c82808fa042ef5b244f73d9fa
     final url = Uri.parse('${URL.ipAddress}/products/$id/categories');
 
     try {
@@ -198,11 +186,7 @@ class HttpService {
     }
   }
 
-<<<<<<< HEAD
-  Future<dynamic> deleteProduct(String token, int id) async {
-=======
   Future<dynamic> deleteProduct(String token, int ? id) async {
->>>>>>> 588e2e95b041cb4c82808fa042ef5b244f73d9fa
     final url = Uri.parse('${URL.ipAddress}/user/delete/product/$id');
 
     try {
