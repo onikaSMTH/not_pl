@@ -1,3 +1,5 @@
+import 'dart:math';
+
 import 'package:flutter/material.dart';
 import 'package:mini_project/httpServices/comment_http_service.dart';
 import 'package:mini_project/httpServices/product_http_service.dart';
@@ -11,7 +13,7 @@ class SingleProduct extends ChangeNotifier {
       name: '',
       contactInfo: '',
       expirationDate: '',
-      image: null,
+      image: "http://192.168.92.130:8000/storage/"+"product_${Random().nextInt(3)+1}.jpg",
       price: 0,
       quantity: 0);
 

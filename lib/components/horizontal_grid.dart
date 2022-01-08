@@ -27,12 +27,12 @@ class HorizontalGrid extends StatelessWidget {
         itemBuilder: (BuildContext context, int index) {
           return Container(
             margin: EdgeInsets.only(right: 8),
-            child: isPopular?GridItem(
+            child: isPopular?GridItem(ispopular: true,
               id: products[index].id,
               price: products[index].price,
               title: products[index].name,
               image: products[index].image,
-            ):CategoriesGridItem(),
+            ):CategoriesGridItem( name: products[index].name.toString(),),
           );
         },
         gridDelegate: const SliverGridDelegateWithMaxCrossAxisExtent(

@@ -23,34 +23,40 @@ class SideSc extends StatelessWidget {
   Widget build(BuildContext context) {
     List<Widget> items = [
       //profile
-      SideScItem(
-          function: () {},
-          icon: Icon(
-            Icons.account_box,
-            color: Theme.of(context).primaryColor,
-          ),
-          route: ProfileSc.route,
-          text: AppLocalizations.of(context)!.profile,
-          subtext: AppLocalizations.of(context)!.editYourInfo),
+      Container(
+        child: Provider.of<CurrentUserToken>(context).isUserLogedIn()?SideScItem(
+            function: () {},
+            icon: Icon(
+              Icons.account_box,
+              color: Theme.of(context).primaryColor,
+            ),
+            route: ProfileSc.route,
+            text: AppLocalizations.of(context)!.profile,
+            subtext: AppLocalizations.of(context)!.editYourInfo):null
+      ),
       //manage products
-      SideScItem(
-          function: () {},
-          icon: Icon(
-            Icons.settings,
-            color: Theme.of(context).primaryColor,
-          ),
-          route: AllProductsSc.route_from_my,
-          text: AppLocalizations.of(context)!.manageProducts,
-          subtext: AppLocalizations.of(context)!.addDeleteAndViewProducts),
+      Container(
+        child: Provider.of<CurrentUserToken>(context).isUserLogedIn()?SideScItem(
+            function: () {},
+            icon: Icon(
+              Icons.settings,
+              color: Theme.of(context).primaryColor,
+            ),
+            route: AllProductsSc.route_from_my,
+            text: AppLocalizations.of(context)!.manageProducts,
+            subtext: AppLocalizations.of(context)!.addDeleteAndViewProducts):null,
+      ),
       //favorites
-      SideScItem(
-          function: () {
-        /*     _updateFavoritedProducts(context); */
-          },
-          icon: Icon(Icons.favorite, color: Colors.redAccent),
-          route: AllProductsSc.route_from_fav,
-          text: AppLocalizations.of(context)!.favorite,
-          subtext: AppLocalizations.of(context)!.viewYourFavItems),
+      Container(
+        child: Provider.of<CurrentUserToken>(context).isUserLogedIn()?SideScItem(
+            function: () {
+          /*     _updateFavoritedProducts(context); */
+            },
+            icon: Icon(Icons.favorite, color: Colors.redAccent),
+            route: AllProductsSc.route_from_fav,
+            text: AppLocalizations.of(context)!.favorite,
+            subtext: AppLocalizations.of(context)!.viewYourFavItems):null,
+      ),
       //search
       SideScItem(
           function: () {},

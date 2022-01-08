@@ -27,7 +27,7 @@ class VerticalGrid extends StatelessWidget {
           return Container(
             margin: EdgeInsets.only(left: 5, right: 5, bottom: 10),
             child: GridItem(
-                id: products[index].id,
+ispopular: false,                id: products[index].id,
                 image: products[index].image,
                 price: products[index].price,
                 title: products[index].name),

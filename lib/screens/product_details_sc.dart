@@ -10,6 +10,7 @@ import 'package:mini_project/components/vertical_grid.dart';
 import 'package:mini_project/httpServices/comment_http_service.dart';
 import 'package:mini_project/httpServices/like_http_service.dart';
 import 'package:mini_project/httpServices/product_http_service.dart';
+import 'package:mini_project/httpServices/url.dart';
 import 'package:mini_project/httpServices/user_http_service.dart';
 import 'package:mini_project/main.dart';
 import 'package:mini_project/models/product_model.dart';
@@ -52,7 +53,7 @@ class ProductDetails extends StatelessWidget {
               alignment: Alignment.topCenter,
               margin: const EdgeInsets.all(20),
               child: SizedBox(
-                child: Image.asset('assets/test.jpeg'),
+                child: Image.network(URL.image+'${product.image}'),
                 height: 170,
                 width: 300,
               ),
@@ -105,52 +106,54 @@ class ProductDetails extends StatelessWidget {
                             )
                           ],
                         ),
-                        GestureDetector(
-                          child: Row(
-                            children: [
-                              Icon(CommunityMaterialIcons.comment,color: mainColor,),
-                              Icon(
-                          Icons.add,
-                          size: 18,
-                        )
-                            ],
-                          ),
-                          onTap: () {
-                            showDialog<String>(
-                                context: context,
-                                builder: (context) {
-                                  return AlertDialog(
-                                    title: Text(
-                                      'new comment',
-                                      style: TextStyle(color: mainColor),
-                                    ),
-                                    content: TextField(
-                                      controller: commentController,
-                                      decoration:
-                                          InputDecoration(hintText: 'comment'),
-                                    ),
-                                    actions: [
-                                      TextButton(
+                        Container(
+                          child:Provider.of<CurrentUserToken>(context).isUserLogedIn()? GestureDetector(
+                            child: Row(
+                              children: [
+                                Icon(CommunityMaterialIcons.comment,color: mainColor,),
+                                Icon(
+                            Icons.add,
+                            size: 18,
+                          )
+                              ],
+                            ),
+                            onTap: () {
+                              showDialog<String>(
+                                  context: context,
+                                  builder: (context) {
+                                    return AlertDialog(
+                                      title: Text(
+                                        'new comment',
+                                        style: TextStyle(color: mainColor),
+                                      ),
+                                      content: TextField(
+                                        controller: commentController,
+                                        decoration:
+                                            InputDecoration(hintText: 'comment'),
+                                      ),
+                                      actions: [
+                                        TextButton(
+                                            onPressed: () {
+                                              Navigator.of(context).pop();
+                                            },
+                                            child: Text("cancel",
+                                                style:
+                                                    TextStyle(color: mainColor))),
+                                        TextButton(
                                           onPressed: () {
-                                            Navigator.of(context).pop();
+                                            _addComment(
+                                                context, commentController.text);
                                           },
-                                          child: Text("cancel",
-                                              style:
-                                                  TextStyle(color: mainColor))),
-                                      TextButton(
-                                        onPressed: () {
-                                          _addComment(
-                                              context, commentController.text);
-                                        },
-                                        child: Text(
-                                          'add',
-                                          style: TextStyle(color: mainColor),
-                                        ),
-                                      )
-                                    ],
-                                  );
-                                });
-                          },
+                                          child: Text(
+                                            'add',
+                                            style: TextStyle(color: mainColor),
+                                          ),
+                                        )
+                                      ],
+                                    );
+                                  });
+                            },
+                          ):null,
                         ),
                         
                       ],

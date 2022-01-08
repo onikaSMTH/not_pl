@@ -1,7 +1,10 @@
+import 'dart:math';
+
 import 'package:community_material_icon/community_material_icon.dart';
 import 'package:flutter/material.dart';
 import 'package:mini_project/colors.dart';
 import 'package:mini_project/httpServices/product_http_service.dart';
+import 'package:mini_project/httpServices/url.dart';
 import 'package:mini_project/providers/products.dart';
 import 'package:mini_project/providers/single_product.dart';
 import 'package:mini_project/providers/themes.dart';
@@ -13,7 +16,7 @@ class ProductsScreenItem extends StatelessWidget {
   String imageUrl;
   String name;
   int productID;
-
+  
   ProductsScreenItem(
       {required this.imageUrl, required this.name, required this.productID});
 
@@ -31,46 +34,50 @@ class ProductsScreenItem extends StatelessWidget {
           Navigator.pushNamed(context, ProductDetails.route,
               arguments: productID);
         },
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            Container(
+        child: GridTile(
+          child: Image.network(
+              URL.image + "product_${Random().nextInt(3) + 1}.jpg"),
+          footer: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              Container(
+                  color: mainColor,
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceAround,
+                    children: [
+                      Text(
+                        product.name,
+                        style: TextStyle(color: backColor),
+                      ),
+                    ],
+                  )),
+              //  Image.asset('assets/test.jpeg',fit: BoxFit.fill,width: MediaQuery.of(context).size.width*0.5,height: MediaQuery.of(context).size.height*0.20,),
+              Container(
                 color: mainColor,
                 child: Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceAround,
+                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                   children: [
-                    Text(
-                      product.name,
-                      style: TextStyle(color: backColor),
-                    ),
+                    // Icon(CommunityMaterialIcons.heart,color: Colors.redAccent,),
+                    Row(
+                      children: [
+                        Icon(
+                          Icons.paid,
+                          color: backColor,
+                        ),
+                        SizedBox(
+                          width: 5,
+                        ),
+                        Text(
+                          product.price.toString(),
+                          style: TextStyle(color: backColor),
+                        )
+                      ],
+                    )
                   ],
-                )),
-            //  Image.asset('assets/test.jpeg',fit: BoxFit.fill,width: MediaQuery.of(context).size.width*0.5,height: MediaQuery.of(context).size.height*0.20,),
-            Container(
-              color: mainColor,
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                children: [
-                  // Icon(CommunityMaterialIcons.heart,color: Colors.redAccent,),
-                  Row(
-                    children: [
-                      Icon(
-                        Icons.paid,
-                        color: backColor,
-                      ),
-                      SizedBox(
-                        width: 5,
-                      ),
-                      Text(
-                        product.price.toString(),
-                        style: TextStyle(color: backColor),
-                      )
-                    ],
-                  )
-                ],
-              ),
-            )
-          ],
+                ),
+              )
+            ],
+          ),
         ),
       ),
     );
@@ -80,7 +87,8 @@ class ProductsScreenItem extends StatelessWidget {
       BuildContext context, int id) async {
     await HttpService().showProduct(id).then((value) {
       print(value);
-      Provider.of<SingleProduct>(context, listen: false).setProduct(context,value);
+      Provider.of<SingleProduct>(context, listen: false)
+          .setProduct(context, value);
     });
   }
 }

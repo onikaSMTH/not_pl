@@ -87,7 +87,7 @@ class _AllProductsScState extends State<AllProductsSc> {
                           Navigator.of(context).pushNamed(AddProductSc.route);
                         })
                   ])
-                : [
+                :widget.isAll?( [
                     TextButton(
                         onPressed: () {
                           setState(() {
@@ -168,7 +168,7 @@ class _AllProductsScState extends State<AllProductsSc> {
                         }
                       },
                     ),
-                  ],
+                  ]):null,
           ),
           body: GridView.builder(
             itemCount: products.length,
@@ -176,6 +176,7 @@ class _AllProductsScState extends State<AllProductsSc> {
               return widget.isMy
                   ? MyPrpductsScItem(products[index].id)
                   : ProductsScreenItem(
+                      
                       imageUrl: 'assets/test.jpeg',
                       name: products[index].name,
                       productID: products[index].id,
