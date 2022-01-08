@@ -13,7 +13,7 @@ import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 //default page connected to the nav tab "home"
 class HomeSc extends StatefulWidget {
   List<Product> products = [];
-  List<Category> categories=[];
+  List<Category> categories = [];
 
   @override
   State<HomeSc> createState() => _HomeScState();
@@ -22,16 +22,22 @@ class HomeSc extends StatefulWidget {
 class _HomeScState extends State<HomeSc> {
   @override
   void initState() {
-    Future.delayed(Duration.zero).then((_) {
-      HttpService().getProducts().then((value) {
-        
-        Provider.of<Products>(context,listen: false).setProducts(value);
+    if (mounted) {
+      Future.delayed(Duration.zero).then((_) async {
+        await HttpService().getProducts().then((value) {
+          Provider.of<Products>(context, listen: false).setProducts(value);
+        });
+        await HttpService().getCategories().then((value) {
+          Provider.of<Categories>(context, listen: false).setCategories(value);
+        });
       });
-      HttpService().getCategories().then((value) {
-        Provider.of<Categories>(context,listen: false).setCategories(value);
-      });
-    });
+    }
     super.initState();
+  }
+
+  @override
+  Future<void> didChangeDependencies() async {
+    super.didChangeDependencies();
   }
 
   @override
@@ -59,7 +65,9 @@ class _HomeScState extends State<HomeSc> {
                 ),
               ),
             ),
-            HorizontalGrid(isPopular: true,),
+            HorizontalGrid(
+              isPopular: true,
+            ),
             ListTile(
                 leading: Text(
                   AppLocalizations.of(context)!.categories,
@@ -75,7 +83,9 @@ class _HomeScState extends State<HomeSc> {
                     style: TextStyle(color: Theme.of(context).primaryColor),
                   ),
                 )),
-            HorizontalGrid(isCategory: true,),
+            HorizontalGrid(
+              isCategory: true,
+            ),
             ListTile(
                 onTap: () {
                   Navigator.of(context).pushNamed(AllProductsSc.route_from_all);

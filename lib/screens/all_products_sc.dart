@@ -28,6 +28,14 @@ class AllProductsSc extends StatefulWidget {
   bool isMy = false;
   bool isSearch = false;
 
+//sort related
+  bool sortAsc = true;
+  bool sorDec = false;
+  bool isNameSorted = false;
+  bool isViewsSorted = false;
+  bool isDateSorted = false;
+  bool isPriceSorted = false;
+
   AllProductsSc(
       {this.appBarTitle = "",
       this.isAll = false,
@@ -66,8 +74,8 @@ class _AllProductsScState extends State<AllProductsSc> {
                 color: Theme.of(context).primaryColor,
               ),
             ),
-            actions: widget.isMy?
-                 ([
+            actions: widget.isMy
+                ? ([
                     InkWell(
                         child: const Padding(
                           padding: EdgeInsets.all(8.0),
@@ -78,6 +86,20 @@ class _AllProductsScState extends State<AllProductsSc> {
                         })
                   ])
                 : [
+                    TextButton(
+                        onPressed: () {
+                          setState(() {
+                            widget.sorDec = !widget.sorDec;
+                            widget.sortAsc = !widget.sortAsc;
+                            if (widget.isNameSorted) _sortByName();
+                            if (widget.isDateSorted) _sortByDates();
+                            if (widget.isViewsSorted) _sortByViews();
+                            if (widget.isPriceSorted) _sortByPrice();
+                          });
+                        },
+                        child: widget.sortAsc
+                            ? Icon(Icons.arrow_downward, color: mainColor)
+                            : Icon(Icons.arrow_upward, color: mainColor)),
                     //list if widget in appbar actions
                     PopupMenuButton(
                       icon: Icon(Icons
@@ -91,8 +113,58 @@ class _AllProductsScState extends State<AllProductsSc> {
                             style: TextStyle(color: Colors.white),
                           ),
                         ),
+                        PopupMenuItem<int>(
+                          value: 1,
+                          child: Text(
+                            "Dates",
+                            style: TextStyle(color: Colors.white),
+                          ),
+                        ),
+                        PopupMenuItem<int>(
+                          value: 2,
+                          child: Text(
+                            "prices",
+                            style: TextStyle(color: Colors.white),
+                          ),
+                        ),
+                        PopupMenuItem<int>(
+                          value: 3,
+                          child: Text(
+                            "names",
+                            style: TextStyle(color: Colors.white),
+                          ),
+                        ),
                       ],
-                      onSelected: (itemNum){_sort();},
+                      onSelected: (itemNum) {
+                        if (itemNum == 0) {
+                          _sortByViews();
+                          widget.isNameSorted = false;
+                          widget.isViewsSorted = true;
+                          widget.isDateSorted = false;
+                          widget.isPriceSorted = false;
+                        }
+                        if (itemNum == 1) {
+                          _sortByDates();
+                          widget.isNameSorted = false;
+                          widget.isViewsSorted = false;
+                          widget.isDateSorted = true;
+                          widget.isPriceSorted = false;
+                        }
+                        if (itemNum == 2) {
+                          _sortByPrice();
+                          widget.isNameSorted = false;
+                          widget.isViewsSorted = false;
+                          widget.isDateSorted = false;
+                          widget.isPriceSorted = true;
+                        }
+                        if (itemNum == 3) {
+                          _sortByName();
+                          widget.isNameSorted = true;
+                          widget.isViewsSorted = false;
+                          widget.isDateSorted = false;
+                          widget.isPriceSorted = false;
+                        }
+                      },
                     ),
                   ],
           ),
@@ -123,10 +195,52 @@ class _AllProductsScState extends State<AllProductsSc> {
         });
   }
 
-  _sort() async {
-     await SortHttpService().sortAsc('views').then((value) {
-      Provider.of<Products>(context,listen: false).setProducts(value);
-    });
+  _sortByViews() async {
+    if (widget.sortAsc)
+      await SortHttpService().sortAsc('views').then((value) {
+        Provider.of<Products>(context, listen: false).setProducts(value);
+      });
+    else {
+      await SortHttpService().sortDesc('views').then((value) {
+        Provider.of<Products>(context, listen: false).setProducts(value);
+      });
+    }
+  }
+
+  _sortByDates() async {
+    if (widget.sortAsc)
+      await SortHttpService().sortAsc('expiration_date').then((value) {
+        Provider.of<Products>(context, listen: false).setProducts(value);
+      });
+    else {
+      await SortHttpService().sortDesc('expiration_date').then((value) {
+        Provider.of<Products>(context, listen: false).setProducts(value);
+      });
+    }
+  }
+
+  _sortByPrice() async {
+    if (widget.sortAsc)
+      await SortHttpService().sortAsc('price').then((value) {
+        Provider.of<Products>(context, listen: false).setProducts(value);
+      });
+    else {
+      await SortHttpService().sortDesc('price').then((value) {
+        Provider.of<Products>(context, listen: false).setProducts(value);
+      });
+    }
+  }
+
+  _sortByName() async {
+    if (widget.sortAsc)
+      await SortHttpService().sortAsc('name').then((value) {
+        Provider.of<Products>(context, listen: false).setProducts(value);
+      });
+    else {
+      await SortHttpService().sortDesc('name').then((value) {
+        Provider.of<Products>(context, listen: false).setProducts(value);
+      });
+    }
   }
 }
 //Widget _showDropDownSortList() {}

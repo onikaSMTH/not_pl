@@ -57,29 +57,29 @@ class Product {
 
   Map<String, dynamic> toMap() {
     return {
-      'id': id,
-      'name': name,
-      'image': image,
-      'expirationDate': expirationDate,
-      'contactInfo': contactInfo,
-      'quantity': quantity,
-      'price': price,
-      'userId': userId,
-      'views': views,
+      "id": id,
+      "name": name,
+      "image": image,
+      "expirationDate": expirationDate,
+      "contactInfo": contactInfo,
+    "quantity": quantity,
+      "price": price,
+      "userId": userId,
+      "views": views,
     };
   }
 
   factory Product.fromMap(Map<String, dynamic> map) {
     return Product(
-      id: map['id']?.toInt() ?? 0,
-      name: map['name'] ?? '',
-      image: map['image'] ?? '',
-      expirationDate: map['expiration_date'] ?? '',
-      contactInfo: map['contact_info'] ?? '',
-      quantity: map['quantity']?.toInt() ?? 0,
-      price: map['price']?.toDouble() ?? 0.0,
-      userId: map['user_id']?.toInt() ?? 0,
-      views: map['views']?.toInt() ?? 0,
+      id: map["id"]?.toInt() ?? 0,
+      name: map["name"] ?? "",
+      image: map["image"] ?? "",
+      expirationDate: map["expiration_date"] ?? "",
+      contactInfo: map["contact_info"] ?? "",
+      quantity: map["quantity"]?.toInt() ?? 0,
+      price: map["price"]?.toDouble() ?? 0.0,
+      userId: map["user_id"]?.toInt() ?? 0,
+      views: map["views"]?.toInt() ?? 0,
       //categories: List<Category>.from(map['categories']?.map((x) => Category.fromMap(x))),
     );
   }
@@ -90,7 +90,7 @@ class Product {
 
   @override
   String toString() {
-    return 'Product(id: $id, name: $name, image: $image, expirationDate: $expirationDate, contactInfo: $contactInfo, quantity: $quantity, price: $price, userId: $userId, views: $views)';
+    return "Product(id: $id, name: $name, image: $image, expirationDate: $expirationDate, contactInfo: $contactInfo, quantity: $quantity, price: $price, userId: $userId, views: $views)";
   }
 
   @override

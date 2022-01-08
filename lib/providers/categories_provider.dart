@@ -3,13 +3,13 @@ import 'package:flutter/material.dart';
 
 class Categories extends ChangeNotifier{
 
-  List<dynamic> categories=[];
+  List<dynamic> _categories=[];
 
  List<dynamic> getCategories(){
-    return categories;
+    return _categories;
   }
   setCategories(List <dynamic> list){
-   categories = list;
+   _categories = list;
    notifyListeners();
   }
 }

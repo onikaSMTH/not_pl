@@ -26,7 +26,9 @@ class _ProfileScState extends State<ProfileSc> {
   @override
   void initState() {
     // TODO: implement initState
-
+    Future.delayed(Duration.zero).then((_) {
+      widget.user = Provider.of<CurrentUserToken>(context).getUser();
+    });
     super.initState();
   }
 
@@ -82,7 +84,7 @@ class _ProfileScState extends State<ProfileSc> {
                       readOnly: true,
                       controller: widget.fullnameController,
                       decoration: InputDecoration(
-                        border:InputBorder.none,
+                          border: InputBorder.none,
                           labelStyle:
                               TextStyle(color: Theme.of(context).primaryColor),
                           label: Text(AppLocalizations.of(context)!.fullName)),
@@ -94,7 +96,7 @@ class _ProfileScState extends State<ProfileSc> {
                       readOnly: true,
                       controller: widget.emailController,
                       decoration: InputDecoration(
-                        border: InputBorder.none,
+                          border: InputBorder.none,
                           labelStyle:
                               TextStyle(color: Theme.of(context).primaryColor),
                           label: Text('email')),
@@ -128,11 +130,9 @@ class _ProfileScState extends State<ProfileSc> {
                 ),
               ),
             ),
-           
           ],
         ),
       ),
-    
     );
   }
 }

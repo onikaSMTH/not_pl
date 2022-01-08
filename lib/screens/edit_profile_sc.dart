@@ -31,10 +31,13 @@ class _EditProfileScState extends State<EditProfileSc> {
   @override
   void initState() {
     // TODO: implement initState
-    Future.delayed(Duration.zero).then((value) {
+    Future.delayed(Duration.zero).then((_) {
       User user = CurrentUserToken().getUser();
-      fullnameController.text = user.name;
+      setState(() {
+             fullnameController.text = user.name;
       emailController.text = user.email;
+      });
+ 
     });
   }
 
@@ -42,16 +45,19 @@ class _EditProfileScState extends State<EditProfileSc> {
   Widget build(BuildContext context) {
     return SafeArea(
         child: Scaffold(
-          
-      appBar: AppBar(iconTheme: IconThemeData(color: Theme.of(context).primaryColor),
-        backgroundColor:Theme.of(context).backgroundColor ,),
+      appBar: AppBar(
+        iconTheme: IconThemeData(color: Theme.of(context).primaryColor),
+        backgroundColor: Theme.of(context).backgroundColor,
+      ),
       body: SingleChildScrollView(
-        child: Container(color: Theme.of(context).backgroundColor,
+        child: Container(
+          color: Theme.of(context).backgroundColor,
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.center,
             children: [
               Container(
-                  margin: const EdgeInsets.symmetric(horizontal: 15, vertical: 10),
+                  margin:
+                      const EdgeInsets.symmetric(horizontal: 15, vertical: 10),
                   child: TextField(
                     controller: fullnameController,
                     decoration: InputDecoration(
@@ -60,7 +66,8 @@ class _EditProfileScState extends State<EditProfileSc> {
                         label: Text(AppLocalizations.of(context)!.fullName)),
                   )),
               Container(
-                  margin: const EdgeInsets.symmetric(horizontal: 15, vertical: 10),
+                  margin:
+                      const EdgeInsets.symmetric(horizontal: 15, vertical: 10),
                   child: TextField(
                     controller: emailController,
                     decoration: InputDecoration(
@@ -69,7 +76,8 @@ class _EditProfileScState extends State<EditProfileSc> {
                         label: Text('email')),
                   )),
               Container(
-                  margin: const EdgeInsets.symmetric(horizontal: 15, vertical: 10),
+                  margin:
+                      const EdgeInsets.symmetric(horizontal: 15, vertical: 10),
                   child: TextField(
                     controller: newPasswordController,
                     decoration: InputDecoration(
@@ -77,8 +85,9 @@ class _EditProfileScState extends State<EditProfileSc> {
                             TextStyle(color: Theme.of(context).primaryColor),
                         label: Text('new Password')),
                   )),
-                   Container(
-                  margin: const EdgeInsets.symmetric(horizontal: 15, vertical: 10),
+              Container(
+                  margin:
+                      const EdgeInsets.symmetric(horizontal: 15, vertical: 10),
                   child: TextField(
                     controller: confirmNewPasswordController,
                     decoration: InputDecoration(
@@ -130,8 +139,6 @@ class _EditProfileScState extends State<EditProfileSc> {
                         labelStyle: TextStyle(color: mainColor),
                       ),
                     ),
-                   
-                    
                   ],
                 ),
               ),
@@ -152,19 +159,27 @@ class _EditProfileScState extends State<EditProfileSc> {
         });
   }
 
-  _onConfirm(BuildContext context) {
-    UserHttpService()
-        .loginUser(emailController.text, currentPasswordController.text)
-        .then((value) {
-      UserHttpService().updateUser(
-          Provider.of<CurrentUserToken>(context,listen:false).getToken(),
-          fullnameController.text,
-          emailController.text,
-          newPasswordController.text,
-          confirmNewPasswordController.text);
-    }).then((value) {
-      CallSnackBar(context, value.toString());
-      Navigator.of(context).pop();
+  _onConfirm(BuildContext context) async {
+    await UserHttpService()
+        .loginUser(
+            Provider.of<CurrentUserToken>(context, listen: false)
+                .getUser()
+                .email,
+            currentPasswordController.text)
+        .then((value) async {
+    await  UserHttpService()
+          .updateUser(
+              Provider.of<CurrentUserToken>(context, listen: false).getToken(),
+              fullnameController.text,
+              emailController.text,
+              newPasswordController.text,
+              confirmNewPasswordController.text)
+          .then((value) {
+        Provider.of<CurrentUserToken>(context, listen: false).setUser(
+            User(name: fullnameController.text, email: emailController.text));
+        CallSnackBar(context, value.toString());
+        Navigator.of(context).pop();
+      });
     });
   }
 

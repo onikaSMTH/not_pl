@@ -80,7 +80,7 @@ class ProductsScreenItem extends StatelessWidget {
       BuildContext context, int id) async {
     await HttpService().showProduct(id).then((value) {
       print(value);
-      Provider.of<SingleProduct>(context, listen: false).setProduct(value);
+      Provider.of<SingleProduct>(context, listen: false).setProduct(context,value);
     });
   }
 }

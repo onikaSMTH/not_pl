@@ -3,13 +3,17 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:mini_project/colors.dart';
 import 'package:mini_project/components/call_snack_bar.dart';
+import 'package:mini_project/components/comments_view.dart';
 import 'package:mini_project/components/product_details_headline_item.dart';
 import 'package:mini_project/components/rounded_button.dart';
+import 'package:mini_project/components/vertical_grid.dart';
+import 'package:mini_project/httpServices/comment_http_service.dart';
 import 'package:mini_project/httpServices/like_http_service.dart';
 import 'package:mini_project/httpServices/product_http_service.dart';
 import 'package:mini_project/httpServices/user_http_service.dart';
 import 'package:mini_project/main.dart';
 import 'package:mini_project/models/product_model.dart';
+import 'package:mini_project/providers/favorited_products.dart';
 import 'package:mini_project/providers/products.dart';
 import 'package:mini_project/providers/single_product.dart';
 import 'package:mini_project/providers/token_provider.dart';
@@ -19,6 +23,7 @@ import 'package:whatsapp_unilink/whatsapp_unilink.dart';
 import '../screens/login_signup_sc.dart';
 
 class ProductDetails extends StatelessWidget {
+  TextEditingController commentController = TextEditingController();
   static const route = 'product-details';
   bool isFav = false;
   @override
@@ -28,7 +33,7 @@ class ProductDetails extends StatelessWidget {
     isFav = Provider.of<SingleProduct>(context).getIsFav();
     return Scaffold(
         appBar: AppBar(
-          actions: [Icon(Icons.more_vert)],
+         
           centerTitle: true,
           backgroundColor: backColor,
           iconTheme: const IconThemeData(color: mainColor),
@@ -41,6 +46,7 @@ class ProductDetails extends StatelessWidget {
           children: [
             buildBackground(context),
             buildBackground1(context),
+          
             //image
             Container(
               alignment: Alignment.topCenter,
@@ -65,28 +71,93 @@ class ProductDetails extends StatelessWidget {
                       child: Row(
                           mainAxisAlignment: MainAxisAlignment.spaceAround,
                           children: [
-                            DetailesScHeadline('Expires After', 'Equation'),
-                            DetailesScHeadline('Description', product.name)
+                            DetailesScHeadline('Expiration Date',
+                                product.expirationDate.toString()),
+                            DetailesScHeadline('Available Quantity',
+                                product.quantity.toString())
                           ]),
                     ),
                   ),
                   //second row
                   Container(
                       margin: EdgeInsets.only(top: 15),
-                      child: Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceAround,
-                          children: [
-                            DetailesScHeadline('Available Quantity',
-                                product.quantity.toString()),
-                            DetailesScHeadline('Categories', "categories")
-                          ])),
+                      child: DetailesScHeadline(
+                          'Categories',
+                          Provider.of<SingleProduct>(context)
+                              .getCategories()
+                              .map((e) {
+                            return e.name.toString();
+                          }).toString())),
+                         
                   Divider(),
-                  Center(
-                    child: Text('Comments', style: TextStyle(color: mainColor)),
+                  Padding(
+                    padding: const EdgeInsets.all(8.0),
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceAround,
+                      children: [
+                        Row(
+                          
+                          children: [
+                            Icon(Icons.remove_red_eye,color: mainColor,),
+                            Padding(
+                              padding: const EdgeInsets.all(8.0),
+                              child: Text(product.views.toString(),style: TextStyle(color: mainColor,fontSize: 16),),
+                            )
+                          ],
+                        ),
+                        GestureDetector(
+                          child: Row(
+                            children: [
+                              Icon(CommunityMaterialIcons.comment,color: mainColor,),
+                              Icon(
+                          Icons.add,
+                          size: 18,
+                        )
+                            ],
+                          ),
+                          onTap: () {
+                            showDialog<String>(
+                                context: context,
+                                builder: (context) {
+                                  return AlertDialog(
+                                    title: Text(
+                                      'new comment',
+                                      style: TextStyle(color: mainColor),
+                                    ),
+                                    content: TextField(
+                                      controller: commentController,
+                                      decoration:
+                                          InputDecoration(hintText: 'comment'),
+                                    ),
+                                    actions: [
+                                      TextButton(
+                                          onPressed: () {
+                                            Navigator.of(context).pop();
+                                          },
+                                          child: Text("cancel",
+                                              style:
+                                                  TextStyle(color: mainColor))),
+                                      TextButton(
+                                        onPressed: () {
+                                          _addComment(
+                                              context, commentController.text);
+                                        },
+                                        child: Text(
+                                          'add',
+                                          style: TextStyle(color: mainColor),
+                                        ),
+                                      )
+                                    ],
+                                  );
+                                });
+                          },
+                        ),
+                        
+                      ],
+                    ),
                   ),
-                  Divider(
-                    height: 350,
-                  ),
+                  CommentsView(),
+
                   //TODO list view for comments section
                 ],
               ),
@@ -132,14 +203,6 @@ class ProductDetails extends StatelessWidget {
                         ),
                       ),
                       TextButton(
-                        //TODO open in messenger
-                        onPressed: () {},
-                        child: const Icon(
-                          CommunityMaterialIcons.facebook_messenger,
-                          color: Colors.blue,
-                        ),
-                      ),
-                      TextButton(
                         onPressed: () {
                           _launchCaller(product.id, context);
                         },
@@ -152,14 +215,18 @@ class ProductDetails extends StatelessWidget {
                   ),
                 );
               }, 0.5, 0.07, backColor, mainColor),
+           
               Container(
                   child: Provider.of<CurrentUserToken>(context).isUserLogedIn()
                       ? GestureDetector(
                           onTap: () {
-                            _likeTheProduct(context, product.id);
+                            if (isFav)
+                              _unlikeTheProduct(context, product.id);
+                            else
+                              _likeTheProduct(context, product.id);
                           },
                           child: isFav
-                              ? Icon(Icons.favorite,color:Colors.redAccent)
+                              ? Icon(Icons.favorite, color: Colors.redAccent)
                               : Icon(Icons.favorite_border))
                       : null)
             ],
@@ -211,7 +278,41 @@ _likeTheProduct(BuildContext context, int? prodcutID) async {
       .addLike(Provider.of<CurrentUserToken>(context, listen: false).getToken(),
           prodcutID)
       .then((_) {
-    Provider.of<SingleProduct>(context,listen: false).setIsFav(true);
+    Provider.of<SingleProduct>(context, listen: false).setIsFav(true);
+    _updateFavoritedProducts(context);
+  });
+}
+
+_unlikeTheProduct(BuildContext context, int? prodductID) async {
+  await LikeHttpService()
+      .removeLike(
+          Provider.of<CurrentUserToken>(context, listen: false).getToken(),
+          prodductID)
+      .then((_) {
+    Provider.of<SingleProduct>(context, listen: false).setIsFav(false);
+    Provider.of<FavoritedProducts>(context, listen: false).update(context);
+    _updateFavoritedProducts(context);
+  });
+}
+
+_updateFavoritedProducts(BuildContext context) async {
+  await UserHttpService()
+      .userFavoritesProducts(
+          Provider.of<CurrentUserToken>(context, listen: false).getToken())
+      .then((favoritedProductrs) {
+    Provider.of<FavoritedProducts>(context, listen: false)
+        .setProducts(favoritedProductrs);
+  });
+}
+
+_addComment(BuildContext context, String content) async {
+  await CommentHttpService()
+      .createComment(
+          Provider.of<CurrentUserToken>(context, listen: false).getToken(),
+          Provider.of<SingleProduct>(context, listen: false).getProduct().id,
+          content)
+      .then((_) {
+    Provider.of<SingleProduct>(context,listen:false).updateComments();
   });
 }
 

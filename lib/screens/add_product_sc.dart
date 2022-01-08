@@ -4,10 +4,15 @@ import 'package:flutter/material.dart';
 import 'package:flutter_spinbox/material.dart';
 import 'package:intl/intl.dart';
 import 'package:mini_project/colors.dart';
+import 'package:mini_project/components/rounded_button.dart';
+import 'package:mini_project/httpServices/product_http_service.dart';
 import 'package:mini_project/models/product_model.dart';
+import 'package:mini_project/providers/categories_provider.dart';
 import 'package:mini_project/providers/themes.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:mini_project/providers/token_provider.dart';
+import 'package:multi_select_flutter/multi_select_flutter.dart';
+import 'package:provider/provider.dart';
 import '../components/discount_alert_dialog.dart';
 
 class AddProductSc extends StatefulWidget {
@@ -35,11 +40,27 @@ class _AddProductScState extends State<AddProductSc> {
   late var _image;
   bool imageUploaded = false;
   //date
+  late DateTime expirationDate;
   String _date = 'Choose Expiration Date';
   bool dateUpdated = false;
   DateFormat dateFormat = DateFormat("yyyy-MM-dd");
 
-  
+  @override
+  void dispose() {
+    nameController.dispose();
+    priceController.dispose();
+    quantityController.dispose();
+    contactInfoController.dispose();
+    dis1dateController.dispose();
+    dis1percController.dispose();
+    dis2dateController.dispose();
+    dis2percController.dispose();
+    dis3dateController.dispose();
+    dis3percController.dispose();
+    super.dispose();
+  }
+
+  var _selectedCategories;
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -49,253 +70,283 @@ class _AddProductScState extends State<AddProductSc> {
         iconTheme: IconThemeData(color: Theme.of(context).primaryColor),
         backgroundColor: Theme.of(context).backgroundColor,
       ),
-      body: SingleChildScrollView(
-        child: SizedBox(
-          height: MediaQuery.of(context).size.height*0.95,
-          child: Container(
-            margin: EdgeInsets.all(15),
-            child: Form(
-                child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                //name
-                TextFormField(
-                  controller: nameController,
-                  decoration: InputDecoration(
-                      focusedBorder: OutlineInputBorder(
-                          borderSide:
-                              BorderSide(color: Theme.of(context).primaryColor)),
-                      label: Text('Product Name'),
-                      labelStyle:
-                          TextStyle(color: Theme.of(context).primaryColor)),
-                ),
-                //price
-                Container(
-                  margin: EdgeInsets.only(top: 10),
-                  child: TextFormField(
-                    controller: priceController,
-                    keyboardType: TextInputType.number,
+      body: SizedBox(
+        height: MediaQuery.of(context).size.height * 0.80,
+        child: SingleChildScrollView(
+          child: SizedBox(
+            child: Container(
+              margin: EdgeInsets.all(15),
+              child: Form(
+                  child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  //name
+                  TextFormField(
+                    controller: nameController,
                     decoration: InputDecoration(
                         focusedBorder: OutlineInputBorder(
                             borderSide: BorderSide(
                                 color: Theme.of(context).primaryColor)),
-                        label: Text('Price'),
+                        label: Text('Product Name'),
                         labelStyle:
                             TextStyle(color: Theme.of(context).primaryColor)),
                   ),
-                ),
-                Container(
-                  margin: EdgeInsets.only(top: 10),
-                  child: TextFormField(
-                    controller: contactInfoController,
-                    keyboardType: TextInputType.phone,
-                    decoration: InputDecoration(
-                        focusedBorder: OutlineInputBorder(
-                            borderSide: BorderSide(
-                                color: Theme.of(context).primaryColor)),
-                        label: Text('Contact Info'),
-                        labelStyle:
-                            TextStyle(color: Theme.of(context).primaryColor)),
+                  //price
+                  Container(
+                    margin: EdgeInsets.only(top: 10),
+                    child: TextFormField(
+                      controller: priceController,
+                      keyboardType: TextInputType.number,
+                      decoration: InputDecoration(
+                          focusedBorder: OutlineInputBorder(
+                              borderSide: BorderSide(
+                                  color: Theme.of(context).primaryColor)),
+                          label: Text('Price'),
+                          labelStyle:
+                              TextStyle(color: Theme.of(context).primaryColor)),
+                    ),
                   ),
-                ),
-                //quantity
-                SizedBox(
-                  width: MediaQuery.of(context).size.width * 0.6,
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  Container(
+                    margin: EdgeInsets.only(top: 10),
+                    child: TextFormField(
+                      controller: contactInfoController,
+                      keyboardType: TextInputType.phone,
+                      decoration: InputDecoration(
+                          focusedBorder: OutlineInputBorder(
+                              borderSide: BorderSide(
+                                  color: Theme.of(context).primaryColor)),
+                          label: Text('Contact Info'),
+                          labelStyle:
+                              TextStyle(color: Theme.of(context).primaryColor)),
+                    ),
+                  ),
+                  //quantity
+                  SizedBox(
+                    width: MediaQuery.of(context).size.width * 0.6,
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        Text(
+                          'Quantity',
+                          style: TextStyle(
+                              fontSize: 16,
+                              color: Theme.of(context).primaryColor),
+                        ),
+                        SizedBox(
+                          width: MediaQuery.of(context).size.width * 0.3,
+                          child: SpinBox(
+                            textStyle: TextStyle(
+                                color: Theme.of(context).primaryColor),
+                            readOnly: true,
+                            min: 1,
+                            max: 100,
+                            onChanged: (value) {
+                              quantityController.text = value.toString();
+                            },
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+                  //categories
+
+                  Container(
+                    margin: EdgeInsets.only(top: 5),
+                    child: MultiSelectDialogField(
+                      buttonText: Text('select categories',
+                          style: TextStyle(
+                            color: mainColor,
+                            fontSize: 16,
+                          )),
+                      items: Provider.of<Categories>(context)
+                          .getCategories()
+                          .map((e) => MultiSelectItem(e, e.name))
+                          .toList(),
+                      listType: MultiSelectListType.CHIP,
+                      onConfirm: (values) {
+                        _selectedCategories = values;
+                        print(_selectedCategories.toString());
+                      },
+                    ),
+                  ),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceAround,
                     children: [
-                      Text(
-                        'Quantity',
-                        style: TextStyle(
-                            fontSize: 16, color: Theme.of(context).primaryColor),
+                      Container(
+                        margin: EdgeInsets.only(top: 10),
+                        child: Row(
+                          children: [
+                            ElevatedButton(
+                                style: ButtonStyle(
+                                    backgroundColor:
+                                        MaterialStateProperty.all<Color>(
+                                            Theme.of(context).primaryColor)),
+                                onPressed: () {
+                                  _newDiscount(context, 1);
+                                },
+                                child: Text(
+                                  'Discount 1',
+                                  style: TextStyle(
+                                      color: Theme.of(context).backgroundColor),
+                                )),
+                            Container(
+                                child: _validateDiscount(1, context)
+                                    ? Icon(
+                                        Icons.task_alt,
+                                        color: Colors.green,
+                                      )
+                                    : null)
+                          ],
+                        ),
                       ),
-                      SizedBox(
-                        width: MediaQuery.of(context).size.width * 0.3,
-                        child: SpinBox(
-                          textStyle:
-                              TextStyle(color: Theme.of(context).primaryColor),
-                          readOnly: true,
-                          min: 1,
-                          max: 100,
-                          onChanged: (value) {
-                            quantityController.text = value.toString();
-                          },
+                      Container(
+                        margin: EdgeInsets.only(top: 10),
+                        child: Row(
+                          children: [
+                            ElevatedButton(
+                                style: ButtonStyle(
+                                    backgroundColor:
+                                        MaterialStateProperty.all<Color>(
+                                            Theme.of(context).primaryColor)),
+                                onPressed: () {
+                                  _newDiscount(context, 2);
+                                },
+                                child: Text(
+                                  'Discount 2',
+                                  style: TextStyle(
+                                      color: Theme.of(context).backgroundColor),
+                                )),
+                            Container(
+                                child: _validateDiscount(2, context)
+                                    ? Icon(Icons.task_alt, color: Colors.green)
+                                    : null)
+                          ],
                         ),
                       ),
                     ],
                   ),
-                ),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceAround,
-                  children: [
-                    Container(
-                      margin: EdgeInsets.only(top: 10),
-                      child: Row(
-                        children: [
-                          ElevatedButton(
-                              style: ButtonStyle(
-                                  backgroundColor:
-                                      MaterialStateProperty.all<Color>(
-                                          Theme.of(context).primaryColor)),
-                              onPressed: () {
-                                _newDiscount(context, 1);
-                              },
-                              child: Text(
-                                'Discount 1',
-                                style: TextStyle(
-                                    color: Theme.of(context).backgroundColor),
-                              )),
-                          Container(
-                              child: _validateDiscount(1, context)
-                                  ? Icon(
-                                      Icons.task_alt,
-                                      color: Colors.green,
-                                    )
-                                  : null)
-                        ],
-                      ),
-                    ),
-                    Container(
-                      margin: EdgeInsets.only(top: 10),
-                      child: Row(
-                        children: [
-                          ElevatedButton(
-                              style: ButtonStyle(
-                                  backgroundColor:
-                                      MaterialStateProperty.all<Color>(
-                                          Theme.of(context).primaryColor)),
-                              onPressed: () {
-                                _newDiscount(context, 2);
-                              },
-                              child: Text(
-                                'Discount 2',
-                                style: TextStyle(
-                                    color: Theme.of(context).backgroundColor),
-                              )),
-                          Container(
-                              child: _validateDiscount(2, context)
-                                  ? Icon(Icons.task_alt, color: Colors.green)
-                                  : null)
-                        ],
-                      ),
-                    ),
-                  ],
-                ),
-                Container(
-                  margin: EdgeInsets.only(top: 10),
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      ElevatedButton(
-                          style: ButtonStyle(
-                              backgroundColor: MaterialStateProperty.all<Color>(
-                                  Theme.of(context).primaryColor)),
-                          onPressed: () {
-                            _newDiscount(context, 3);
-                          },
-                          child: Text(
-                            'Discount 3',
-                            style: TextStyle(
-                                color: Theme.of(context).backgroundColor),
-                          )),
-                      Container(
-                          child: _validateDiscount(3, context)
-                              ? Icon(Icons.task_alt, color: Colors.green)
-                              : null)
-                    ],
-                  ),
-                ),
-                Container(
-                  margin: EdgeInsets.only(top: 10),
-                  child: SizedBox(
-                    width: MediaQuery.of(context).size.width * 0.5,
+                  Container(
+                    margin: EdgeInsets.only(top: 10),
                     child: Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceAround,
+                      mainAxisAlignment: MainAxisAlignment.center,
                       children: [
                         ElevatedButton(
                             style: ButtonStyle(
-                                backgroundColor: MaterialStateProperty.all<Color>(
-                                    Theme.of(context).primaryColor)),
+                                backgroundColor:
+                                    MaterialStateProperty.all<Color>(
+                                        Theme.of(context).primaryColor)),
                             onPressed: () {
-                              showDatePicker(
-                                      initialDate: DateTime.now(),
-                                      firstDate: DateTime(2001),
-                                      lastDate: DateTime(2022),
-                                      context: context)
-                                  .then((value) {
-                                setState(() {
-                                  _date = dateFormat.format(value!).toString();
-                                  dateUpdated = true;
+                              _newDiscount(context, 3);
+                            },
+                            child: Text(
+                              'Discount 3',
+                              style: TextStyle(
+                                  color: Theme.of(context).backgroundColor),
+                            )),
+                        Container(
+                            child: _validateDiscount(3, context)
+                                ? Icon(Icons.task_alt, color: Colors.green)
+                                : null)
+                      ],
+                    ),
+                  ),
+                  Container(
+                    margin: EdgeInsets.only(top: 10),
+                    child: SizedBox(
+                      width: MediaQuery.of(context).size.width * 0.5,
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceAround,
+                        children: [
+                          ElevatedButton(
+                              style: ButtonStyle(
+                                  backgroundColor:
+                                      MaterialStateProperty.all<Color>(
+                                          Theme.of(context).primaryColor)),
+                              onPressed: () {
+                                showDatePicker(
+                                        initialDate: DateTime.now(),
+                                        firstDate: DateTime(2001),
+                                        lastDate: DateTime(2023),
+                                        context: context)
+                                    .then((value) {
+                                  expirationDate = value!;
+                                  setState(() {
+                                    _date =
+                                        dateFormat.format(value!).toString();
+                                    dateUpdated = true;
+                                  });
                                 });
-                              });
-                            },
-                            child: Text(
-                              _date,
-                              style: TextStyle(
-                                  color: Theme.of(context).backgroundColor),
-                            )),
-                        Container(
-                          child: dateUpdated
-                              ? const Icon(
-                                  Icons.task_alt,
-                                  color: Colors.green,
-                                )
-                              : null,
-                        )
-                      ],
+                              },
+                              child: Text(
+                                _date,
+                                style: TextStyle(
+                                    color: Theme.of(context).backgroundColor),
+                              )),
+                          Container(
+                            child: dateUpdated
+                                ? const Icon(
+                                    Icons.task_alt,
+                                    color: Colors.green,
+                                  )
+                                : null,
+                          )
+                        ],
+                      ),
                     ),
                   ),
-                ),
-                Container(
-                  margin: EdgeInsets.only(top: 10),
-                  child: SizedBox(
-                    width: MediaQuery.of(context).size.width * 0.5,
-                    child: Row(
-                      children: [
-                        ElevatedButton(
-                            style: ButtonStyle(
-                                backgroundColor: MaterialStateProperty.all<Color>(
-                                    Theme.of(context).primaryColor)),
-                            onPressed: () {
-                              _imgFromLocal();
-                            },
-                            child: Text(
-                              'Upload an image',
-                              style: TextStyle(
-                                  color: Theme.of(context).backgroundColor),
-                            )),
-                        //TODO change icons to tick
-                        Container(
-                          child: imageUploaded
-                              ? const Icon(
-                                  Icons.task_alt,
-                                  color: Colors.green,
-                                )
-                              : null,
-                        )
-                      ],
+                  Container(
+                    margin: EdgeInsets.only(top: 10),
+                    child: SizedBox(
+                      width: MediaQuery.of(context).size.width * 0.5,
+                      child: Row(
+                        children: [
+                          ElevatedButton(
+                              style: ButtonStyle(
+                                  backgroundColor:
+                                      MaterialStateProperty.all<Color>(
+                                          Theme.of(context).primaryColor)),
+                              onPressed: () {
+                                _imgFromLocal();
+                              },
+                              child: Text(
+                                'Upload an image',
+                                style: TextStyle(
+                                    color: Theme.of(context).backgroundColor),
+                              )),
+                          //TODO change icons to tick
+                          Container(
+                            child: imageUploaded
+                                ? const Icon(
+                                    Icons.task_alt,
+                                    color: Colors.green,
+                                  )
+                                : null,
+                          )
+                        ],
+                      ),
                     ),
                   ),
-                ),
 
-                //discounts
+                  //discounts
 
-                // Image.file(File(widget._image.path))
-                Container(
-                  child: imageUploaded ? Image.file(File(_image.path)) : null,
-                )
-              ],
-            )),
+                  // Image.file(File(widget._image.path))
+                  Container(
+                    child: imageUploaded ? Image.file(File(_image.path)) : null,
+                  )
+                ],
+              )),
+            ),
           ),
         ),
       ),
       bottomSheet: Container(
-      
         color: Theme.of(context).primaryColor,
         height: MediaQuery.of(context).size.height * 0.08,
         child: Center(
           child: GestureDetector(
-            onTap: () {},
+            onTap: () {
+              _addProduct(context);
+            },
             child: Text(
               'ADD',
               style: TextStyle(
@@ -334,15 +385,14 @@ class _AddProductScState extends State<AddProductSc> {
                 padding: const EdgeInsets.all(8.0),
                 child: DropdownButtonFormField<String>(
                     decoration: InputDecoration(
-                        
                         label: Text('Discount Percentage'),
                         labelStyle:
                             TextStyle(color: Theme.of(context).primaryColor)),
-                    value: holder= discount == 1
-                            ? dis1percController.text
-                            : discount == 2
-                                ? dis2percController.text
-                                : dis3percController.text,
+                    value: holder = discount == 1
+                        ? dis1percController.text
+                        : discount == 2
+                            ? dis2percController.text
+                            : dis3percController.text,
                     onChanged: (value) {
                       setState(() {
                         if (discount == 1) {
@@ -404,15 +454,59 @@ class _AddProductScState extends State<AddProductSc> {
         context: context);
   }
 
-  void _addProduct(BuildContext context) {
+  Future<void> _addProduct(BuildContext context) async {
+    List<int> datesAsint = [];
+    datesAsint.add(int.parse(dis1percController.text));
+    datesAsint.add(int.parse(dis2percController.text));
+    datesAsint.add(int.parse(dis3percController.text));
+    datesAsint.sort();
+
+    var startDateForDiscount1 = dateFormat
+        .format(expirationDate.subtract(Duration(days: datesAsint[0])));
+    var EndDateForDiscount1 = dateFormat.format(expirationDate);
+
+    var startDateForDiscount2 = dateFormat
+        .format(expirationDate.subtract(Duration(days: datesAsint[1])));
+    var EndDateForDiscount2 = dateFormat
+        .format(expirationDate.subtract(Duration(days: datesAsint[0])));
+
+    var startDateForDiscount3 = dateFormat
+        .format(expirationDate.subtract(Duration(days: datesAsint[2])));
+    var EndDateForDiscount3 = dateFormat
+        .format(expirationDate.subtract(Duration(days: datesAsint[1])));
+
     Product toBeAddedProduct = Product(
         name: nameController.text,
-        image: File(_image.path),
+        image: _image.path,
         expirationDate: _date,
         //user contact info
         contactInfo: contactInfoController.text,
-        quantity: int.parse(quantityController.text),
+        quantity: int.parse(quantityController.text.toString()),
         price: double.parse(priceController.text));
+
+    String categoriesIDs = "";
+    for (int i = 0; i < _selectedCategories.length; i++) {
+      if (i == _selectedCategories.length - 1)
+        categoriesIDs += _selectedCategories[i].id.toString();
+      else
+        categoriesIDs += _selectedCategories[i].id.toString() + ",";
+    }
+
+    await HttpService().hopeCreate(
+        File(_image.path),
+        'file1',
+        Provider.of<CurrentUserToken>(context, listen: false).getToken(),
+        toBeAddedProduct,
+        categoriesIDs,
+        datesAsint[0].toString(),
+        startDateForDiscount1,
+        EndDateForDiscount1,
+        datesAsint[1].toString(),
+        startDateForDiscount2,
+        EndDateForDiscount2,
+        datesAsint[2].toString(),
+        startDateForDiscount3,
+        EndDateForDiscount3);
   }
 
   bool _validateDiscount(int discount, BuildContext context) {

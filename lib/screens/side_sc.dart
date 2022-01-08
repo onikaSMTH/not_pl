@@ -45,7 +45,7 @@ class SideSc extends StatelessWidget {
       //favorites
       SideScItem(
           function: () {
-            _updateFavoritedProducts(context);
+        /*     _updateFavoritedProducts(context); */
           },
           icon: Icon(Icons.favorite, color: Colors.redAccent),
           route: AllProductsSc.route_from_fav,
@@ -114,7 +114,7 @@ class SideSc extends StatelessWidget {
         Provider.of<CurrentUserToken>(context, listen: false).isUserLogedIn());
   }
 
-  _updateFavoritedProducts(BuildContext context) async {
+/*   _updateFavoritedProducts(BuildContext context) async {
      await UserHttpService()
         .userFavoritesProducts(
             Provider.of<CurrentUserToken>(context, listen: false).getToken())
@@ -123,4 +123,4 @@ class SideSc extends StatelessWidget {
           .setProducts(favoritedProductrs);
     });
   }
-}
+ */}
