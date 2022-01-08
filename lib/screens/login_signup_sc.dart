@@ -7,6 +7,7 @@ import 'package:mini_project/colors.dart';
 import 'package:mini_project/httpServices/product_http_service.dart';
 import 'package:mini_project/httpServices/user_http_service.dart';
 import 'package:mini_project/providers/token_provider.dart';
+import 'package:mini_project/providers/user_products.dart';
 import 'package:mini_project/screens/nav_login_sc.dart';
 import 'package:mini_project/screens/navigation_main_sc.dart';
 import 'package:provider/provider.dart';
@@ -17,20 +18,38 @@ import '../components/popup_down.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 //TODO waiting rounded button
-class LoginSignupSc extends StatelessWidget {
-  TextEditingController usernameController = TextEditingController();
-  TextEditingController emailController = TextEditingController();
-  TextEditingController passwordController = TextEditingController();
-  TextEditingController confirmPasswordController = TextEditingController();
-  TextEditingController fullnameController = TextEditingController();
-
-  //this bool is used to determine wither or not the screen need to be rendered as
-  //signup screen , if so new items will be added to the signing screen
+class LoginSignupSc extends StatefulWidget {
   bool signup = false;
   static const String signInRoute = 'sign-in';
   static const String signUpRoute = 'sign-up';
 
   LoginSignupSc({required this.signup});
+
+  @override
+  State<LoginSignupSc> createState() => _LoginSignupScState();
+}
+
+class _LoginSignupScState extends State<LoginSignupSc> {
+  TextEditingController usernameController = TextEditingController();
+
+  TextEditingController emailController = TextEditingController();
+
+  TextEditingController passwordController = TextEditingController();
+
+  TextEditingController confirmPasswordController = TextEditingController();
+
+  TextEditingController fullnameController = TextEditingController();
+
+  @override
+  void dispose() {
+    usernameController.dispose();
+    emailController.dispose();
+    passwordController.dispose();
+    confirmPasswordController.dispose();
+    fullnameController.dispose();
+
+    super.dispose();
+  }
 
   Widget _buildBackground(context) {
     return Container(
@@ -45,7 +64,6 @@ class LoginSignupSc extends StatelessWidget {
     );
   }
 
-//main box overlays
   Widget _buildBox(BuildContext context) {
     var boxHeight = MediaQuery.of(context).size.height;
     var boxWidth = MediaQuery.of(context).size.width;
@@ -65,71 +83,78 @@ class LoginSignupSc extends StatelessWidget {
             ? MediaQuery.of(context).size.height * 1
             : MediaQuery.of(context).size.height * 0.75,
         width: MediaQuery.of(context).size.width * 0.8,
-        child: Column(
-          children: [
-            SizedBox(
-              height: boxHeight * 0.1,
-            ),
-            if (signup)
+        child: SingleChildScrollView(
+          child: Column(
+            children: [
+              SizedBox(
+                height: boxHeight * 0.1,
+              ),
+              if (widget.signup)
+                RoundedInput(
+                  
+                  controller: fullnameController,
+                  icon: const Icon(
+                    Icons.person,
+                    color: mainColor,
+                  ),
+                  hint: AppLocalizations.of(context)!.fullName,
+                  isPassword: false, isEmail: false, isName: true,
+                ),
               RoundedInput(
-                controller: fullnameController,
+                
+                controller: emailController,
                 icon: const Icon(
-                  Icons.person,
+                  Icons.email,
                   color: mainColor,
                 ),
-                hint: AppLocalizations.of(context)!.fullName,
-                isPassword: false,
+                hint: AppLocalizations.of(context)!.email,
+                isPassword: false, isEmail: true, isName: false,
               ),
-            RoundedInput(
-              controller: emailController,
-              icon: const Icon(
-                Icons.email,
-                color: mainColor,
-              ),
-              hint: AppLocalizations.of(context)!.email,
-              isPassword: false,
-            ),
-
-            RoundedInput(
-              controller: passwordController,
-              icon: const Icon(
-                Icons.lock,
-                color: mainColor,
-              ),
-              hint: AppLocalizations.of(context)!.password,
-              isPassword: true,
-            ),
-            //confirm password field
-            if (signup)
+        
               RoundedInput(
-                controller: confirmPasswordController,
+                controller: passwordController,
                 icon: const Icon(
                   Icons.lock,
                   color: mainColor,
                 ),
-                hint: AppLocalizations.of(context)!.confirmPassword,
-                isPassword: true,
+                hint: AppLocalizations.of(context)!.password,
+                isPassword: true, isEmail: false, isName: false,
               ),
-            SizedBox(
-              height: boxHeight * 0.04,
-            ),
-            //login / signup button
-            RoundedButton(
-                signup
-                    ? AppLocalizations.of(context)!.signup
-                    : AppLocalizations.of(context)!.login,
-                signup
-                    ? () {
-                        _registerUser(context);
-                      }
-                    : () {
-                        _loginUser(context);
-                      },
-                0.5,
-                0.07,
-                backColor,
-                mainColor)
-          ],
+              //confirm password field
+              if (widget.signup)
+                RoundedInput(
+                  controller: confirmPasswordController,
+                  icon: const Icon(
+                    Icons.lock,
+                    color: mainColor,
+                  ),
+                  hint: AppLocalizations.of(context)!.confirmPassword,
+                  isPassword: true, isEmail: false, isName: false,
+                ),
+              SizedBox(
+                height: boxHeight * 0.04,
+              ),
+              //login / signup button
+              Container(
+                child: RoundedButton(
+                    widget.signup
+                        ? AppLocalizations.of(context)!.signup
+                        : AppLocalizations.of(context)!.login,
+            
+                    widget.signup
+                        ? () {
+                            _registerUser(context);
+                          }
+                        : () {
+                            _loginUser(context);
+                          },
+                    0.5,
+                    0.07,
+                    backColor,
+                    mainColor),
+              )
+            ],
+          ),
         ),
       ),
     );
@@ -147,7 +172,7 @@ class LoginSignupSc extends StatelessWidget {
           _buildBackground(context),
           _buildBox(context),
           //only show in sign in page
-          if (!signup)
+          if (!widget.signup)
             PopupDown(AppLocalizations.of(context)!.dontHaveAnAccountSignUp)
         ],
       ),
@@ -166,19 +191,20 @@ class LoginSignupSc extends StatelessWidget {
       // print(value[1]);
       // no need to sign in again
 
-     await  _loginUser(context);
+      await _loginUser(context);
       Navigator.of(context).popUntil((route) => route == Nav.route);
       Navigator.of(context).pushNamed(Nav.route);
     });
   }
 
   _loginUser(BuildContext context) async {
-   await UserHttpService()
+    await UserHttpService()
         .loginUser(emailController.text, passwordController.text)
         .then((value) {
       Provider.of<CurrentUserToken>(context, listen: false).setToken(value[1]);
       Provider.of<CurrentUserToken>(context, listen: false).setUser(value[0]);
       Provider.of<CurrentUserToken>(context, listen: false).userLogedIn();
+      Provider.of<UserProducts>(context, listen: false).updateProducts(context);
       Navigator.of(context).popUntil((route) => route == Nav.route);
       Navigator.of(context).pushNamed(Nav.route);
     });

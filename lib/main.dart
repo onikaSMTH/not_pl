@@ -13,8 +13,10 @@ import 'package:mini_project/providers/searched_products.dart';
 import 'package:mini_project/providers/single_product.dart';
 import 'package:mini_project/providers/themes.dart';
 import 'package:mini_project/providers/token_provider.dart';
+import 'package:mini_project/providers/user_products.dart';
 import 'package:mini_project/screens/add_product_sc.dart';
 import 'package:mini_project/screens/all_products_sc.dart';
+import 'package:mini_project/screens/edit_product_sc.dart';
 import 'package:mini_project/screens/edit_profile_sc.dart';
 import 'package:mini_project/screens/navigation_main_sc.dart';
 import 'package:mini_project/screens/login_signup_sc.dart';
@@ -68,6 +70,9 @@ class HomePage extends StatelessWidget {
            ChangeNotifierProvider(create: (BuildContext context) {
             return FavoritedProducts();
           }),
+          ChangeNotifierProvider(create: (BuildContext context) {
+            return UserProducts();
+          }),
         ],
         builder: (context, _) {
           return MaterialApp(
@@ -118,7 +123,8 @@ class HomePage extends StatelessWidget {
                     appBarTitle: 'My Products',
                     isMy: true,
                   ),
-              EditProfileSc.route: (_) => EditProfileSc()
+              EditProfileSc.route: (_) => EditProfileSc(),
+              EditProductSc.route:(_)=>EditProductSc()
             },
           );
         });

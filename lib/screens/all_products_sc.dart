@@ -7,7 +7,9 @@ import 'package:mini_project/httpServices/sort_http_service.dart';
 import 'package:mini_project/providers/favorited_products.dart';
 import 'package:mini_project/providers/products.dart';
 import 'package:mini_project/providers/searched_products.dart';
+import 'package:mini_project/providers/user_products.dart';
 import 'package:mini_project/screens/add_product_sc.dart';
+import 'package:mini_project/screens/edit_product_sc.dart';
 import 'package:mini_project/screens/product_details_sc.dart';
 import 'package:provider/provider.dart';
 import '../providers/products.dart';
@@ -54,7 +56,7 @@ class _AllProductsScState extends State<AllProductsSc> {
         ? Provider.of<Searched>(context).getSearchedProducts()
         : widget.isFav
             ? Provider.of<FavoritedProducts>(context).getProducts()
-            : Provider.of<Products>(context).getProducts();
+            :widget.isMy?Provider.of<UserProducts>(context).getProducts(): Provider.of<Products>(context).getProducts();
     return MaterialApp(
         home: Scaffold(
           backgroundColor: Theme.of(context).backgroundColor,
@@ -192,6 +194,7 @@ class _AllProductsScState extends State<AllProductsSc> {
           ProductDetails.route: (_) {
             return ProductDetails();
           }
+          ,EditProductSc.route:(_)=>EditProductSc()
         });
   }
 

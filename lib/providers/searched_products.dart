@@ -1,14 +1,14 @@
 import 'package:flutter/material.dart';
 
 class Searched extends ChangeNotifier {
-  List<dynamic> searchedProducts = [];
+  List<dynamic> _searchedProducts = [];
 
   void setSearchedProducts(List<dynamic> list) {
-    searchedProducts = list;
+    _searchedProducts = list;
     notifyListeners();
   }
 
   List<dynamic> getSearchedProducts() {
-    return searchedProducts;
+    return [..._searchedProducts];
   }
 }

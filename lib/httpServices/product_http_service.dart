@@ -18,7 +18,7 @@ class HttpService {
     try {
       final response = await http.get(url);
       print(1);
-        var jsonData = await jsonDecode(response.body);
+      var jsonData = await jsonDecode(response.body);
       print(2);
       var content = jsonData["data"];
       print(3);
@@ -64,9 +64,7 @@ class HttpService {
       throw (error);
     }
   }
-
- Future<dynamic> hopeCreate(
-      File file,
+Future<dynamic> hopeUpdate(File file,
       String filename,
       String token,
       Product product,
@@ -83,7 +81,7 @@ class HttpService {
       ) async {
     ///MultiPart request
     var request = http.MultipartRequest(
-      'POST', Uri.parse("http://192.168.163.130:8000/user/create/product"),
+      'POST', Uri.parse("${URL.ipAddress}/user/update/product/${product.id}"),
     );
 
     Map<String,String> headers={
@@ -124,9 +122,72 @@ class HttpService {
 
     var res = await request.send();
 
-    print("This is response:"+res.toString());
+    print("This is response:"+res.statusCode.toString());
     return res.statusCode;
 
+  }
+  Future<dynamic> hopeCreate(
+    File file,
+    String filename,
+    String token,
+    Product product,
+    String categories,
+    String discount1,
+    String date1start,
+    String date1end,
+    String discount2,
+    String date2start,
+    String date2end,
+    String discount3,
+    String date3start,
+    String date3end,
+  ) async {
+    ///MultiPart request
+    var request = http.MultipartRequest(
+      'POST',
+      Uri.parse("${URL.ipAddress}/user/create/product"),
+    );
+
+    Map<String, String> headers = {
+      "Authorization": "Bearer $token",
+      "Content-type": "multipart/form-data"
+    };
+
+    request.files.add(
+      http.MultipartFile(
+        'image',
+        file.readAsBytes().asStream(),
+        file.lengthSync(),
+        filename: filename,
+        contentType: MediaType('image', 'jpeg'),
+      ),
+    );
+
+    request.headers.addAll(headers);
+
+    request.fields.addAll({
+      "name": product.name,
+      "expiration_date": product.expirationDate,
+      "contact_info": product.contactInfo,
+      "quantity": product.quantity.toString(),
+      "price": product.price.toString(),
+      "categories": categories, //like "1,2,3"
+      "discount1": discount1,
+      "date1start": date1start,
+      "date1end": date1end,
+      "discount2": discount2,
+      "date2start": date2start,
+      "date2end": date2end,
+      "discount3": discount3,
+      "date3start": date3start,
+      "date3end": date3end
+    });
+    print("request: " + request.toString());
+
+    var res = await request.send();
+
+    print("This is response:" + res.toString());
+    return res.statusCode;
   }
 
 /*   Future<dynamic> createProduct(

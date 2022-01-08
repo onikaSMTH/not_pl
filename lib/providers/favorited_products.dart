@@ -13,7 +13,7 @@ class FavoritedProducts extends ChangeNotifier {
   }
 
   List<dynamic> getProducts() {
-    return _products;
+    return [..._products];
   }
 
   update(BuildContext context) async {

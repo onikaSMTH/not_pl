@@ -94,4 +94,11 @@ class Products extends ChangeNotifier {
     listProducts = a;
     notifyListeners();
   }
+
+  Future<void> updateProducts() async {
+    await HttpService().getProducts().then((value) {
+      listProducts = value;
+      notifyListeners();
+    });
+  }
 }

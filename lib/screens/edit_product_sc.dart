@@ -7,26 +7,29 @@ import 'package:mini_project/colors.dart';
 import 'package:mini_project/components/call_snack_bar.dart';
 import 'package:mini_project/components/rounded_button.dart';
 import 'package:mini_project/httpServices/product_http_service.dart';
+import 'package:mini_project/httpServices/url.dart';
+import 'package:mini_project/models/category_model.dart';
 import 'package:mini_project/models/product_model.dart';
 import 'package:mini_project/providers/categories_provider.dart';
 import 'package:mini_project/providers/products.dart';
+import 'package:mini_project/providers/single_product.dart';
 import 'package:mini_project/providers/themes.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:mini_project/providers/token_provider.dart';
 import 'package:mini_project/providers/user_products.dart';
 import 'package:multi_select_flutter/multi_select_flutter.dart';
-import 'package:path/path.dart';
+import 'package:path/path.dart' as Path;
 import 'package:provider/provider.dart';
 import '../components/discount_alert_dialog.dart';
 
-class AddProductSc extends StatefulWidget {
-  static String route = 'add-products-screen';
+class EditProductSc extends StatefulWidget {
+  static String route = 'edit-products-screen';
 
   @override
-  State<AddProductSc> createState() => _AddProductScState();
+  State<EditProductSc> createState() => _AddProductScState();
 }
 
-class _AddProductScState extends State<AddProductSc> {
+class _AddProductScState extends State<EditProductSc> {
   TextEditingController nameController = TextEditingController();
   TextEditingController priceController = TextEditingController();
   TextEditingController quantityController = TextEditingController();
@@ -44,13 +47,42 @@ class _AddProductScState extends State<AddProductSc> {
   late var _image;
   bool imageUploaded = false;
   //date
-  late DateTime expirationDate;
+  DateTime expirationDate = DateTime.now();
   String _date = 'Choose Expiration Date';
   bool dateUpdated = false;
   DateFormat dateFormat = DateFormat("yyyy-MM-dd");
 
-//validation and error related
+//product id
+  var productID;
+//run did change once
+  bool once = true;
+
+  //error related
   bool _submited = false;
+  @override
+  void initState() {
+    super.initState();
+  }
+
+  @override
+  void didChangeDependencies() {
+    // TODO: implement didChangeDependencies
+    if (once) {
+      Product product = Provider.of<SingleProduct>(context).getProduct();
+      var categories = Provider.of<SingleProduct>(context).getCategories();
+      nameController.text = product.name;
+      priceController.text = product.price.toString();
+      quantityController.text = product.quantity.toString();
+      contactInfoController.text = product.contactInfo.toString();
+      _image = product.image.toString().substring(7);
+      _date = product.expirationDate;
+      _selectedCategories = categories;
+      productID = product.id;
+      once = false;
+    }
+    super.didChangeDependencies();
+  }
+
   @override
   void dispose() {
     nameController.dispose();
@@ -67,14 +99,15 @@ class _AddProductScState extends State<AddProductSc> {
   }
 
   var _selectedCategories;
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       // prevent kepboard from pushing elements up
       //  resizeToAvoidBottomInset: false,
       appBar: AppBar(
-        iconTheme: IconThemeData(color: Theme.of(context).primaryColor),
-        backgroundColor: Theme.of(context).backgroundColor,
+        iconTheme: IconThemeData(color: mainColor),
+        backgroundColor: backColor,
       ),
       body: SizedBox(
         height: MediaQuery.of(context).size.height * 0.80,
@@ -88,61 +121,45 @@ class _AddProductScState extends State<AddProductSc> {
                 children: [
                   //name
                   TextFormField(
-                    onChanged: (_) {
-                      setState(() {
-                        
-                      });
-                    },
                     controller: nameController,
                     decoration: InputDecoration(
-                        errorText:_submited? _errorTextName:null,
+                        errorText: _submited ? _errorTextName : null,
                         focusedBorder: OutlineInputBorder(
                             borderSide: BorderSide(
-                                color: Theme.of(context).primaryColor)),
+                                color: mainColor)),
                         label: Text('Product Name'),
                         labelStyle:
-                            TextStyle(color: Theme.of(context).primaryColor)),
+                            TextStyle(color: mainColor)),
                   ),
                   //price
                   Container(
                     margin: EdgeInsets.only(top: 10),
                     child: TextFormField(
-                      onChanged: (_) {
-                      setState(() {
-                        
-                      });
-                    },
                       controller: priceController,
                       keyboardType: TextInputType.number,
                       decoration: InputDecoration(
-                          errorText: _submited?_errorTextPrice:null,
+                          errorText: _submited ? _errorTextPrice : null,
                           focusedBorder: OutlineInputBorder(
                               borderSide: BorderSide(
-                                  color: Theme.of(context).primaryColor)),
+                                  color: mainColor)),
                           label: Text('Price'),
                           labelStyle:
-                              TextStyle(color: Theme.of(context).primaryColor)),
+                              TextStyle(color: mainColor)),
                     ),
                   ),
-                  //contact info
                   Container(
                     margin: EdgeInsets.only(top: 10),
                     child: TextFormField(
-                      onChanged: (_) {
-                      setState(() {
-                        
-                      });
-                    },
                       controller: contactInfoController,
                       keyboardType: TextInputType.phone,
                       decoration: InputDecoration(
-                        errorText: _submited?_errorTextinfo:null,
+                          errorText: _submited ? _errorTextinfo : null,
                           focusedBorder: OutlineInputBorder(
                               borderSide: BorderSide(
-                                  color: Theme.of(context).primaryColor)),
+                                  color: mainColor)),
                           label: Text('Contact Info'),
                           labelStyle:
-                              TextStyle(color: Theme.of(context).primaryColor)),
+                              TextStyle(color: mainColor)),
                     ),
                   ),
                   //quantity
@@ -155,15 +172,17 @@ class _AddProductScState extends State<AddProductSc> {
                           'Quantity',
                           style: TextStyle(
                               fontSize: 16,
-                              color: Theme.of(context).primaryColor),
+                              color: mainColor),
                         ),
                         SizedBox(
                           width: MediaQuery.of(context).size.width * 0.3,
                           child: SpinBox(
-                            decoration:
-                                InputDecoration(errorText: _submited?_errorTextQuantity:null),
+                            decoration: InputDecoration(
+                              errorText: _submited ? _errorTextQuantity : null,
+                            ),
+                            value: double.parse(quantityController.text),
                             textStyle: TextStyle(
-                                color: Theme.of(context).primaryColor),
+                                color: mainColor),
                             readOnly: true,
                             min: 1,
                             max: 100,
@@ -180,8 +199,13 @@ class _AddProductScState extends State<AddProductSc> {
                   Container(
                     margin: EdgeInsets.only(top: 5),
                     child: MultiSelectDialogField(
-                      buttonIcon: _submited&&_selectedCategories==null?Icon(Icons.arrow_downward,color: Colors.redAccent,):null,
-                      
+                      buttonIcon: _submited && _selectedCategories == null
+                          ? Icon(
+                              Icons.arrow_downward,
+                              color: Colors.redAccent,
+                            )
+                          : null,
+                      initialValue: _selectedCategories,
                       buttonText: Text('select categories',
                           style: TextStyle(
                             color: mainColor,
@@ -197,101 +221,12 @@ class _AddProductScState extends State<AddProductSc> {
                       },
                     ),
                   ),
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceAround,
-                    children: [
-                      Container(
-                        margin: EdgeInsets.only(top: 10),
-                        child: Row(
-                          children: [
-                            ElevatedButton(
-                                style: ButtonStyle(
-                                    backgroundColor:
-                                        MaterialStateProperty.all<Color>(
-                                            Theme.of(context).primaryColor)),
-                                onPressed: () {
-                                  _newDiscount(context, 1);
-                                },
-                                child: Text(
-                                  'Discount 1',
-                                  style: TextStyle(
-                                      color: Theme.of(context).backgroundColor),
-                                )),
-                            Container(
-                                child: _validateDiscount(1, context)
-                                    ? Icon(
-                                        Icons.task_alt,
-                                        color: Colors.green,
-                                      )
-                                    : _submited?Icon(
-                                        Icons.cancel,
-                                        color: Colors.redAccent
-                                      ):null)
-                          ],
-                        ),
-                      ),
-                      Container(
-                        margin: EdgeInsets.only(top: 10),
-                        child: Row(
-                          children: [
-                            ElevatedButton(
-                                style: ButtonStyle(
-                                    backgroundColor:
-                                        MaterialStateProperty.all<Color>(
-                                            Theme.of(context).primaryColor)),
-                                onPressed: () {
-                                  _newDiscount(context, 2);
-                                },
-                                child: Text(
-                                  'Discount 2',
-                                  style: TextStyle(
-                                      color: Theme.of(context).backgroundColor),
-                                )),
-                            Container(
-                                child: _validateDiscount(2, context)
-                                    ? Icon(Icons.task_alt, color: Colors.green)
-                                    : _submited?Icon(
-                                        Icons.cancel,
-                                        color: Colors.redAccent
-                                      ):null)
-                          ],
-                        ),
-                      ),
-                    ],
-                  ),
-                  Container(
-                    margin: EdgeInsets.only(top: 10),
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        ElevatedButton(
-                            style: ButtonStyle(
-                                backgroundColor:
-                                    MaterialStateProperty.all<Color>(
-                                        Theme.of(context).primaryColor)),
-                            onPressed: () {
-                              _newDiscount(context, 3);
-                            },
-                            child: Text(
-                              'Discount 3',
-                              style: TextStyle(
-                                  color: Theme.of(context).backgroundColor),
-                            )),
-                        Container(
-                            child: _validateDiscount(3, context)
-                                ? Icon(Icons.task_alt, color: Colors.green)
-                                : _submited?Icon(
-                                        Icons.cancel,
-                                        color: Colors.redAccent
-                                      ):null)
-                      ],
-                    ),
-                  ),
-                  //date
+
+//date
                   Container(
                     margin: EdgeInsets.only(top: 10),
                     child: SizedBox(
-                      width: MediaQuery.of(context).size.width * 0.7,
+                      width: MediaQuery.of(context).size.width * 0.5,
                       child: Row(
                         mainAxisAlignment: MainAxisAlignment.spaceAround,
                         children: [
@@ -299,7 +234,7 @@ class _AddProductScState extends State<AddProductSc> {
                               style: ButtonStyle(
                                   backgroundColor:
                                       MaterialStateProperty.all<Color>(
-                                          Theme.of(context).primaryColor)),
+                                         mainColor)),
                               onPressed: () {
                                 showDatePicker(
                                         initialDate: DateTime.now(),
@@ -309,8 +244,7 @@ class _AddProductScState extends State<AddProductSc> {
                                     .then((value) {
                                   expirationDate = value!;
                                   setState(() {
-                                    _date =
-                                        dateFormat.format(value!).toString();
+                                    _date = dateFormat.format(value).toString();
                                     dateUpdated = true;
                                   });
                                 });
@@ -318,7 +252,7 @@ class _AddProductScState extends State<AddProductSc> {
                               child: Text(
                                 _date,
                                 style: TextStyle(
-                                    color: Theme.of(context).backgroundColor),
+                                    color: backColor),
                               )),
                           Container(
                             child: dateUpdated
@@ -326,34 +260,31 @@ class _AddProductScState extends State<AddProductSc> {
                                     Icons.task_alt,
                                     color: Colors.green,
                                   )
-                                : _submited?Icon(
-                                        Icons.cancel,
-                                        color: Colors.redAccent
-                                      ):null,
+                                
+                                    : null,
                           )
                         ],
                       ),
                     ),
                   ),
-                  //image
                   Container(
                     margin: EdgeInsets.only(top: 10),
                     child: SizedBox(
-                      width: MediaQuery.of(context).size.width * 0.6,
-                      child: Row( mainAxisAlignment: MainAxisAlignment.spaceAround,
+                      width: MediaQuery.of(context).size.width * 0.5,
+                      child: Row(
                         children: [
                           ElevatedButton(
                               style: ButtonStyle(
                                   backgroundColor:
                                       MaterialStateProperty.all<Color>(
-                                          Theme.of(context).primaryColor)),
+                                         mainColor)),
                               onPressed: () {
                                 _imgFromLocal();
                               },
                               child: Text(
-                                'Upload an image',
+                                'Edit image',
                                 style: TextStyle(
-                                    color: Theme.of(context).backgroundColor),
+                                    color: backColor),
                               )),
                           //TODO change icons to tick
                           Container(
@@ -362,10 +293,8 @@ class _AddProductScState extends State<AddProductSc> {
                                     Icons.task_alt,
                                     color: Colors.green,
                                   )
-                                : _submited?Icon(
-                                        Icons.cancel,
-                                        color: Colors.redAccent
-                                      ):null,
+                                
+                                    : null,
                           )
                         ],
                       ),
@@ -385,7 +314,7 @@ class _AddProductScState extends State<AddProductSc> {
         ),
       ),
       bottomSheet: Container(
-        color: Theme.of(context).primaryColor,
+        color: mainColor,
         height: MediaQuery.of(context).size.height * 0.08,
         child: Center(
           child: GestureDetector(
@@ -393,18 +322,12 @@ class _AddProductScState extends State<AddProductSc> {
               setState(() {
                 _submited = true;
               });
-              if (_errorTextName == null &&
-                  _errorTextPrice == null &&
-                  _errorTextQuantity == null &&
-                  _errorTextinfo == null
-                  && _validateDiscount(1, context)&&_validateDiscount(2, context)
-                  && _validateDiscount(3, context)&&imageUploaded&&dateUpdated
-                  ) _addProduct(context);
+              _editProduct(context);
             },
             child: Text(
-              'ADD',
+              'Edit',
               style: TextStyle(
-                  fontSize: 20, color: Theme.of(context).backgroundColor),
+                  fontSize: 20, color: backColor),
             ),
           ),
         ),
@@ -416,98 +339,9 @@ class _AddProductScState extends State<AddProductSc> {
     await ImagePicker().pickImage(source: ImageSource.gallery).then((value) {
       setState(() {
         _image = value;
-
         value != null ? imageUploaded = true : null;
       });
     });
-  }
-
-  int sum = 0;
-  List items = [];
-  String current = '0';
-  //double _value = 0.0;
-  String holder = '0';
-  void _newDiscount(BuildContext context, int discount) {
-    items.clear();
-    for (int i = 0; i <= 100; i += 5) {
-      items.add('${i.toString()}');
-    }
-
-    showModalBottomSheet(
-        builder: (BuildContext context) {
-          return Column(
-            children: [
-              Padding(
-                padding: const EdgeInsets.all(8.0),
-                child: DropdownButtonFormField<String>(
-                    decoration: InputDecoration(
-                        label: Text('Discount Percentage'),
-                        labelStyle:
-                            TextStyle(color: Theme.of(context).primaryColor)),
-                    value: holder = discount == 1
-                        ? dis1percController.text
-                        : discount == 2
-                            ? dis2percController.text
-                            : dis3percController.text,
-                    onChanged: (value) {
-                      setState(() {
-                        if (discount == 1) {
-                          dis1percController.text = value!;
-                        } else if (discount == 2) {
-                          dis2percController.text = value!;
-                        } else {
-                          dis3percController.text = value!;
-                        }
-                      });
-                    },
-                    items: items.map((item) {
-                      return DropdownMenuItem<String>(
-                        value: item,
-                        child: Text(
-                          item,
-                          style:
-                              TextStyle(color: Theme.of(context).primaryColor),
-                        ),
-                      );
-                    }).toList()),
-              ),
-              Container(
-// width: MediaQuery.of(context).size.width * 0.2,
-                margin: EdgeInsets.all(10),
-                child: TextField(
-                  //set controller based on discount
-                  controller: discount == 1
-                      ? dis1dateController
-                      : discount == 2
-                          ? dis2dateController
-                          : dis3dateController,
-                  keyboardType: TextInputType.number,
-                  decoration: InputDecoration(
-                      hintText: discount == 1
-                          ? dis1dateController.text
-                          : discount == 2
-                              ? dis2dateController.text
-                              : dis3dateController.text,
-                      focusedBorder: OutlineInputBorder(
-                          borderSide: BorderSide(
-                              color: Theme.of(context).primaryColor)),
-                      label: Text('Apply Days Before Expiration Date'),
-                      labelStyle:
-                          TextStyle(color: Theme.of(context).primaryColor)),
-                ),
-              ),
-              TextButton(
-                  onPressed: () {
-                    Navigator.of(context).pop();
-                  },
-                  child: Text(
-                    'ok',
-                    style: TextStyle(color: Theme.of(context).primaryColor),
-                  ))
-            ],
-          );
-        },
-        context: context);
   }
 
   String? get _errorTextName {
@@ -542,7 +376,13 @@ class _AddProductScState extends State<AddProductSc> {
     return null;
   }
 
-  Future<void> _addProduct(BuildContext context) async {
+  int sum = 0;
+  List items = [];
+  String current = '0';
+  //double _value = 0.0;
+  String holder = '0';
+
+  Future<void> _editProduct(BuildContext context) async {
     List<int> datesAsint = [];
     datesAsint.add(int.parse(dis1percController.text));
     datesAsint.add(int.parse(dis2percController.text));
@@ -564,6 +404,7 @@ class _AddProductScState extends State<AddProductSc> {
         .format(expirationDate.subtract(Duration(days: datesAsint[1])));
 
     Product toBeAddedProduct = Product(
+        id: productID,
         name: nameController.text,
         expirationDate: _date,
         //user contact info
@@ -580,9 +421,9 @@ class _AddProductScState extends State<AddProductSc> {
     }
 
     await HttpService()
-        .hopeCreate(
+        .hopeUpdate(
             File(_image.path),
-            basename(File(_image.path).path),
+            Path.basename(File(_image.path).path),
             Provider.of<CurrentUserToken>(context, listen: false).getToken(),
             toBeAddedProduct,
             categoriesIDs,
@@ -599,8 +440,8 @@ class _AddProductScState extends State<AddProductSc> {
       await Provider.of<Products>(context, listen: false).updateProducts();
       await Provider.of<UserProducts>(context, listen: false)
           .updateProducts(context);
+      CallSnackBar(context, 'product has been Edited succesfully !');
       Navigator.of(context).pop();
-      CallSnackBar(context, 'product has been added succesfully !');
     });
   }
 
