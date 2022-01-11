@@ -199,7 +199,7 @@ class _LoginSignupScState extends State<LoginSignupSc> {
 
   _loginUser(BuildContext context) async {
     await UserHttpService()
-        .loginUser(emailController.text, passwordController.text)
+        .loginUser(emailController.text, passwordController.text,context)
         .then((value) {
       Provider.of<CurrentUserToken>(context, listen: false).setToken(value[1]);
       Provider.of<CurrentUserToken>(context, listen: false).setUser(value[0]);
@@ -207,6 +207,7 @@ class _LoginSignupScState extends State<LoginSignupSc> {
       Provider.of<UserProducts>(context, listen: false).updateProducts(context);
       Navigator.of(context).popUntil((route) => route == Nav.route);
       Navigator.of(context).pushNamed(Nav.route);
+      
     });
   }
 }

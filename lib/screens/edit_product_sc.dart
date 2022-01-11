@@ -125,11 +125,9 @@ class _AddProductScState extends State<EditProductSc> {
                     decoration: InputDecoration(
                         errorText: _submited ? _errorTextName : null,
                         focusedBorder: OutlineInputBorder(
-                            borderSide: BorderSide(
-                                color: mainColor)),
+                            borderSide: BorderSide(color: mainColor)),
                         label: Text('Product Name'),
-                        labelStyle:
-                            TextStyle(color: mainColor)),
+                        labelStyle: TextStyle(color: mainColor)),
                   ),
                   //price
                   Container(
@@ -140,11 +138,9 @@ class _AddProductScState extends State<EditProductSc> {
                       decoration: InputDecoration(
                           errorText: _submited ? _errorTextPrice : null,
                           focusedBorder: OutlineInputBorder(
-                              borderSide: BorderSide(
-                                  color: mainColor)),
+                              borderSide: BorderSide(color: mainColor)),
                           label: Text('Price'),
-                          labelStyle:
-                              TextStyle(color: mainColor)),
+                          labelStyle: TextStyle(color: mainColor)),
                     ),
                   ),
                   Container(
@@ -155,11 +151,9 @@ class _AddProductScState extends State<EditProductSc> {
                       decoration: InputDecoration(
                           errorText: _submited ? _errorTextinfo : null,
                           focusedBorder: OutlineInputBorder(
-                              borderSide: BorderSide(
-                                  color: mainColor)),
+                              borderSide: BorderSide(color: mainColor)),
                           label: Text('Contact Info'),
-                          labelStyle:
-                              TextStyle(color: mainColor)),
+                          labelStyle: TextStyle(color: mainColor)),
                     ),
                   ),
                   //quantity
@@ -170,19 +164,16 @@ class _AddProductScState extends State<EditProductSc> {
                       children: [
                         Text(
                           'Quantity',
-                          style: TextStyle(
-                              fontSize: 16,
-                              color: mainColor),
+                          style: TextStyle(fontSize: 16, color: mainColor),
                         ),
                         SizedBox(
-                          width: MediaQuery.of(context).size.width * 0.3,
+                          width: MediaQuery.of(context).size.width * 0.4,
                           child: SpinBox(
                             decoration: InputDecoration(
                               errorText: _submited ? _errorTextQuantity : null,
                             ),
                             value: double.parse(quantityController.text),
-                            textStyle: TextStyle(
-                                color: mainColor),
+                            textStyle: TextStyle(color: mainColor),
                             readOnly: true,
                             min: 1,
                             max: 100,
@@ -234,7 +225,7 @@ class _AddProductScState extends State<EditProductSc> {
                               style: ButtonStyle(
                                   backgroundColor:
                                       MaterialStateProperty.all<Color>(
-                                         mainColor)),
+                                          mainColor)),
                               onPressed: () {
                                 showDatePicker(
                                         initialDate: DateTime.now(),
@@ -251,8 +242,7 @@ class _AddProductScState extends State<EditProductSc> {
                               },
                               child: Text(
                                 _date,
-                                style: TextStyle(
-                                    color: backColor),
+                                style: TextStyle(color: backColor),
                               )),
                           Container(
                             child: dateUpdated
@@ -260,8 +250,7 @@ class _AddProductScState extends State<EditProductSc> {
                                     Icons.task_alt,
                                     color: Colors.green,
                                   )
-                                
-                                    : null,
+                                : null,
                           )
                         ],
                       ),
@@ -277,14 +266,13 @@ class _AddProductScState extends State<EditProductSc> {
                               style: ButtonStyle(
                                   backgroundColor:
                                       MaterialStateProperty.all<Color>(
-                                         mainColor)),
+                                          mainColor)),
                               onPressed: () {
                                 _imgFromLocal();
                               },
                               child: Text(
                                 'Edit image',
-                                style: TextStyle(
-                                    color: backColor),
+                                style: TextStyle(color: backColor),
                               )),
                           //TODO change icons to tick
                           Container(
@@ -293,8 +281,7 @@ class _AddProductScState extends State<EditProductSc> {
                                     Icons.task_alt,
                                     color: Colors.green,
                                   )
-                                
-                                    : null,
+                                : null,
                           )
                         ],
                       ),
@@ -305,7 +292,10 @@ class _AddProductScState extends State<EditProductSc> {
 
                   // Image.file(File(widget._image.path))
                   Container(
-                    child: imageUploaded ? Image.file(File(_image.path)) : null,
+                     height: MediaQuery.of(context).size.width*0.3,
+                    width:MediaQuery.of(context).size.width*0.4,
+                    child: imageUploaded ? 
+                    Image.file(File(_image.path)) : null,
                   )
                 ],
               )),
@@ -326,8 +316,7 @@ class _AddProductScState extends State<EditProductSc> {
             },
             child: Text(
               'Edit',
-              style: TextStyle(
-                  fontSize: 20, color: backColor),
+              style: TextStyle(fontSize: 20, color: backColor),
             ),
           ),
         ),
@@ -419,30 +408,34 @@ class _AddProductScState extends State<EditProductSc> {
       else
         categoriesIDs += _selectedCategories[i].id.toString() + ",";
     }
-
-    await HttpService()
-        .hopeUpdate(
-            File(_image.path),
-            Path.basename(File(_image.path).path),
-            Provider.of<CurrentUserToken>(context, listen: false).getToken(),
-            toBeAddedProduct,
-            categoriesIDs,
-            datesAsint[0].toString(),
-            startDateForDiscount1,
-            EndDateForDiscount1,
-            datesAsint[1].toString(),
-            startDateForDiscount2,
-            EndDateForDiscount2,
-            datesAsint[2].toString(),
-            startDateForDiscount3,
-            EndDateForDiscount3)
-        .then((_) async {
-      await Provider.of<Products>(context, listen: false).updateProducts();
-      await Provider.of<UserProducts>(context, listen: false)
-          .updateProducts(context);
-      CallSnackBar(context, 'product has been Edited succesfully !');
-      Navigator.of(context).pop();
-    });
+    if (imageUploaded) {
+      await HttpService()
+          .hopeUpdate(
+              File(_image.path),
+              Path.basename(File(_image.path).path),
+              Provider.of<CurrentUserToken>(context, listen: false).getToken(),
+              toBeAddedProduct,
+              categoriesIDs,
+              datesAsint[0].toString(),
+              startDateForDiscount1,
+              EndDateForDiscount1,
+              datesAsint[1].toString(),
+              startDateForDiscount2,
+              EndDateForDiscount2,
+              datesAsint[2].toString(),
+              startDateForDiscount3,
+              EndDateForDiscount3)
+          .then((_) async {
+        await Provider.of<Products>(context, listen: false).updateProducts();
+        await Provider.of<UserProducts>(context, listen: false)
+            .updateProducts(context);
+        CallSnackBar(context, 'product has been Edited succesfully !');
+        Navigator.of(context).pop();
+      });
+    } else {
+      //TODO request without image requierd
+      CallSnackBar(context, 'image isn\'t updated!');
+    }
   }
 
   bool _validateDiscount(int discount, BuildContext context) {

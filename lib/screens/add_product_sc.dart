@@ -18,6 +18,7 @@ import 'package:multi_select_flutter/multi_select_flutter.dart';
 import 'package:path/path.dart';
 import 'package:provider/provider.dart';
 import '../components/discount_alert_dialog.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class AddProductSc extends StatefulWidget {
   static String route = 'add-products-screen';
@@ -99,7 +100,7 @@ class _AddProductScState extends State<AddProductSc> {
                         focusedBorder: OutlineInputBorder(
                             borderSide: BorderSide(
                                 color: Theme.of(context).primaryColor)),
-                        label: Text('Product Name'),
+                        label: Text('product name'),
                         labelStyle:
                             TextStyle(color: Theme.of(context).primaryColor)),
                   ),
@@ -158,7 +159,7 @@ class _AddProductScState extends State<AddProductSc> {
                               color: Theme.of(context).primaryColor),
                         ),
                         SizedBox(
-                          width: MediaQuery.of(context).size.width * 0.3,
+                          width: MediaQuery.of(context).size.width * 0.4,
                           child: SpinBox(
                             decoration:
                                 InputDecoration(errorText: _submited?_errorTextQuantity:null),
@@ -310,7 +311,7 @@ class _AddProductScState extends State<AddProductSc> {
                                   expirationDate = value!;
                                   setState(() {
                                     _date =
-                                        dateFormat.format(value!).toString();
+                                        dateFormat.format(value).toString();
                                     dateUpdated = true;
                                   });
                                 });
@@ -376,6 +377,8 @@ class _AddProductScState extends State<AddProductSc> {
 
                   // Image.file(File(widget._image.path))
                   Container(
+                    height: MediaQuery.of(context).size.width*0.3,
+                    width:MediaQuery.of(context).size.width*0.4,
                     child: imageUploaded ? Image.file(File(_image.path)) : null,
                   )
                 ],
@@ -599,8 +602,9 @@ class _AddProductScState extends State<AddProductSc> {
       await Provider.of<Products>(context, listen: false).updateProducts();
       await Provider.of<UserProducts>(context, listen: false)
           .updateProducts(context);
+          CallSnackBar(context, 'product has been added succesfully !');
       Navigator.of(context).pop();
-      CallSnackBar(context, 'product has been added succesfully !');
+      
     });
   }
 

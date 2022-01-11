@@ -34,7 +34,6 @@ class ProductDetails extends StatelessWidget {
     isFav = Provider.of<SingleProduct>(context).getIsFav();
     return Scaffold(
         appBar: AppBar(
-         
           centerTitle: true,
           backgroundColor: backColor,
           iconTheme: const IconThemeData(color: mainColor),
@@ -47,13 +46,13 @@ class ProductDetails extends StatelessWidget {
           children: [
             buildBackground(context),
             buildBackground1(context),
-          
+
             //image
             Container(
               alignment: Alignment.topCenter,
               margin: const EdgeInsets.all(20),
               child: SizedBox(
-                child: Image.network(URL.image+'${product.image}'),
+                child: Image.network(URL.image + '${product.image}'),
                 height: 170,
                 width: 300,
               ),
@@ -89,7 +88,7 @@ class ProductDetails extends StatelessWidget {
                               .map((e) {
                             return e.name.toString();
                           }).toString())),
-                         
+
                   Divider(),
                   Padding(
                     padding: const EdgeInsets.all(8.0),
@@ -97,65 +96,78 @@ class ProductDetails extends StatelessWidget {
                       mainAxisAlignment: MainAxisAlignment.spaceAround,
                       children: [
                         Row(
-                          
                           children: [
-                            Icon(Icons.remove_red_eye,color: mainColor,),
+                            Icon(
+                              Icons.remove_red_eye,
+                              color: mainColor,
+                            ),
                             Padding(
                               padding: const EdgeInsets.all(8.0),
-                              child: Text(product.views.toString(),style: TextStyle(color: mainColor,fontSize: 16),),
+                              child: Text(
+                                product.views.toString(),
+                                style:
+                                    TextStyle(color: mainColor, fontSize: 16),
+                              ),
                             )
                           ],
                         ),
                         Container(
-                          child:Provider.of<CurrentUserToken>(context).isUserLogedIn()? GestureDetector(
-                            child: Row(
-                              children: [
-                                Icon(CommunityMaterialIcons.comment,color: mainColor,),
-                                Icon(
-                            Icons.add,
-                            size: 18,
-                          )
-                              ],
-                            ),
-                            onTap: () {
-                              showDialog<String>(
-                                  context: context,
-                                  builder: (context) {
-                                    return AlertDialog(
-                                      title: Text(
-                                        'new comment',
-                                        style: TextStyle(color: mainColor),
+                          child: Provider.of<CurrentUserToken>(context)
+                                  .isUserLogedIn()
+                              ? GestureDetector(
+                                  child: Row(
+                                    children: [
+                                      Icon(
+                                        CommunityMaterialIcons.comment,
+                                        color: mainColor,
                                       ),
-                                      content: TextField(
-                                        controller: commentController,
-                                        decoration:
-                                            InputDecoration(hintText: 'comment'),
-                                      ),
-                                      actions: [
-                                        TextButton(
-                                            onPressed: () {
-                                              Navigator.of(context).pop();
-                                            },
-                                            child: Text("cancel",
-                                                style:
-                                                    TextStyle(color: mainColor))),
-                                        TextButton(
-                                          onPressed: () {
-                                            _addComment(
-                                                context, commentController.text);
-                                          },
-                                          child: Text(
-                                            'add',
-                                            style: TextStyle(color: mainColor),
-                                          ),
-                                        )
-                                      ],
-                                    );
-                                  });
-                            },
-                          ):null,
+                                      Icon(
+                                        Icons.add,
+                                        size: 18,
+                                      )
+                                    ],
+                                  ),
+                                  onTap: () {
+                                    showDialog<String>(
+                                        context: context,
+                                        builder: (context) {
+                                          return AlertDialog(
+                                            title: Text(
+                                              'new comment',
+                                              style:
+                                                  TextStyle(color: mainColor),
+                                            ),
+                                            content: TextField(
+                                              controller: commentController,
+                                              decoration: InputDecoration(
+                                                  hintText: 'comment'),
+                                            ),
+                                            actions: [
+                                              TextButton(
+                                                  onPressed: () {
+                                                    Navigator.of(context).pop();
+                                                  },
+                                                  child: Text("cancel",
+                                                      style: TextStyle(
+                                                          color: mainColor))),
+                                              TextButton(
+                                                onPressed: () {
+                                                  _addComment(context,
+                                                      commentController.text);
+                                                },
+                                                child: Text(
+                                                  'add',
+                                                  style: TextStyle(
+                                                      color: mainColor),
+                                                ),
+                                              )
+                                            ],
+                                          );
+                                        });
+                                  },
+                                )
+                              : null,
                         ),
-                        
                       ],
                     ),
                   ),
@@ -218,7 +230,6 @@ class ProductDetails extends StatelessWidget {
                   ),
                 );
               }, 0.5, 0.07, backColor, mainColor),
-           
               Container(
                   child: Provider.of<CurrentUserToken>(context).isUserLogedIn()
                       ? GestureDetector(
@@ -315,7 +326,8 @@ _addComment(BuildContext context, String content) async {
           Provider.of<SingleProduct>(context, listen: false).getProduct().id,
           content)
       .then((_) {
-    Provider.of<SingleProduct>(context,listen:false).updateComments();
+    Provider.of<SingleProduct>(context, listen: false).updateComments();
+    Navigator.of(context).pop();
   });
 }
 

@@ -62,10 +62,10 @@ class _NavState extends State<Nav> {
           BottomNavyBarItem(
               activeColor: Theme.of(context).primaryColor.withOpacity(0.8),
               icon:
-                  Icon(Icons.local_mall, color: Theme.of(context).primaryColor),
+                  Icon(Icons.account_box, color: Theme.of(context).primaryColor),
               title: Container(
                   margin: const EdgeInsets.symmetric(horizontal: 5),
-                  child: Text(AppLocalizations.of(context)!.myProducts))),
+                  child: Text('Profile'))),
           BottomNavyBarItem(
               activeColor: Theme.of(context).primaryColor.withOpacity(0.8),
               icon: Icon(

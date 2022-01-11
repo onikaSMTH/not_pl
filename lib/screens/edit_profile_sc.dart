@@ -165,7 +165,7 @@ class _EditProfileScState extends State<EditProfileSc> {
             Provider.of<CurrentUserToken>(context, listen: false)
                 .getUser()
                 .email,
-            currentPasswordController.text)
+            currentPasswordController.text,context)
         .then((value) async {
     await  UserHttpService()
           .updateUser(

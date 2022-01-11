@@ -22,6 +22,7 @@ class SearchSc extends StatefulWidget {
 }
 
 class _SearchScState extends State<SearchSc> {
+  
   var selectedCategories = [];
   DateFormat dateFormat = DateFormat("yyyy-MM-dd");
   TextEditingController searchTextController = TextEditingController();
@@ -154,9 +155,9 @@ class _SearchScState extends State<SearchSc> {
       }
     }
     await SearchHttpService().searchByCategory(data).then((value) {
-        Provider.of<Searched>(context, listen: false).setSearchedProducts(value);
+      Provider.of<Searched>(context, listen: false).setSearchedProducts(value);
     });
-       Navigator.of(context).pushNamed(AllProductsSc.route_from_search);
+    Navigator.of(context).pushNamed(AllProductsSc.route_from_search);
   }
 
   _searchByName(BuildContext context, String value) async {

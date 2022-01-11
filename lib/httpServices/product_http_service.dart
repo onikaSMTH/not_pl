@@ -9,6 +9,7 @@ import 'package:mini_project/httpServices/url.dart';
 import 'package:mini_project/models/category_model.dart';
 import 'package:mini_project/models/product_model.dart';
 import 'package:mini_project/providers/products.dart';
+import 'package:mini_project/screens/error_sc.dart';
 import 'package:provider/provider.dart';
 
 class HttpService {
@@ -17,14 +18,11 @@ class HttpService {
 
     try {
       final response = await http.get(url);
-      print(1);
       var jsonData = await jsonDecode(response.body);
-      print(2);
       var content = jsonData["data"];
-      print(3);
       var products =
           content.map((dynamic item) => Product.fromMap(item)).toList();
-      print(4);
+
       return products;
     } catch (error) {
       throw (error);
@@ -64,28 +62,31 @@ class HttpService {
       throw (error);
     }
   }
-Future<dynamic> hopeUpdate(File file,
-      String filename,
-      String token,
-      Product product,
-      String categories,
-      String discount1,
-      String date1start,
-      String date1end,
-      String discount2,
-      String date2start,
-      String date2end,
-      String discount3,
-      String date3start,
-      String date3end,
-      ) async {
+
+  Future<dynamic> hopeUpdate(
+    File file,
+    String filename,
+    String token,
+    Product product,
+    String categories,
+    String discount1,
+    String date1start,
+    String date1end,
+    String discount2,
+    String date2start,
+    String date2end,
+    String discount3,
+    String date3start,
+    String date3end,
+  ) async {
     ///MultiPart request
     var request = http.MultipartRequest(
-      'POST', Uri.parse("${URL.ipAddress}/user/update/product/${product.id}"),
+      'POST',
+      Uri.parse("${URL.ipAddress}/user/update/product/${product.id}"),
     );
 
-    Map<String,String> headers={
-      "Authorization":"Bearer $token",
+    Map<String, String> headers = {
+      "Authorization": "Bearer $token",
       "Content-type": "multipart/form-data"
     };
 
@@ -95,7 +96,7 @@ Future<dynamic> hopeUpdate(File file,
         file.readAsBytes().asStream(),
         file.lengthSync(),
         filename: filename,
-        contentType: MediaType('image','jpeg'),
+        contentType: MediaType('image', 'jpeg'),
       ),
     );
 
@@ -118,14 +119,14 @@ Future<dynamic> hopeUpdate(File file,
       "date3start": date3start,
       "date3end": date3end
     });
-    print("request: "+request.toString());
+    print("request: " + request.toString());
 
     var res = await request.send();
 
-    print("This is response:"+res.statusCode.toString());
+    print("This is response:" + res.statusCode.toString());
     return res.statusCode;
-
   }
+
   Future<dynamic> hopeCreate(
     File file,
     String filename,
@@ -319,7 +320,8 @@ Future<dynamic> hopeUpdate(File file,
     }
   }
 
-  Future<dynamic> deleteProduct(String token, int? id) async {
+  Future<dynamic> deleteProduct(
+      String token, int? id, BuildContext context) async {
     final url = Uri.parse('${URL.ipAddress}/user/delete/product/$id');
 
     try {
@@ -335,7 +337,7 @@ Future<dynamic> hopeUpdate(File file,
 
       return product;
     } catch (error) {
-      throw (error);
+      Navigator.of(context).pushNamed(ErrorSc.route);
     }
   }
 

@@ -29,10 +29,10 @@ class CommentsView extends StatelessWidget {
                         onPressed: () {
                           _deleteComment(context,comments[index].id);
                         },
-                        child: Icon(
+                        child:Provider.of<CurrentUserToken>(context).isUserLogedIn()? Icon(
                           Icons.delete,
                           color: Colors.redAccent,
-                        ))
+                        ):Container())
                     : null);
           }),
     );

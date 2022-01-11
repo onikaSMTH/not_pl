@@ -57,13 +57,13 @@ class _HomeScState extends State<HomeSc> {
                     fontWeight: FontWeight.bold,
                     fontSize: 20),
               ),
-              trailing: TextButton(
+            /*   trailing: TextButton(
                 onPressed: () {},
                 child: Text(
                   AppLocalizations.of(context)!.showAll,
                   style: TextStyle(color: Theme.of(context).primaryColor),
                 ),
-              ),
+              ), */
             ),
             HorizontalGrid(
               isPopular: true,
@@ -76,13 +76,13 @@ class _HomeScState extends State<HomeSc> {
                       fontWeight: FontWeight.bold,
                       fontSize: 20),
                 ),
-                trailing: TextButton(
+                /* trailing: TextButton(
                   onPressed: () {},
                   child: Text(
                     AppLocalizations.of(context)!.showAll,
                     style: TextStyle(color: Theme.of(context).primaryColor),
                   ),
-                )),
+                ) */),
             HorizontalGrid(
               isCategory: true,
             ),

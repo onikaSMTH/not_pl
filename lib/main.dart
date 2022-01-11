@@ -18,6 +18,7 @@ import 'package:mini_project/screens/add_product_sc.dart';
 import 'package:mini_project/screens/all_products_sc.dart';
 import 'package:mini_project/screens/edit_product_sc.dart';
 import 'package:mini_project/screens/edit_profile_sc.dart';
+import 'package:mini_project/screens/error_sc.dart';
 import 'package:mini_project/screens/navigation_main_sc.dart';
 import 'package:mini_project/screens/login_signup_sc.dart';
 import 'package:mini_project/screens/product_details_sc.dart';
@@ -30,8 +31,8 @@ import 'package:http/http.dart' as http;
 
 //TODO make font size responsive to screen size
 void main() {
- // SystemChrome.setPreferredOrientations(
-   //   [DeviceOrientation.landscapeRight, DeviceOrientation.landscapeLeft]);
+  // SystemChrome.setPreferredOrientations(
+  //   [DeviceOrientation.landscapeRight, DeviceOrientation.landscapeLeft]);
   runApp(HomePage());
 }
 
@@ -64,10 +65,10 @@ class HomePage extends StatelessWidget {
           ChangeNotifierProvider(create: (BuildContext context) {
             return Searched();
           }),
-           ChangeNotifierProvider(create: (BuildContext context) {
+          ChangeNotifierProvider(create: (BuildContext context) {
             return SingleProduct();
           }),
-           ChangeNotifierProvider(create: (BuildContext context) {
+          ChangeNotifierProvider(create: (BuildContext context) {
             return FavoritedProducts();
           }),
           ChangeNotifierProvider(create: (BuildContext context) {
@@ -76,6 +77,7 @@ class HomePage extends StatelessWidget {
         ],
         builder: (context, _) {
           return MaterialApp(
+            debugShowCheckedModeBanner: false,
             supportedLocales: L10n.all,
             localizationsDelegates: const [
               AppLocalizations.delegate,
@@ -115,7 +117,10 @@ class HomePage extends StatelessWidget {
                     appBarTitle: 'All Products',
                     isAll: true,
                   ),
-                  AllProductsSc.route_from_search:(_)=>AllProductsSc(appBarTitle: 'Search Result',isSearch: true,),
+              AllProductsSc.route_from_search: (_) => AllProductsSc(
+                    appBarTitle: 'Search Result',
+                    isSearch: true,
+                  ),
               SearchSc.route: (_) => SearchSc(),
               AddProductSc.route: (_) => AddProductSc(),
               Nav.route: (_) => Nav(),
@@ -124,7 +129,8 @@ class HomePage extends StatelessWidget {
                     isMy: true,
                   ),
               EditProfileSc.route: (_) => EditProfileSc(),
-              EditProductSc.route:(_)=>EditProductSc()
+              EditProductSc.route: (_) => EditProductSc(),
+              ErrorSc.route: (_) => ErrorSc()
             },
           );
         });

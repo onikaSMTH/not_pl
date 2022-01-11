@@ -1,8 +1,10 @@
 import 'dart:convert';
+import 'package:flutter/cupertino.dart';
 import 'package:http/http.dart' as http;
 import 'package:mini_project/models/product_model.dart';
 import 'package:mini_project/models/user_model.dart';
 import 'package:mini_project/httpServices/url.dart';
+import 'package:mini_project/screens/error_sc.dart';
 
 class UserHttpService {
   Future<dynamic> registerUser(String name, String email, String password,
@@ -33,7 +35,7 @@ class UserHttpService {
     }
   }
 
-  Future<dynamic> loginUser(String email, String password) async {
+  Future<dynamic> loginUser(String email, String password,BuildContext context) async {
     final url = Uri.parse('${URL.ipAddress}/auth/login');
 
     try {
@@ -54,7 +56,7 @@ class UserHttpService {
 
       return [user, token];
     } catch (error) {
-    throw (error);
+    Navigator.of(context).pushNamed(ErrorSc.route);
     }
   }
 //TODO apply it once we dealt with the remeber login package

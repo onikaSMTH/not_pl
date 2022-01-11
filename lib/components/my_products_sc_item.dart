@@ -1,10 +1,12 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:mini_project/colors.dart';
+import 'package:mini_project/components/call_snack_bar.dart';
 import 'package:mini_project/httpServices/product_http_service.dart';
 import 'package:mini_project/models/product_model.dart';
 import 'package:mini_project/providers/products.dart';
 import 'package:mini_project/providers/single_product.dart';
+import 'package:mini_project/providers/token_provider.dart';
 import 'package:mini_project/providers/user_products.dart';
 import 'package:mini_project/screens/edit_product_sc.dart';
 import 'package:mini_project/screens/product_details_sc.dart';
@@ -58,15 +60,13 @@ class MyPrpductsScItem extends StatelessWidget {
                     ),
                     onPressed: () {
                       //call edit product
-                      Provider.of<SingleProduct>(context,listen:
-                      false).setProduct(
-                          context,
-                          Provider.of<UserProducts>(context,listen:false
-
-                          )
-                              .getProducts()
-                              .firstWhere(
-                                  (element) => element.id == productID));
+                      Provider.of<SingleProduct>(context, listen: false)
+                          .setProduct(
+                              context,
+                              Provider.of<UserProducts>(context, listen: false)
+                                  .getProducts()
+                                  .firstWhere(
+                                      (element) => element.id == productID));
                       Navigator.of(context).pushNamed(EditProductSc.route);
                     },
                   ),
@@ -76,7 +76,7 @@ class MyPrpductsScItem extends StatelessWidget {
                       color: Colors.redAccent,
                     ),
                     onPressed: () {
-                      //call delete product here
+                      _deleteProduct(context, productID);
                     },
                   ),
                 ],
@@ -86,5 +86,16 @@ class MyPrpductsScItem extends StatelessWidget {
         ),
       ),
     );
+  }
+
+  _deleteProduct(BuildContext context, int? ProdductID) {
+    HttpService()
+        .deleteProduct(
+            Provider.of<CurrentUserToken>(context, listen: false).getToken(),
+            productID,context)
+        .then((_) {
+      CallSnackBar(context, 'Product Deleted Successfully');
+      Provider.of<UserProducts>(context,listen:false).updateProducts(context);
+    });
   }
 }

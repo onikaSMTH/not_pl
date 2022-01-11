@@ -50,14 +50,18 @@ class AllProductsSc extends StatefulWidget {
 }
 
 class _AllProductsScState extends State<AllProductsSc> {
+  bool _submited = false;
   @override
   Widget build(BuildContext context) {
     List<dynamic> products = widget.isSearch
         ? Provider.of<Searched>(context).getSearchedProducts()
         : widget.isFav
             ? Provider.of<FavoritedProducts>(context).getProducts()
-            :widget.isMy?Provider.of<UserProducts>(context).getProducts(): Provider.of<Products>(context).getProducts();
+            : widget.isMy
+                ? Provider.of<UserProducts>(context).getProducts()
+                : Provider.of<Products>(context).getProducts();
     return MaterialApp(
+      debugShowCheckedModeBanner: false,
         home: Scaffold(
           backgroundColor: Theme.of(context).backgroundColor,
           appBar: AppBar(
@@ -87,88 +91,96 @@ class _AllProductsScState extends State<AllProductsSc> {
                           Navigator.of(context).pushNamed(AddProductSc.route);
                         })
                   ])
-                :widget.isAll?( [
-                    TextButton(
-                        onPressed: () {
-                          setState(() {
-                            widget.sorDec = !widget.sorDec;
-                            widget.sortAsc = !widget.sortAsc;
-                            if (widget.isNameSorted) _sortByName();
-                            if (widget.isDateSorted) _sortByDates();
-                            if (widget.isViewsSorted) _sortByViews();
-                            if (widget.isPriceSorted) _sortByPrice();
-                          });
-                        },
-                        child: widget.sortAsc
-                            ? Icon(Icons.arrow_downward, color: mainColor)
-                            : Icon(Icons.arrow_upward, color: mainColor)),
-                    //list if widget in appbar actions
-                    PopupMenuButton(
-                      icon: Icon(Icons
-                          .sort), //don't specify icon if you want 3 dot menu
-                      color: mainColor,
-                      itemBuilder: (context) => [
-                        PopupMenuItem<int>(
-                          value: 0,
-                          child: Text(
-                            "views",
-                            style: TextStyle(color: Colors.white),
-                          ),
+                : widget.isAll
+                    ? ([
+                        Container(
+                          child:_submited? TextButton(
+                              onPressed: () {
+                                setState(() {
+                                  widget.sorDec = !widget.sorDec;
+                                  widget.sortAsc = !widget.sortAsc;
+                                  if (widget.isNameSorted) _sortByName();
+                                  if (widget.isDateSorted) _sortByDates();
+                                  if (widget.isViewsSorted) _sortByViews();
+                                  if (widget.isPriceSorted) _sortByPrice();
+                                });
+                              },
+                              child: widget.sortAsc
+                                  ? Icon(Icons.arrow_downward, color: mainColor)
+                                  : Icon(Icons.arrow_upward, color: mainColor)):null,
                         ),
-                        PopupMenuItem<int>(
-                          value: 1,
-                          child: Text(
-                            "Dates",
-                            style: TextStyle(color: Colors.white),
-                          ),
+                        //list if widget in appbar actions
+                        PopupMenuButton(
+                          icon: Icon(Icons
+                              .sort), //don't specify icon if you want 3 dot menu
+                          color: mainColor,
+                          itemBuilder: (context) => [
+                            PopupMenuItem<int>(
+                              value: 0,
+                              child: Text(
+                                "views",
+                                style: TextStyle(color: Colors.white),
+                              ),
+                            ),
+                            PopupMenuItem<int>(
+                              value: 1,
+                              child: Text(
+                                "Dates",
+                                style: TextStyle(color: Colors.white),
+                              ),
+                            ),
+                            PopupMenuItem<int>(
+                              value: 2,
+                              child: Text(
+                                "prices",
+                                style: TextStyle(color: Colors.white),
+                              ),
+                            ),
+                            PopupMenuItem<int>(
+                              value: 3,
+                              child: Text(
+                                "names",
+                                style: TextStyle(color: Colors.white),
+                              ),
+                            ),
+                          ],
+                          onSelected: (itemNum) {
+                            setState(() {
+                              _submited = true;
+                            });
+                            
+                            if (itemNum == 0) {
+                              _sortByViews();
+                              widget.isNameSorted = false;
+                              widget.isViewsSorted = true;
+                              widget.isDateSorted = false;
+                              widget.isPriceSorted = false;
+                            }
+                            if (itemNum == 1) {
+                              _sortByDates();
+                              widget.isNameSorted = false;
+                              widget.isViewsSorted = false;
+                              widget.isDateSorted = true;
+                              widget.isPriceSorted = false;
+                            }
+                            if (itemNum == 2) {
+                              _sortByPrice();
+                              widget.isNameSorted = false;
+                              widget.isViewsSorted = false;
+                              widget.isDateSorted = false;
+                              widget.isPriceSorted = true;
+                            }
+                            if (itemNum == 3) {
+                              _sortByName();
+                              widget.isNameSorted = true;
+                              widget.isViewsSorted = false;
+                              widget.isDateSorted = false;
+                              widget.isPriceSorted = false;
+                            }
+                          },
                         ),
-                        PopupMenuItem<int>(
-                          value: 2,
-                          child: Text(
-                            "prices",
-                            style: TextStyle(color: Colors.white),
-                          ),
-                        ),
-                        PopupMenuItem<int>(
-                          value: 3,
-                          child: Text(
-                            "names",
-                            style: TextStyle(color: Colors.white),
-                          ),
-                        ),
-                      ],
-                      onSelected: (itemNum) {
-                        if (itemNum == 0) {
-                          _sortByViews();
-                          widget.isNameSorted = false;
-                          widget.isViewsSorted = true;
-                          widget.isDateSorted = false;
-                          widget.isPriceSorted = false;
-                        }
-                        if (itemNum == 1) {
-                          _sortByDates();
-                          widget.isNameSorted = false;
-                          widget.isViewsSorted = false;
-                          widget.isDateSorted = true;
-                          widget.isPriceSorted = false;
-                        }
-                        if (itemNum == 2) {
-                          _sortByPrice();
-                          widget.isNameSorted = false;
-                          widget.isViewsSorted = false;
-                          widget.isDateSorted = false;
-                          widget.isPriceSorted = true;
-                        }
-                        if (itemNum == 3) {
-                          _sortByName();
-                          widget.isNameSorted = true;
-                          widget.isViewsSorted = false;
-                          widget.isDateSorted = false;
-                          widget.isPriceSorted = false;
-                        }
-                      },
-                    ),
-                  ]):null,
+                      ])
+                    : null,
           ),
           body: GridView.builder(
             itemCount: products.length,
@@ -176,7 +188,6 @@ class _AllProductsScState extends State<AllProductsSc> {
               return widget.isMy
                   ? MyPrpductsScItem(products[index].id)
                   : ProductsScreenItem(
-                      
                       imageUrl: 'assets/test.jpeg',
                       name: products[index].name,
                       productID: products[index].id,
@@ -194,8 +205,8 @@ class _AllProductsScState extends State<AllProductsSc> {
         routes: {
           ProductDetails.route: (_) {
             return ProductDetails();
-          }
-          ,EditProductSc.route:(_)=>EditProductSc()
+          },
+          EditProductSc.route: (_) => EditProductSc()
         });
   }
 
